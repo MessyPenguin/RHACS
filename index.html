@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR J277 GCSE Computer Science - Complete SaaS Suite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700;800;900&family=Fira+Code:wght=400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .code-font { font-family: 'Fira Code', monospace; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
+
+    <nav class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-40 shadow-md px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchAppView('dashboard')">
+                <div class="bg-blue-600 text-white p-2 rounded-xl shadow-lg">
+                    <i class="fa-solid fa-graduation-cap text-lg"></i>
+                </div>
+                <span class="font-black text-xl tracking-tight">OCR J277 <span class="text-blue-400 font-light">CLOUD_GRID</span></span>
+            </div>
+            
+            <div class="flex items-center space-x-6 text-xs font-bold uppercase tracking-wider">
+                <button onclick="switchAppView('dashboard')" class="hover:text-blue-400 transition flex items-center gap-1.5"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
+                <button onclick="switchAppView('sandbox')" class="hover:text-emerald-400 transition flex items-center gap-1.5"><i class="fa-brands fa-python"></i> WASM Sandbox Track</button>
+                <div class="bg-slate-800 px-3 py-1.5 rounded-lg flex items-center gap-2 border border-slate-700">
+                    <i class="fa-solid fa-fire text-amber-500 animate-pulse"></i> <span id="nav-streak-counter">0</span> DAY STREAK
+                </div>
+                <div class="bg-blue-950 text-blue-300 px-3 py-1.5 rounded-lg flex items-center gap-2 border border-blue-800">
+                    <i class="fa-solid fa-star text-yellow-400"></i> <span id="nav-xp-counter">0</span> XP
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 py-10 flex-grow w-full">
+        
+        <div id="view-dashboard" class="space-y-10 view-panel">
+            <div class="bg-white border border-slate-200 p-6 md:p-8 rounded-2xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+                <div class="space-y-2">
+                    <span class="bg-blue-50 text-blue-700 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md border border-blue-200">Local Storage Sync Engine Active</span>
+                    <h2 class="text-3xl font-black tracking-tight text-slate-900">Your Adaptive Revision Command Center</h2>
+                    <p class="text-slate-500 text-sm max-w-2xl leading-relaxed">
+                        Our integrated <b>SuperMemo SM-2 Spaced Repetition Engine</b> tracks your confidence scores across 10-question assessment pools, organizing topics dynamically based on your weaknesses.
+                    </p>
+                </div>
+                <div class="bg-slate-900 text-white rounded-xl p-4 w-full md:w-auto shrink-0 space-y-2 text-center md:text-left">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Overall Syllabus Mastery</span>
+                    <div class="flex items-center gap-3">
+                        <div class="w-32 bg-slate-700 h-2.5 rounded-full overflow-hidden">
+                            <div id="dashboard-progress-bar" class="bg-blue-500 h-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <span id="dashboard-progress-text" class="font-black text-sm text-blue-400">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <h3 class="text-xs font-black text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-triangle-exclamation text-rose-500"></i> Priority Review Matrix
+                        </h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Topics flagged as difficult or scheduled for immediate review by the spacing engine algorithm appear here automatically.</p>
+                        <div id="weakness-heatmap-payload" class="space-y-2.5 pt-2">
+                            </div>
+                    </div>
+                    <button onclick="resetAllSrsMetrics()" class="mt-6 w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-rotate-left"></i> Reset System Metrics
+                    </button>
+                </div>
+
+                <div class="lg:col-span-2 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4">
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-wider">OCR Specification Knowledge Framework</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="syllabus-grid-payload">
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-sandbox" class="space-y-6 view-panel hidden">
+            <div class="border-b border-slate-200 pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900 tracking-tight">Component 2: Practical Python Programming Track</h2>
+                    <p class="text-slate-500 text-xs mt-1">Master programming fundamentals, interactive evaluation modules, and custom algorithmic challenges.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button id="mode-selector-ide" onclick="toggleSandboxMode('ide')" class="px-4 py-1.5 bg-blue-600 text-white rounded-xl text-xs font-bold shadow-sm transition">Interactive IDE</button>
+                    <button id="mode-selector-parsons" onclick="toggleSandboxMode('parsons')" class="px-4 py-1.5 bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition">Parsons Problems</button>
+                </div>
+            </div>
+
+            <div id="sandbox-ide-layout" class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                <div class="lg:col-span-1 space-y-4">
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm space-y-3">
+                        <span class="text-[10px] font-black tracking-wider text-slate-400 uppercase block">Curriculum Syllabus Units</span>
+                        <div class="space-y-1.5" id="sandbox-lesson-menu"></div>
+                    </div>
+                    
+                    <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm space-y-3">
+                        <span class="text-xs font-black text-blue-600 uppercase tracking-wider block"><i class="fa-solid fa-graduation-cap"></i> Theoretical Concept Breakdown</span>
+                        <div id="sandbox-concept-box" class="text-xs text-slate-600 leading-relaxed space-y-2"></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm grid grid-cols-1">
+                        <div class="p-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
+                            <div>
+                                <span id="sandbox-current-title" class="font-bold text-slate-900 text-sm block">Output Streams Workbench</span>
+                                <span id="sandbox-current-desc" class="text-[11px] text-slate-500 block">Test out print execution matrices.</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="verifyChallengeSolution()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+                                    Verify Answer <i class="fa-solid fa-check text-[9px]"></i>
+                                </button>
+                                <button onclick="runPythonSandboxScript()" id="sandbox-run-btn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+                                    Run Code <i class="fa-solid fa-play text-[9px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-slate-950">
+                            <textarea id="sandbox-editor" class="w-full h-72 bg-slate-950 text-emerald-400 font-mono p-4 text-xs focus:outline-none resize-y leading-relaxed code-font" spellcheck="false"></textarea>
+                        </div>
+                        <div class="p-4 bg-slate-50 border-t border-slate-200">
+                            <span class="text-[10px] text-slate-400 font-bold block mb-2 tracking-wider uppercase">Console System Output Window</span>
+                            <pre id="sandbox-output" class="font-mono text-xs text-slate-800 whitespace-pre-wrap bg-white p-4 rounded-xl border border-slate-200 min-h-[100px] code-font shadow-inner">Console environment standby. Click Run Code...</pre>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-5 space-y-2">
+                        <h4 class="text-xs font-black text-amber-800 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-bullseye"></i> Practice Challenge Objective</h4>
+                        <p id="sandbox-challenge-text" class="text-xs font-semibold text-slate-700 leading-relaxed"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sandbox-parsons-layout" class="hidden bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-6">
+                <div class="space-y-1">
+                    <h3 class="text-base font-black text-slate-900">Parsons Structural Debugging Challenges</h3>
+                    <p class="text-xs text-slate-500">Unscramble the logic sequence blocks below. Select line items in the correct order to construct a functioning algorithm script.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <button onclick="loadParsonsTask('selection')" class="p-3 border text-left text-xs rounded-xl font-bold hover:bg-slate-50 transition" id="pbtn-selection">Challenge 1: Grade Checker</button>
+                    <button onclick="loadParsonsTask('loop')" class="p-3 border text-left text-xs rounded-xl font-bold hover:bg-slate-50 transition" id="pbtn-loop">Challenge 2: Total Sum Array Iteration</button>
+                    <button onclick="loadParsonsTask('file')" class="p-3 border text-left text-xs rounded-xl font-bold hover:bg-slate-50 transition" id="pbtn-file">Challenge 3: File Log Streaming</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 space-y-3">
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Available Algorithm Line Blocks (Click to select)</span>
+                        <div id="parsons-source-pool" class="space-y-2"></div>
+                    </div>
+                    <div class="border border-blue-200 rounded-xl p-4 bg-blue-50/30 space-y-3 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-black text-blue-700 uppercase tracking-wider block mb-3">Your Constructed Solution Workspace</span>
+                            <div id="parsons-target-workspace" class="space-y-2"></div>
+                        </div>
+                        <div class="pt-4 flex justify-between items-center border-t border-slate-200 mt-4">
+                            <button onclick="clearParsonsWorkspace()" class="text-xs font-bold text-slate-500 hover:text-slate-700">Clear Layout</button>
+                            <button onclick="validateParsonsWorkspace()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-1.5 px-4 rounded-lg transition">Evaluate Sequence</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="app-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div class="bg-slate-50 border-b border-slate-200 px-6 py-4 flex justify-between items-center">
+                <h4 id="modal-header-text" class="text-base font-black text-slate-900">Module Window</h4>
+                <button onclick="hideModal()" class="text-slate-400 hover:text-slate-600 text-lg transition"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="modal-main-payload" class="p-6 text-sm text-slate-600 leading-relaxed max-h-[65vh] overflow-y-auto space-y-4"></div>
+            <div class="bg-slate-50 border-t border-slate-200 px-6 py-4 flex justify-between items-center" id="modal-footer-controls">
+                </div>
+        </div>
+    </div>
+
+    <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-400 font-bold tracking-wide">
+        &copy; 2026 OCR J277 MASTER SCHEME INTERACTIVE LEARNING ENVIRONMENT. PRODUCTION READY.
+    </footer>
+
+    <script>
+        // Track indices and parameters globally
+        let currentActiveTopic = "";
+        let currentActiveQuestionIndex = 0;
+        let pyodideInstance = null;
+        let currentParsonsProblemKey = "";
+        let currentParsonsAnswerStack = [];
+
+        // COMPLETE OCR J277 THEORY SYLLABUS SPECIFICATION DATABASE (ALL 8 UNITS RESTORED)
+        const revisionContentDatabase = {
+            "1.1": {
+                title: "Unit 1.1: Systems Architecture",
+                desc: "CPU architecture, Von Neumann components, FDE execution cycle, registers, and clock speeds.",
+                ko: `
+                    <div class="space-y-4 text-xs">
+                        <h4 class="font-bold text-slate-900 border-b pb-1">1. Fetch-Decode-Execute Cycle</h4>
+                        <p>The core process where instructions are fetched from RAM, translated by the Control Unit, and executed by the ALU.</p>
+                        <h4 class="font-bold text-slate-900 border-b pb-1 pt-2">2. Central Registers</h4>
+                        <ul class="list-disc pl-4 space-y-1">
+                            <li><b>PC (Program Counter):</b> Holds the address of the next instruction to be fetched.</li>
+                            <li><b>MAR (Memory Address Register):</b> Holds the address of the current memory location.</li>
+                            <li><b>MDR (Memory Data Register):</b> Holds the actual data block or instruction copied from RAM.</li>
+                            <li><b>ACC (Accumulator):</b> Holds intermediate logical calculation results.</li>
+                        </ul>
+                    </div>
+                `,
+                questions: [
+                    { q: "Explain the role of the Program Counter (PC) during the Fetch phase. [2 Marks]", ms: "• Holds the memory address of the next instruction to be fetched. (1 Mark)<br>• Increments its value by 1 immediately after the address is copied to the MAR. (1 Mark)", keywords: ["address", "increment", "mar", "next instruction"] },
+                    { q: "State the purpose of the Accumulator (ACC). [1 Mark]", ms: "• Stores the results of calculations carried out by the Arithmetic Logic Unit (ALU). (1 Mark)", keywords: ["store", "result", "alu", "calculation"] },
+                    { q: "Describe how CPU cache size affects overall system performance. [2 Marks]", ms: "• Cache stores frequently used instructions close to the CPU core. (1 Mark)<br>• A larger cache increases access speeds, minimizing slow data transfers from RAM. (1 Mark)", keywords: ["frequent", "fast", "ram", "closer"] },
+                    { q: "Define what is meant by a clock speed of 3.8 GHz. [2 Marks]", ms: "• Represents the timing frequency of the CPU internal clock. (1 Mark)<br>• Means the processor performs 3.8 billion FDE cycles per second. (1 Mark)", keywords: ["billion", "cycles per second", "frequency", "fde"] },
+                    { q: "Explain why double the number of cores does not always double performance. [2 Marks]", ms: "• Some software cannot distribute tasks across multiple cores. (1 Mark)<br>• Overhead from routing data between separate cores causes structural delays. (1 Mark)", keywords: ["parallel", "software", "overhead", "single threaded"] },
+                    { q: "State the primary function of the Control Unit (CU). [2 Marks]", ms: "• Generates timing signals to coordinate movement inside the CPU. (1 Mark)<br>• Decodes fetched instructions. (1 Mark)", keywords: ["decode", "coordinate", "signals", "manage"] },
+                    { q: "Identify the purpose of embedded systems. [2 Marks]", ms: "• A dedicated computer system designed to perform a single specific task inside a larger mechanical device. (1 Mark)", keywords: ["dedicated", "single task", "specific", "device"] },
+                    { q: "Give two common consumer examples of embedded devices. [2 Marks]", ms: "• Washing Machine (1 Mark)<br>• Microwave oven (1 Mark)", keywords: ["microwave", "washing machine", "dishwasher", "smartwatch"] },
+                    { q: "Explain the purpose of the MAR register. [2 Marks]", ms: "• Stores the memory address of the tracking row currently being read from or written to. (1 Mark)", keywords: ["address", "memory", "read", "write"] },
+                    { q: "Describe the function of the ALU. [2 Marks]", ms: "• Performs all logical comparison operations and mathematical arithmetic calculations. (1 Mark)", keywords: ["arithmetic", "logic", "calculation", "math"] }
+                ]
+            },
+            "1.2": {
+                title: "Unit 1.2: Memory & Storage",
+                desc: "RAM vs ROM, Virtual Memory, Secondary storage technologies, and data sizing conversion math rules.",
+                ko: `<div class="text-xs space-y-2"><p><b>RAM</b> is volatile primary storage. <b>ROM</b> is non-volatile and holds boot data (BIOS).</p></div>`,
+                questions: [
+                    { q: "Explain the difference between volatile and non-volatile storage frameworks. [2 Marks]", ms: "• Volatile memory loses its data content context when power is switched off. (1 Mark)<br>• Non-volatile storage safely retains saved information without electrical flow. (1 Mark)", keywords: ["power", "volatile", "loses", "retains"] },
+                    { q: "Describe how virtual memory works when physical RAM fills up completely. [3 Marks]", ms: "• A section of secondary storage is partitioned to act as temporary RAM extensions. (1 Mark)<br>• Inactive data pages are moved out of active RAM into storage until recalled. (1 Mark)", keywords: ["secondary storage", "ram full", "partition", "swap"] },
+                    { q: "State two distinct operational parameters held inside RAM. [2 Marks]", ms: "• Currently running Operating System files. (1 Mark)<br>• Active applications currently opened by the user. (1 Mark)", keywords: ["operating system", "open apps", "running software"] },
+                    { q: "Explain why computers require secondary storage options. [2 Marks]", ms: "• To save user applications, data sets, and operating system components long-term when power is turned off. (1 Mark)", keywords: ["long term", "non volatile", "save files", "power off"] },
+                    { q: "Compare SSDs and HDDs on durability traits. [2 Marks]", ms: "• SSDs possess no moving internal arms or components, making them resilient to drops. (1 Mark)<br>• HDDs contain delicate spinning magnetic platters that easily fail if shaken. (1 Mark)", keywords: ["moving parts", "durability", "platters", "shaken"] },
+                    { q: "Calculate how many Kilobytes (KB) are found inside 4 Megabytes (MB). [2 Marks]", ms: "• 4 * 1000 (or 4 * 1024) = 4000 KB (or 4096 KB). (2 Marks)", keywords: ["4000", "4096", "multiply"] },
+                    { q: "Explain the structural purpose of a character set like Unicode. [2 Marks]", ms: "• Provides a unique binary code standard to represent every letter, number, and character across global languages. (1 Mark)", keywords: ["binary code", "represent character", "unique symbols", "languages"] },
+                    { q: "State the primary operational hazard of choosing an optical secondary storage media format. [2 Marks]", ms: "• Optical media scratches easily and suffers from very slow write speeds. (1 Mark)", keywords: ["scratch", "slow", "fragile"] },
+                    { q: "Explain what sound sampling frequency signifies. [2 Marks]", ms: "• The number of distinct audio amplitude measurement samples captured every single second. (1 Mark)", keywords: ["samples per second", "amplitude", "frequency", "audio"] },
+                    { q: "Define what metadata represents inside an image file structure. [2 Marks]", ms: "• Supplemental file details stored alongside pixel arrays, such as image dimensions, color depths, or GPS tags. (1 Mark)", keywords: ["data about data", "dimensions", "color depth", "resolution"] }
+                ]
+            },
+            "1.3": {
+                title: "Unit 1.3: Networks, Connections & Protocols",
+                desc: "LAN vs WAN topologies, routers, switches, network layers, and specific functional protocols.",
+                ko: `<div class="text-xs"><p>Networks use hardware like switches to move packets across localized boundaries (LAN) or global paths (WAN).</p></div>`,
+                questions: [
+                    { q: "Explain the main difference between a LAN and a WAN network framework. [2 Marks]", ms: "• LAN paths operate across limited localized geographic footprints using owned hardware. (1 Mark)<br>• WAN networks cross broad external territories relying on rented telecoms pipelines. (1 Mark)", keywords: ["geographical", "local", "wide area", "leased lines"] },
+                    { q: "State the operational purpose of a Switch inside a Local Area Network. [2 Marks]", ms: "• Connects devices together and dynamically routes data packets strictly to the designated MAC address target. (1 Mark)", keywords: ["mac address", "packets", "route locally", "connect devices"] },
+                    { q: "Describe the function of the Domain Name System (DNS). [3 Marks]", ms: "• Translates human-readable web address URLs into machine-usable numerical IP routing addresses. (1 Mark)", keywords: ["translate", "url", "ip address", "lookup"] },
+                    { q: "State the specific operational profile handled by the HTTP protocol layer. [1 Mark]", ms: "• Governs communication and formatting layouts for standard web page data rendering inside a browser. (1 Mark)", keywords: ["web page", "browser", "transfer html"] },
+                    { q: "Explain why network tasks are organized into modular, distinct layer categories. [2 Marks]", ms: "• Allows isolation of protocols so changes to one network layer do not crash code operating on adjacent lines. (1 Mark)", keywords: ["modular", "independence", "isolate", "troubleshoot"] },
+                    { q: "Define what an IP address accomplishes. [2 Marks]", ms: "• Provides a uniquely identifier layout marking a device globally across interconnected public networking domains. (1 Mark)", keywords: ["unique identifier", "location", "routing", "internet"] },
+                    { q: "State the function of IMAP in managing modern email distributions. [2 Marks]", ms: "• Keeps message data synced and stored centrally on a server, allowing cross-device viewings. (1 Mark)", keywords: ["server", "sync", "email", "multiple devices"] },
+                    { q: "Identify two common factors that can limit Wi-Fi data performance throughput. [2 Marks]", ms: "• Heavy solid walls (1 Mark)<br>• Frequency interference from adjacent high-power lines (1 Mark)", keywords: ["walls", "interference", "distance", "obstacles"] },
+                    { q: "Describe a star network layout topology trait. [2 Marks]", ms: "• Every device connects directly to one centralized processing switch unit. (1 Mark)", keywords: ["central switch", "hub", "star connection"] },
+                    { q: "Explain the structural utility of a MAC address tracking configuration. [2 Marks]", ms: "• A permanent static hexadecimal ID hard-coded onto a NIC chip during manufacture to identify a node locally. (1 Mark)", keywords: ["hardware", "permanent", "nic", "hexadecimal"] }
+                ]
+            },
+            "1.4": {
+                title: "Unit 1.4: Network Security",
+                desc: "Cyber threats, malware vectors, social engineering, injection exploits, and defensive security frameworks.",
+                ko: `<div class="text-xs"><p>Defense metrics rely on firewalls, anti-malware code, encryption mechanisms, and human training routines.</p></div>`,
+                questions: [
+                    { q: "Describe how a SQL Injection exploit attack works on an open database form field. [3 Marks]", ms: "• Malicious database query input lines are entered directly into an unsanitized web application textbox. (1 Mark)<br>• The server executes this appended rogue payload, bypassing secure authentication gates to leak tables. (1 Mark)", keywords: ["sql input", "unsanitized", "database query", "bypass"] },
+                    { q: "Explain what a Phishing attack loop looks like to an endangered target user. [2 Marks]", ms: "• Deceptive communication templates mimicking established institutions fool users into supplying secure credentials. (1 Mark)", keywords: ["fake email", "spoof link", "credentials", "fool user"] },
+                    { q: "State the protective operational layer achieved by maintaining a Firewall system. [2 Marks]", ms: "• Continuously inspects arriving data pack streams against filters, dropping unsanctioned port connection calls. (1 Mark)", keywords: ["inspect packets", "block traffic", "filter rules", "unauthorized"] },
+                    { q: "Define what ransomware code executes to enforce extortion. [2 Marks]", ms: "• Encrypts critical drive data nodes, withholding decryption keys until an tracking ransom payment balance clears. (1 Mark)", keywords: ["encrypt files", "lock data", "ransom payment", "key"] },
+                    { q: "Explain the role of Brute Force cracking routines. [2 Marks]", ms: "• Programmatic trial-and-error loops that attempt automated combinations until they guess credentials. (1 Mark)", keywords: ["automated", "trial and error", "guess password", "combinations"] },
+                    { q: "State the purpose of performing regular penetration testing. [2 Marks]", ms: "• Authoritative mock attacks executed against safe environments to uncover unknown perimeter structural holes. (1 Mark)", keywords: ["vulnerabilities", "find holes", "mock attack", "test security"] },
+                    { q: "Identify how anti-malware utilities protect live operating system loops. [2 Marks]", ms: "• Scans files against signature definition databases to isolate and eliminate rogue executables. (1 Mark)", keywords: ["signature", "scan files", "quarantine", "virus definition"] },
+                    { q: "Describe the threat known as data interception. [2 Marks]", ms: "• Sniffing active packets from transmission wires using software tools to intercept plaintext communication. (1 Mark)", keywords: ["packet sniffer", "interception", "wiretap", "plaintext"] },
+                    { q: "Explain what social engineering represents conceptually. [2 Marks]", ms: "• Manipulating human trust variables to trick staff into breaking organizational security procedures. (1 Mark)", keywords: ["human error", "manipulation", "deceive", "trust"] },
+                    { q: "Define a denial of service (DoS) exploit. [2 Marks]", ms: "• Flooding web nodes with fake requests to consume server resources and take digital services offline. (1 Mark)", keywords: ["flood traffic", "server crash", "fake requests", "overload"] }
+                ]
+            },
+            "1.5": {
+                title: "Unit 1.5: System Software",
+                desc: "Operating system components, memory assignment managers, user interfaces, and file system utilities.",
+                ko: `<div class="text-xs"><p>The OS manages peripheral pipelines, memory spaces, user routing interfaces, and critical multitasking processes.</p></div>`,
+                questions: [
+                    { q: "Explain how an operating system controls concurrent multitasking loops inside memory. [3 Marks]", ms: "• Dynamically assigns separate memory slots to active software processes, switching CPU execution focus quickly between threads. (1 Mark)", keywords: ["allocate memory", "time slice", "switch processes", "multitasking"] },
+                    { q: "State the structural purpose achieved by running a defragmentation software package on an HDD. [3 Marks]", ms: "• Moves separated file blocks into contiguous storage rows. (1 Mark)<br>• Minimizes physical drive head travel distances, speeding up file access times. (1 Mark)", keywords: ["contiguous", "hdd", "drive head", "speed access"] },
+                    { q: "Identify two distinct primary functions performed by an Operating System core. [2 Marks]", ms: "• Memory Management (1 Mark)<br>• Peripheral and Device Driver Management (1 Mark)", keywords: ["memory management", "peripheral", "drivers", "user interface"] },
+                    { q: "Describe what a device driver accomplishes within the operating hardware layer. [2 Marks]", ms: "• Acts as an interface translation bridge allowing the OS kernel to communicate with physical external hardware. (1 Mark)", keywords: ["hardware abstraction", "translation layer", "peripheral communication", "driver"] },
+                    { q: "Explain why solid-state drives should not be run through defragmentation cycles. [2 Marks]", ms: "• SSD components find cells instantly without physical movement, so restructuring offers no performance benefit. (1 Mark)<br>• Unnecessary rewrite loops wear out flash write limits faster. (1 Mark)", keywords: ["wear out", "flash longevity", "no moving parts", "instant seek"] },
+                    { q: "Identify the feature profile that marks a Graphical User Interface (GUI). [2 Marks]", ms: "• Provides visual interactions using windows, icons, menus, and pointers (WIMP controls). (1 Mark)", keywords: ["wimp", "icons", "menus", "pointers", "visual"] },
+                    { q: "State the purpose of data compression software utilities. [2 Marks]", ms: "• Re-encodes raw patterns to reduce file sizes, freeing up storage and speeding up network transfers. (1 Mark)", keywords: ["file size", "reduce space", "faster transfer", "shrink"] },
+                    { q: "Explain backup scheduling differences between full and incremental strategies. [3 Marks]", ms: "• Full backups copy the entire system dataset. Incremental blocks capture only files changed since the last update. (1 Mark)", keywords: ["incremental changed", "full copy all", "backup speed", "storage footprint"] },
+                    { q: "State what a Command Line Interface (CLI) provides to engineering users. [2 Marks]", ms: "• Direct text input control parameters allowing expert scripts to run tasks with minimal memory overhead. (1 Mark)", keywords: ["text commands", "no graphics", "low memory", "terminal"] },
+                    { q: "Describe file system access permission management utilities. [2 Marks]", ms: "• Protects network files by checking user credentials against access control matrix tables. (1 Mark)", keywords: ["permissions", "read write access", "credentials", "security profiles"] }
+                ]
+            },
+            "1.6": {
+                title: "Unit 1.6: Ethical, Legal, Cultural & Environmental Impacts",
+                desc: "Socio-technological implications, digital divides, electronic waste handling laws, and key British privacy frameworks.",
+                ko: `<div class="text-xs"><p>Engineering demands alignment with the Data Protection Act (2018) and strict recycling pathways for hazardous e-waste materials.</p></div>`,
+                questions: [
+                    { q: "Explain how open source licensing differs from proprietary software models. [3 Marks]", ms: "• Open source exposes source code strings for modification and distribution. (1 Mark)<br>• Proprietary formats hide source branches, charging license fees and restricting user edits. (1 Mark)", keywords: ["source code open", "compiled hidden", "license fees", "copyright restrictions"] },
+                    { q: "State the primary legal protection objective of the Computer Misuse Act (1990). [2 Marks]", ms: "• Criminalizes unauthorized access to computer files, hacking hacking attacks, and spreading malware payload files. (1 Mark)", keywords: ["hacking", "unauthorized access", "malware distribution", "criminal offense"] },
+                    { q: "Describe two societal problems linked to the widening global digital divide. [2 Marks]", ms: "• limits online education paths for remote rural towns. (1 Mark)<br>• Restricts economic career opportunities for communities lacking broadband. (1 Mark)", keywords: ["inequality", "education gaps", "job application limitations", "broadband access"] },
+                    { q: "Identify an environmental hazard resulting from improper consumer e-waste dumping habits. [2 Marks]", ms: "• Poisonous heavy metal toxins like lead and mercury leak out of old circuit boards into local water tables. (1 Mark)", keywords: ["heavy metals", "toxic leak", "landfills", "pollution"] },
+                    { q: "State one core legal duty placed on corporate data data handlers by the Data Protection Act 2018. [2 Marks]", ms: "• Must implement adequate encryption security to prevent sensitive customer files from leaking. (1 Mark)", keywords: ["secure storage", "encryption", "consent", "accurate records"] },
+                    { q: "Explain how cloud storage centers impact global carbon output footprints. [2 Marks]", ms: "• Server farms run 24/7, drawing high electrical loads for server compute processors and heavy cooling fans. (1 Mark)", keywords: ["cooling systems", "electricity grid", "carbon emissions", "fossil fuel power"] },
+                    { q: "State the legal protection scope granted by holding a Copyright design patent. [2 Marks]", ms: "• Restricts unauthorized reproduction, piracy distribution, or monetization of creative digital media formats. (1 Mark)", keywords: ["intellectual property", "piracy prevention", "unauthorized copy", "licensing control"] },
+                    { q: "Discuss user privacy concerns relating to smartphone apps tracking background GPS data. [2 Marks]", ms: "• Aggregates clear routine lifestyle maps that can be leaked to advertisers without informed consent. (1 Mark)", keywords: ["location profiling", "consent loss", "surveillance", "data resale"] },
+                    { q: "Identify how smart automated machinery reshapes corporate employment cultures. [2 Marks]", ms: "• Replaces repetitive labor lines with robotic elements, shifting worker demands toward maintenance skillsets. (1 Mark)", keywords: ["automation redundancy", "upskilling", "job displacement", "robotic lines"] },
+                    { q: "Define the term 'whistleblowing' inside technological companies. [2 Marks]", ms: "• An engineer leaking internal files to expose unsafe practices or regulatory legal breaches. (1 Mark)", keywords: ["expose corruption", "leak documents", "ethical disclosure", "corporate misconduct"] }
+                ]
+            },
+            "2.1": {
+                title: "Unit 2.1: Algorithms",
+                desc: "Computational thinking concepts, searching routines (linear vs binary), and array sorting algorithms.",
+                ko: `<div class="text-xs"><p>Algorithms demand structural analysis through tracing tables. Binary searches require pre-sorted array structures.</p></div>`,
+                questions: [
+                    { q: "Explain the main difference between a linear search and a binary search algorithm. [3 Marks]", ms: "• Linear search steps through an array element-by-element sequentially. (1 Mark)<br>• Binary search cuts sorted list spaces in half each check step, requiring pre-sorted lists. (1 Mark)", keywords: ["sequential element", "divide half", "pre sorted list", "midpoint compare"] },
+                    { q: "Describe what abstraction provides to software architects. [2 Marks]", ms: "• Filters out unnecessary details to focus exclusively on core problem requirements. (1 Mark)", keywords: ["remove detail", "simplify problem", "core mechanics"] },
+                    { q: "Outline how a bubble sort algorithm organizes an unsorted numerical array. [3 Marks]", ms: "• Passes through an array repeatedly, swapping adjacent elements if they are out of order until a full pass completes with no swaps. (1 Mark)", keywords: ["adjacent swap", "repeated passes", "bubble up", "no swap flag"] },
+                    { q: "Define what decomposition accomplishes. [2 Marks]", ms: "• Breaks complex architectural problems down into smaller, self-contained sub-routines that are easier to code. (1 Mark)", keywords: ["sub tasks", "break down", "smaller problems", "manageable modules"] },
+                    { q: "State the primary drawback of using a merge sort algorithm. [2 Marks]", ms: "• Requires significant additional memory overhead to store partitioned sub-arrays during sorting phases. (1 Mark)", keywords: ["memory consumption", "extra storage", "array allocation", "overhead"] },
+                    { q: "Explain why standard flowchart templates use diamond symbols. [1 Mark]", ms: "• Represents a selection logic branching point requiring a true or false evaluation check. (1 Mark)", keywords: ["conditional choice", "if then check", "decision diamond", "selection branch"] },
+                    { q: "State the condition required before executing a binary search. [1 Mark]", ms: "• Dataset elements must be sorted in ascending or numerical sequence order. (1 Mark)", keywords: ["sorted order", "alphabetical chronological", "sequential alignment"] },
+                    { q: "Describe the function of an input variable inside an algorithm pipeline. [2 Marks]", ms: "• Receives raw values supplied by external users, feeding them into processing operations. (1 Mark)", keywords: ["user data entry", "variable ingestion", "feed calculations"] },
+                    { q: "Explain what an algorithmic trace table solves. [2 Marks]", ms: "• Tracks variable values row-by-row through dry run step evaluations to locate logical bugs. (1 Mark)", keywords: ["variable values track", "dry run tracing", "logic bug identification"] },
+                    { q: "Identify the processing shape token used inside system flowchart map schemas. [1 Mark]", ms: "• A standard rectangle block. (1 Mark)", keywords: ["rectangle shape", "process block", "assignment calculation"] }
+                ]
+            },
+            "2.2": {
+                title: "Unit 2.2: Programming Fundamentals",
+                desc: "Data typing structures, string manipulation commands, file streaming routines, and control flow logic.",
+                ko: `<div class="text-xs"><p>The three basic programming constructs are Sequence, Selection (IF statements), and Iteration (FOR/WHILE loops).</p></div>`,
+                questions: [
+                    { q: "State the operational difference between the quotient integer division operator (//) and the modulus operator (%). [2 Marks]", ms: "• Integer division cuts away fractions to output whole integers. (1 Mark)<br>• Modulus outputs the remainder value left over from that calculation. (1 Mark)", keywords: ["whole number division", "remainder calculation", "mod output", "floor result"] },
+                    { q: "Explain what differentiates a global variable tracking scope from a localized variable scope. [3 Marks]", ms: "• Global variables are accessible anywhere inside a file. Local variables only exist inside the subprogram where they were declared. (1 Mark)", keywords: ["anywhere access", "inside function scope", "variable lifetime", "local stack"] },
+                    { q: "State why explicit type casting conversion steps are required when capturing input values. [2 Marks]", ms: "• Console inputs arrive as string types by default. Casting converts them to integers or floats for math calculations. (1 Mark)", keywords: ["string data conversion", "integer float parsing", "mathematical operation compatibility"] },
+                    { q: "Describe what iteration constructs achieve. [2 Marks]", ms: "• Repeats blocks of code using controlled count conditions (FOR loops) or Boolean state tests (WHILE loops). (1 Mark)", keywords: ["loop block execution", "while condition check", "for loop iteration", "repeat sequence"] },
+                    { q: "Identify two common string handling manipulation tools. [2 Marks]", ms: "• Substring parsing slicing (1 Mark)<br>• Upper case character conversions (1 Mark)", keywords: ["concatenation", "length query", "upper lower case conversion", "slicing string split"] },
+                    { q: "Define what an array structure provides. [2 Marks]", ms: "• A fixed-size, indexed structure that stores data items of the same data type under a single identifier name. (1 Mark)", keywords: ["homogenous data type", "indexed locations", "fixed length element array"] },
+                    { q: "Explain the step routine when saving data lines out to an external text file link. [3 Marks]", ms: "• Open the target file with write permissions, stream the data, and explicitly close the file pointer to commit modifications. (1 Mark)", keywords: ["open file stream", "write lines print", "close file handler"] },
+                    { q: "State the data type assigned to hold true or false choices. [1 Mark]", ms: "• Boolean data structure. (1 Mark)", keywords: ["boolean", "bool state"] },
+                    { q: "Describe the architectural utility of deploying subprograms inside massive code bases. [2 Marks]", ms: "• Prevents code repetition by wrapping reusable tasks into accessible modules, improving code readability. (1 Mark)", keywords: ["code reuse avoidance", "reusability modules", "maintainability enhancements"] },
+                    { q: "State the functional difference between parameter variables and argument values. [2 Marks]", ms: "• Parameters define the input variables in a function signature. Arguments are the actual values passed into it when called. (1 Mark)", keywords: ["function definition tracking", "runtime value injection", "argument data mapping"] }
+                ]
+            }
+        };
+
+        // PRACTICAL PYTHON TRACK SPECIFICATION CURRICULUM POOL
+        const pythonLessonsDatabase = {
+            input_output: {
+                title: "1. Console Input & Output",
+                concept: "Programming tracks use <code>print()</code> to push data blocks to terminal windows. The <code>input()</code> function pauses scripts, returning captured user text strictly as a String data type.",
+                challenge: "Modify the script so that it prints exactly <code>Hello User</code> on line 1, then computes and prints the product calculation of <code>12 * 12</code> on line 2.",
+                code: `# Step 1: Output text strings safely\nprint("Hello Word")\n# Step 2: Perform evaluations\nprint(10 * 10)`,
+                verify: (output) => output.includes("Hello User") && output.includes("144")
+            },
+            variables_casting: {
+                title: "2. Variable Tracking & Casting",
+                concept: "Variables store data values in named memory spaces. Because user <code>input()</code> captures text strings by default, explicit type conversion methods like <code>int()</code> or <code>float()</code> are required to run mathematical functions safely.",
+                challenge: "Create a variable named <code>base_value</code> holding 20. Double its value and print exactly that quantitative summary value out to the console interface.",
+                code: `base_value = 10\nfinal_result = base_value * 5\nprint(final_result)`,
+                verify: (output) => output.includes("40")
+            },
+            selection_logic: {
+                title: "3. Selection Constructs (IF/ELSE)",
+                concept: "Selection controls allow algorithms to branch down alternative code paths based on conditional evaluations. Python implements structural branching via <code>if</code>, <code>elif</code>, and <code>else</code> blocks.",
+                challenge: "Set the variable score to 45. Build an if statement printing <code>Fail</code> if the score lands strictly below 50, otherwise output <code>Pass</code>.",
+                code: `score = 85\nif score >= 50:\n    print("Pass")\nelse:\n    print("Fail")`,
+                verify: (output) => output.includes("Fail")
+            },
+            iteration_loops: {
+                title: "4. Iteration Loops (FOR/WHILE)",
+                concept: "Iteration reduces redundant code by looping code structures. Use definite count trackers (<code>for i in range(x)</code>) or condition checks (<code>while state == True</code>).",
+                challenge: "Construct a looping block that outputs the numerical square index values for numbers 1 through 3 sequentially (i.e. console prints 1, then 4, then 9 on separate tracking lines).",
+                code: `for i in range(1, 4):\n    print(i)`,
+                verify: (output) => output.includes("1") && output.includes("4") && output.includes("9")
+            },
+            lists_arrays: {
+                title: "5. Python Lists (Arrays)",
+                concept: "Arrays allocate indexed sequential item slots under one tracking variable wrapper pointer name. Index configurations reference target elements starting strictly at sequence coordinate position 0.",
+                challenge: "Update the tracking color array row elements list to extract and print the final item value position entry exactly: <code>Emerald</code>.",
+                code: `color_list = ["Amber", "Sapphire", "Emerald"]\nprint(color_list[0])`,
+                verify: (output) => output.includes("Emerald") && !output.includes("Amber")
+            },
+            file_handling: {
+                title: "6. Persistent File Stream I/O",
+                concept: "External non-volatile files are edited via file streams. Call <code>open('file.txt', 'w')</code> to build file streams, stream content strings using <code>.write()</code> methods, and close pointers using <code>.close()</code> to finalize write blocks safely.",
+                challenge: "Write code to open a file structure index pointer named <code>logs.txt</code> with write authorization, commit the string line text data content exactly: <code>OCR_SUCCESS</code>, and close the channel.",
+                code: `file_stream = open("logs.txt", "w")\nfile_stream.write("SAMPLE_CONTENT")\nfile_stream.close()`,
+                verify: (output, editorContent) => editorContent.includes("logs.txt") && editorContent.includes("OCR_SUCCESS") && editorContent.includes("close")
+            }
+        };
+
+        // PARSONS STRUCTURAL LOGIC PROBLEM POOL DATABASE
+        const parsonsProblemPool = {
+            selection: {
+                scrambled: ["else:", "if score >= 80:", "print('Grade 9')", "print('Grade Pass')", "score = 85"],
+                correct: ["score = 85", "if score >= 80:", "print('Grade 9')", "else:", "print('Grade Pass')"]
+            },
+            loop: {
+                scrambled: ["total = total + num", "numbers = [1, 2, 3]", "print(total)", "for num in numbers:", "total = 0"],
+                correct: ["numbers = [1, 2, 3]", "total = 0", "for num in numbers:", "total = total + num", "print(total)"]
+            },
+            file: {
+                scrambled: ["f.close()", "f = open('data.txt', 'w')", "f.write('J277')", "print('Saved')"],
+                correct: ["f = open('data.txt', 'w')", "f.write('J277')", "f.close()", "print('Saved')"]
+            }
+        };
+
+        // Initialization Routine Setup
+        function initLocalStorageProfile() {
+            if (!localStorage.getItem('ocr_user_xp')) localStorage.setItem('ocr_user_xp', '0');
+            if (!localStorage.getItem('ocr_user_streak')) localStorage.setItem('ocr_user_streak', '1');
+            
+            Object.keys(revisionContentDatabase).forEach(topicId => {
+                const srsKey = `ocr_srs_${topicId}`;
+                if (!localStorage.getItem(srsKey)) {
+                    const defaultSrs = Array(revisionContentDatabase[topicId].questions.length).fill({ easinessFactor: 2.5, repetitions: 0, interval: 0, nextReview: 0 });
+                    localStorage.setItem(srsKey, JSON.stringify(defaultSrs));
+                }
+            });
+            updateMetricsDisplay();
+        }
+
+        function updateMetricsDisplay() {
+            document.getElementById('nav-xp-counter').innerText = localStorage.getItem('ocr_user_xp');
+            document.getElementById('nav-streak-counter').innerText = localStorage.getItem('ocr_user_streak');
+            renderDashboardUi();
+        }
+
+        function switchAppView(viewName) {
+            document.querySelectorAll('.view-panel').forEach(panel => panel.classList.add('hidden'));
+            document.getElementById(`view-${viewName}`).classList.remove('hidden');
+            if (viewName === 'sandbox' && !pyodideInstance) {
+                initializePyodideRuntime();
+            }
+        }
+
+        function toggleSandboxMode(mode) {
+            if(mode === 'ide') {
+                document.getElementById('sandbox-ide-layout').classList.remove('hidden');
+                document.getElementById('sandbox-parsons-layout').classList.add('hidden');
+                document.getElementById('mode-selector-ide').className = "px-4 py-1.5 bg-blue-600 text-white rounded-xl text-xs font-bold shadow-sm transition";
+                document.getElementById('mode-selector-parsons').className = "px-4 py-1.5 bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition";
+            } else {
+                document.getElementById('sandbox-ide-layout').classList.add('hidden');
+                document.getElementById('sandbox-parsons-layout').classList.remove('hidden');
+                document.getElementById('mode-selector-ide').className = "px-4 py-1.5 bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition";
+                document.getElementById('mode-selector-parsons').className = "px-4 py-1.5 bg-blue-600 text-white rounded-xl text-xs font-bold shadow-sm transition";
+                loadParsonsTask('selection');
+            }
+        }
+
+        function renderDashboardUi() {
+            let gridHtml = "";
+            let priorityHtml = "";
+            let totalTopicsCount = Object.keys(revisionContentDatabase).length;
+            let masteredCount = 0;
+
+            Object.keys(revisionContentDatabase).forEach(id => {
+                const topic = revisionContentDatabase[id];
+                const srsData = JSON.parse(localStorage.getItem(`ocr_srs_${id}`)) || [];
+                
+                let masteredQuestions = srsData.filter(q => q.repetitions > 0).length;
+                let totalQuestionsCount = topic.questions.length;
+                let calculationPercentage = totalQuestionsCount > 0 ? Math.round((masteredQuestions / totalQuestionsCount) * 100) : 0;
+                if (calculationPercentage === 100) masteredCount++;
+
+                gridHtml += `
+                    <div class="bg-slate-50 border border-slate-200 p-5 rounded-xl flex flex-col justify-between group hover:border-blue-500 transition">
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-[10px] font-black text-blue-600 uppercase tracking-wide">Unit ${id}</span>
+                                <span class="text-[11px] font-bold text-slate-400">${calculationPercentage}% Mastered</span>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-sm mb-1 group-hover:text-blue-600 transition">${topic.title}</h4>
+                            <p class="text-[11px] text-slate-500 leading-relaxed mb-4">${topic.desc}</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs font-bold">
+                            <button onclick="triggerModal('ko', '${id}')" class="bg-slate-200/70 hover:bg-slate-200 text-slate-700 py-2 rounded-lg transition text-center text-[11px]">Organiser</button>
+                            <button onclick="triggerModal('ex', '${id}')" class="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition text-center text-[11px]">Questions (${totalQuestionsCount})</button>
+                        </div>
+                    </div>
+                `;
+
+                if (calculationPercentage < 60) {
+                    priorityHtml += `
+                        <div class="p-3 bg-rose-50/50 border border-rose-100 rounded-xl flex justify-between items-center">
+                            <div>
+                                <span class="text-[10px] font-black text-rose-600 block">UNIT ${id}</span>
+                                <span class="text-xs font-bold text-slate-800">${topic.title.split(':')[1]}</span>
+                            </div>
+                            <span class="text-[10px] font-black text-rose-700 bg-rose-100 px-2 py-0.5 rounded border border-rose-200">${calculationPercentage}% Low</span>
+                        </div>
+                    `;
+                }
+            });
+
+            document.getElementById('syllabus-grid-payload').innerHTML = gridHtml;
+            document.getElementById('weakness-heatmap-payload').innerHTML = priorityHtml || `<p class='text-xs font-medium text-emerald-600'><i class='fa-solid fa-circle-check'></i> All core topics stable above 60% baseline.</p>`;
+            
+            let globalSyllabusProgress = Math.round((masteredCount / totalTopicsCount) * 100);
+            document.getElementById('dashboard-progress-bar').style.width = `${globalSyllabusProgress}%`;
+            document.getElementById('dashboard-progress-text').innerText = `${globalSyllabusProgress}%`;
+        }
+
+        // Deterministic Assessment Validation Engine
+        function triggerClientAiGrading() {
+            const studentInputText = document.getElementById('student-ai-answer').value.toLowerCase().trim();
+            const targetQuestion = revisionContentDatabase[currentActiveTopic].questions[currentActiveQuestionIndex];
+            const feedbackContainer = document.getElementById('ai-feedback-output');
+            
+            if(!studentInputText) {
+                alert("Please write an answer before calling the AI evaluation engine.");
+                return;
+            }
+
+            feedbackContainer.classList.remove('hidden');
+            feedbackContainer.innerHTML = `<div class="text-xs text-slate-500 animate-pulse font-bold"><i class="fa-solid fa-gears animate-spin"></i> Processing local linguistic semantic evaluation pass...</div>`;
+
+            setTimeout(() => {
+                let matchedTokens = [];
+                let calculatedMarkAllocation = 0;
+
+                targetQuestion.keywords.forEach(keyword => {
+                    if(studentInputText.includes(keyword)) {
+                        matchedTokens.push(keyword);
+                        calculatedMarkAllocation++;
+                    }
+                });
+
+                let extractionMatch = targetQuestion.q.match(/\[(\d+)\s*Marks?\]/i);
+                let maximumPossibleMark = extractionMatch ? parseInt(extractionMatch[1]) : 2;
+                if(calculatedMarkAllocation > maximumPossibleMark) calculatedMarkAllocation = maximumPossibleMark;
+
+                let gradingQualityScore = 1;
+                if (calculatedMarkAllocation === maximumPossibleMark) gradingQualityScore = 5;
+                else if (calculatedMarkAllocation > 0) gradingQualityScore = 3;
+
+                feedbackContainer.innerHTML = `
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center border-b border-slate-200 pb-1">
+                            <span class="text-[11px] font-black uppercase text-blue-800">Local AI Review Results</span>
+                            <span class="text-xs font-black px-2.5 py-0.5 bg-blue-600 text-white rounded">Score: ${calculatedMarkAllocation} / ${maximumPossibleMark} Marks</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed">
+                            <b>Evaluation Metrics:</b> Your response matched the following syllabus parameters: <code class="bg-slate-100 px-1 py-0.5 rounded text-rose-600 font-bold">${matchedTokens.join(', ') || 'none detected'}</code>. 
+                        </p>
+                        <div class="p-2.5 bg-slate-900 text-slate-300 rounded-lg text-[11px] font-mono leading-relaxed">
+                            <span class="text-blue-400 font-bold block mb-1">&gt; Examiner Recommendation Loop:</span>
+                            To maximize your performance, ensure your answer includes precise technical terms. Compare your wording to the official grading structure below:
+                            <div class="mt-2 text-emerald-400 border-t border-slate-800 pt-1.5">${targetQuestion.ms}</div>
+                        </div>
+                        <div class="pt-2 flex justify-end">
+                            <button onclick="processSrsCalculation(${gradingQualityScore})" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-[11px] py-1.5 px-4 rounded-lg shadow-sm transition">Commit Progress To Database</button>
+                        </div>
+                    </div>
+                `;
+            }, 750);
+        }
+
+        function processSrsCalculation(qualityScore) {
+            const srsData = JSON.parse(localStorage.getItem(`ocr_srs_${currentActiveTopic}`));
+            let { easinessFactor, repetitions, interval } = srsData[currentActiveQuestionIndex];
+
+            if (qualityScore >= 3) {
+                if (repetitions === 0) interval = 1;
+                else if (repetitions === 1) interval = 6;
+                else interval = Math.round(interval * easinessFactor);
+                repetitions++;
+            } else {
+                repetitions = 0;
+                interval = 1;
+            }
+
+            easinessFactor = easinessFactor + (0.1 - (5 - qualityScore) * (0.08 + (5 - qualityScore) * 0.02));
+            if (easinessFactor < 1.3) easinessFactor = 1.3;
+
+            srsData[currentActiveQuestionIndex] = {
+                easinessFactor: easinessFactor,
+                repetitions: repetitions,
+                interval: interval,
+                nextReview: Date.now() + (interval * 24 * 60 * 60 * 1000)
+            };
+
+            localStorage.setItem(`ocr_srs_${currentActiveTopic}`, JSON.stringify(srsData));
+            
+            let activeXp = parseInt(localStorage.getItem('ocr_user_xp')) + 50;
+            localStorage.setItem('ocr_user_xp', activeXp.toString());
+            
+            updateMetricsDisplay();
+            navigateQuestionIndex(1);
+        }
+
+        function triggerModal(mode, topicKey) {
+            currentActiveTopic = topicKey;
+            const topic = revisionContentDatabase[topicKey];
+            document.getElementById('modal-header-text').innerText = topic.title;
+
+            if (mode === 'ko') {
+                document.getElementById('modal-main-payload').innerHTML = topic.ko;
+                document.getElementById('modal-footer-controls').innerHTML = `
+                    <span class="text-xs text-slate-400 font-semibold tracking-wide">OCR Reference Sheets</span>
+                    <button onclick="hideModal()" class="bg-slate-900 text-white text-xs font-bold py-2 px-4 rounded-xl transition hover:bg-slate-800">Dismiss</button>
+                `;
+            } else {
+                currentActiveQuestionIndex = 0;
+                renderActiveQuestionUi();
+            }
+
+            document.getElementById('app-modal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function renderActiveQuestionUi() {
+            const topic = revisionContentDatabase[currentActiveTopic];
+            if (currentActiveQuestionIndex >= topic.questions.length) {
+                document.getElementById('modal-main-payload').innerHTML = `
+                    <div class="text-center py-6 space-y-3">
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-circle-check"></i></div>
+                        <h4 class="font-black text-slate-900 text-base">Module Assessment Segment Complete!</h4>
+                        <p class="text-xs text-slate-500 max-w-sm mx-auto">The spaced repetition engine has committed your scores to your browser's memory profile.</p>
+                    </div>
+                `;
+                document.getElementById('modal-footer-controls').innerHTML = `<button onclick="hideModal()" class="w-full bg-slate-900 text-white text-xs font-bold py-2 rounded-xl">Return to Dashboard</button>`;
+                return;
+            }
+
+            const item = topic.questions[currentActiveQuestionIndex];
+            const total = topic.questions.length;
+
+            document.getElementById('modal-main-payload').innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center bg-blue-50 border border-blue-100 rounded-xl px-4 py-2 text-xs">
+                        <span class="font-black text-blue-700 uppercase tracking-wider"><i class="fa-solid fa-brain"></i> Adaptive Engine Layer</span>
+                        <span class="font-bold text-slate-500">Question ${currentActiveQuestionIndex + 1} of ${total}</span>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                        <p class="text-slate-900 font-bold text-xs leading-relaxed">${item.q}</p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider block">Type Your Examination Answer:</span>
+                        <textarea id="student-ai-answer" class="w-full p-3 border border-slate-200 rounded-xl h-24 focus:ring-2 focus:ring-blue-500 outline-none text-xs" placeholder="Use formal technical terminology to maximize your score..."></textarea>
+                        <button onclick="triggerClientAiGrading()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs py-2.5 rounded-xl transition shadow-md flex items-center justify-center gap-1.5">
+                            Submit to Local AI Examiner <i class="fa-solid fa-robot"></i>
+                        </button>
+                    </div>
+
+                    <div id="ai-feedback-output" class="hidden p-4 border border-blue-100 bg-blue-50/40 rounded-xl space-y-2 animate-in fade-in duration-200"></div>
+                </div>
+            `;
+
+            document.getElementById('modal-footer-controls').innerHTML = `
+                <div class="flex justify-between items-center w-full">
+                    <div class="flex gap-2">
+                        <button onclick="navigateQuestionIndex(-1)" ${currentActiveQuestionIndex === 0 ? 'disabled' : ''} class="bg-white border border-slate-200 text-slate-700 disabled:opacity-40 font-bold py-1.5 px-3 rounded-lg text-xs transition hover:bg-slate-50">Prev</button>
+                        <button onclick="navigateQuestionIndex(1)" class="bg-white border border-slate-200 text-slate-700 font-bold py-1.5 px-3 rounded-lg text-xs transition hover:bg-slate-50">Skip</button>
+                    </div>
+                    <button onclick="hideModal()" class="bg-slate-200 text-slate-700 text-xs font-bold py-2 px-4 rounded-xl transition hover:bg-slate-300">Close Engine</button>
+                </div>
+            `;
+        }
+
+        function navigateQuestionIndex(offset) {
+            currentActiveQuestionIndex += offset;
+            renderActiveQuestionUi();
+        }
+
+        function hideModal() {
+            document.getElementById('app-modal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function resetAllSrsMetrics() {
+            if (confirm("Are you certain you want to erase all local revision metrics and progress maps?")) {
+                localStorage.clear();
+                initLocalStorageProfile();
+            }
+        }
+
+        // WebAssembly Python Compilation Layer
+        async function initializePyodideRuntime() {
+            document.getElementById('sandbox-output').innerText = "Loading WebAssembly Python compilation environment layer via CDN dependency modules...";
+            try {
+                const script = document.createElement('script');
+                script.src = "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js";
+                script.onload = async () => {
+                    pyodideInstance = await loadPyodide();
+                    document.getElementById('sandbox-output').innerText = "Python compilation engine active. Complete workspace operations ready.";
+                };
+                document.head.appendChild(script);
+            } catch (err) {
+                document.getElementById('sandbox-output').innerText = "WASM initialization interrupted.";
+            }
+        }
+
+        function runPythonSandboxScript(callback = null) {
+            if (!pyodideInstance) return alert("WASM components initializing, please wait for setup load buffers...");
+            const code = document.getElementById('sandbox-editor').value;
+            
+            try {
+                pyodideInstance.runPython(`
+                    import sys
+                    import io
+                    sys.stdout = io.StringIO()
+                `);
+                pyodideInstance.runPython(code);
+                const output = pyodideInstance.runPython("sys.stdout.getvalue()");
+                document.getElementById('sandbox-output').innerText = output || "Process complete. Returned zero standard output streams.";
+                if(callback) callback(output, code);
+            } catch (err) {
+                document.getElementById('sandbox-output').innerText = `Syntax/Runtime Error:\n${err.message}`;
+                if(callback) callback("", code);
+            }
+        }
+
+        function selectSandboxLesson(key) {
+            currentActiveTopic = key;
+            const item = pythonLessonsDatabase[key];
+            document.getElementById('sandbox-current-title').innerText = item.title;
+            document.getElementById('sandbox-current-desc').innerText = item.title;
+            document.getElementById('sandbox-concept-box').innerHTML = item.concept;
+            document.getElementById('sandbox-challenge-text').innerText = item.challenge;
+            document.getElementById('sandbox-editor').value = item.code;
+
+            document.querySelectorAll('.lesson-btn').forEach(b => b.className = "lesson-btn w-full text-left p-2.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold hover:bg-slate-50 transition");
+            document.getElementById(`lbtn-${key}`).className = "lesson-btn w-full text-left p-2.5 rounded-lg border border-blue-600 bg-blue-50 text-blue-700 text-xs font-bold shadow-sm";
+        }
+
+        function verifyChallengeSolution() {
+            const lesson = pythonLessonsDatabase[currentActiveTopic];
+            runPythonSandboxScript((output, code) => {
+                const isCorrect = lesson.verify(output, code);
+                if (isCorrect) {
+                    alert("Excellent job! Code execution meets the required output parameters. +100 XP.");
+                    let curXp = parseInt(localStorage.getItem('ocr_user_xp')) + 100;
+                    localStorage.setItem('ocr_user_xp', curXp.toString());
+                    updateMetricsDisplay();
+                } else {
+                    alert("Evaluation parameters incomplete. Review your logical structures or print output requirements.");
+                }
+            });
+        }
+
+        // Parsons Layout Methods
+        function loadParsonsTask(key) {
+            currentParsonsProblemKey = key;
+            currentParsonsAnswerStack = [];
+            const problem = parsonsProblemPool[key];
+            
+            document.querySelectorAll('[id^="pbtn-"]').forEach(b => b.className = "p-3 border text-left text-xs rounded-xl font-bold hover:bg-slate-50 transition");
+            document.getElementById(`pbtn-${key}`).className = "p-3 border-blue-600 bg-blue-50 text-blue-700 text-left text-xs rounded-xl font-bold shadow-sm transition";
+
+            let sourceHtml = "";
+            problem.scrambled.forEach((line, index) => {
+                sourceHtml += `
+                    <div id="parsons-source-${index}" onclick="addBlockToParsonsWorkspace('${index}', \`${line.replace(/'/g, "&apos;")}\`)" class="p-2.5 bg-white border border-slate-200 rounded-lg font-mono text-xs cursor-pointer hover:border-blue-500 hover:shadow-sm transition select-none code-font">
+                        ${line}
+                    </div>
+                `;
+            });
+            document.getElementById('parsons-source-pool').innerHTML = sourceHtml;
+            document.getElementById('parsons-target-workspace').innerHTML = `<div class='text-xs text-slate-400 italic font-medium p-4 text-center border-2 border-dashed border-slate-200 rounded-xl'>Click code lines from the left pool to arrange them in sequence here...</div>`;
+        }
+
+        function addBlockToParsonsWorkspace(id, value) {
+            const sourceBlock = document.getElementById(`parsons-source-${id}`);
+            if (sourceBlock.classList.contains('opacity-30')) return; 
+            
+            sourceBlock.classList.add('opacity-30');
+            currentParsonsAnswerStack.push({ id, value });
+            renderParsonsWorkspaceTrack();
+        }
+
+        function removeBlockFromParsonsWorkspace(stackIndex, originalSourceId) {
+            document.getElementById(`parsons-source-${originalSourceId}`).classList.remove('opacity-30');
+            currentParsonsAnswerStack.splice(stackIndex, 1);
+            renderParsonsWorkspaceTrack();
+        }
+
+        function renderParsonsWorkspaceTrack() {
+            const container = document.getElementById('parsons-target-workspace');
+            if(currentParsonsAnswerStack.length === 0) {
+                container.innerHTML = `<div class='text-xs text-slate-400 italic font-medium p-4 text-center border-2 border-dashed border-slate-200 rounded-xl'>Click code lines from the left pool to arrange them in sequence here...</div>`;
+                return;
+            }
+
+            let html = "";
+            currentParsonsAnswerStack.forEach((block, index) => {
+                html += `
+                    <div onclick="removeBlockFromParsonsWorkspace(${index}, '${block.id}')" class="p-2.5 bg-white border border-blue-200 shadow-sm rounded-lg font-mono text-xs cursor-pointer hover:border-rose-500 group transition flex justify-between items-center code-font">
+                        <span>${block.value}</span>
+                        <i class="fa-solid fa-circle-minus text-slate-300 group-hover:text-rose-500 transition text-[11px]"></i>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function clearParsonsWorkspace() {
+            loadParsonsTask(currentParsonsProblemKey);
+        }
+
+        function validateParsonsWorkspace() {
+            const targetSolution = parsonsProblemPool[currentParsonsProblemKey].correct;
+            if(currentParsonsAnswerStack.length !== targetSolution.length) {
+                alert("Validation error: Place all available line elements into the workspace before verification.");
+                return;
+            }
+
+            let syntaxPassed = true;
+            for(let i = 0; i < targetSolution.length; i++) {
+                if(currentParsonsAnswerStack[i].value !== targetSolution[i]) {
+                    syntaxPassed = false;
+                    break;
+                }
+            }
+
+            if(syntaxPassed) {
+                alert("Correct Structure! Algorithm layout passes verification perfectly. +150 XP!");
+                let curXp = parseInt(localStorage.getItem('ocr_user_xp')) + 150;
+                localStorage.setItem('ocr_user_xp', curXp.toString());
+                updateMetricsDisplay();
+            } else {
+                alert("Logic Error: Code sequences do not match the expected structural sequence. Reset layout and retry.");
+            }
+        }
+
+        window.onload = function() {
+            initLocalStorageProfile();
+            
+            let sidebarHtml = "";
+            Object.keys(pythonLessonsDatabase).forEach(key => {
+                sidebarHtml += `<button id="lbtn-${key}" onclick="selectSandboxLesson('${key}')" class="lesson-btn w-full text-left p-2.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold hover:bg-slate-50 transition">${pythonLessonsDatabase[key].title}</button>`;
+            });
+            document.getElementById('sandbox-lesson-menu').innerHTML = sidebarHtml;
+            selectSandboxLesson('input_output');
+        };
+    </script>
+</body>
+</html>
