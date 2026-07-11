@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OCR J277 GCSE Computer Science - Complete SaaS Suite</title>
+    <title>OCR J277 GCSE Computer Science - Student Revision Suite</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700;800;900&family=Fira+Code:wght=400;600&display=swap" rel="stylesheet">
@@ -20,12 +20,12 @@
                 <div class="bg-blue-600 text-white p-2 rounded-xl shadow-lg">
                     <i class="fa-solid fa-graduation-cap text-lg"></i>
                 </div>
-                <span class="font-black text-xl tracking-tight">OCR J277 <span class="text-blue-400 font-light">CLOUD_GRID</span></span>
+                <span class="font-black text-xl tracking-tight">OCR J277 <span class="text-blue-400 font-light">LEARNING_HUB</span></span>
             </div>
             
             <div class="flex items-center space-x-6 text-xs font-bold uppercase tracking-wider">
                 <button onclick="switchAppView('dashboard')" class="hover:text-blue-400 transition flex items-center gap-1.5"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
-                <button onclick="switchAppView('sandbox')" class="hover:text-emerald-400 transition flex items-center gap-1.5"><i class="fa-brands fa-python"></i> WASM Sandbox Track</button>
+                <button onclick="switchAppView('sandbox')" class="hover:text-emerald-400 transition flex items-center gap-1.5"><i class="fa-brands fa-python"></i> Python Track</button>
                 <div class="bg-slate-800 px-3 py-1.5 rounded-lg flex items-center gap-2 border border-slate-700">
                     <i class="fa-solid fa-fire text-amber-500 animate-pulse"></i> <span id="nav-streak-counter">0</span> DAY STREAK
                 </div>
@@ -42,10 +42,10 @@
             <div class="bg-white border border-slate-200 p-6 md:p-8 rounded-2xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden">
                 <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
                 <div class="space-y-2">
-                    <span class="bg-blue-50 text-blue-700 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md border border-blue-200">Local Storage Sync Engine Active</span>
-                    <h2 class="text-3xl font-black tracking-tight text-slate-900">Your Adaptive Revision Command Center</h2>
+                    <span class="bg-blue-50 text-blue-700 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md border border-blue-200">Local Save Engine Active</span>
+                    <h2 class="text-3xl font-black tracking-tight text-slate-900">Your Revision Hub</h2>
                     <p class="text-slate-500 text-sm max-w-2xl leading-relaxed">
-                        Our integrated <b>SuperMemo SM-2 Spaced Repetition Engine</b> tracks your confidence scores across 10-question assessment pools, organizing topics dynamically based on your weaknesses.
+                        Track your confidence across the OCR J277 syllabus. The smart review system checks your answers and highlights topics you need to practice.
                     </p>
                 </div>
                 <div class="bg-slate-900 text-white rounded-xl p-4 w-full md:w-auto shrink-0 space-y-2 text-center md:text-left">
@@ -65,7 +65,7 @@
                         <h3 class="text-xs font-black text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
                             <i class="fa-solid fa-triangle-exclamation text-rose-500"></i> Priority Review Matrix
                         </h3>
-                        <p class="text-xs text-slate-500 leading-relaxed">Topics flagged as difficult or scheduled for immediate review by the spacing engine algorithm appear here automatically.</p>
+                        <p class="text-xs text-slate-500 leading-relaxed">Topics with low scores will automatically appear here to tell you what to study next.</p>
                         <div id="weakness-heatmap-payload" class="space-y-2.5 pt-2">
                             </div>
                     </div>
@@ -85,8 +85,8 @@
         <div id="view-sandbox" class="space-y-6 view-panel hidden">
             <div class="border-b border-slate-200 pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h2 class="text-2xl font-black text-slate-900 tracking-tight">Component 2: Practical Python Programming Track</h2>
-                    <p class="text-slate-500 text-xs mt-1">Master programming fundamentals, interactive evaluation modules, and custom algorithmic challenges.</p>
+                    <h2 class="text-2xl font-black text-slate-900 tracking-tight">Component 2: Python Code Track</h2>
+                    <p class="text-slate-500 text-xs mt-1">Learn to write code, solve easy code tasks, and clear puzzle tracks.</p>
                 </div>
                 <div class="flex gap-2">
                     <button id="mode-selector-ide" onclick="toggleSandboxMode('ide')" class="px-4 py-1.5 bg-blue-600 text-white rounded-xl text-xs font-bold shadow-sm transition">Interactive IDE</button>
@@ -97,12 +97,12 @@
             <div id="sandbox-ide-layout" class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
                 <div class="lg:col-span-1 space-y-4">
                     <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm space-y-3">
-                        <span class="text-[10px] font-black tracking-wider text-slate-400 uppercase block">Curriculum Syllabus Units</span>
+                        <span class="text-[10px] font-black tracking-wider text-slate-400 uppercase block">Choose Your Lesson</span>
                         <div class="space-y-1.5" id="sandbox-lesson-menu"></div>
                     </div>
                     
                     <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm space-y-3">
-                        <span class="text-xs font-black text-blue-600 uppercase tracking-wider block"><i class="fa-solid fa-graduation-cap"></i> Theoretical Concept Breakdown</span>
+                        <span class="text-xs font-black text-blue-600 uppercase tracking-wider block"><i class="fa-solid fa-graduation-cap"></i> How it Works</span>
                         <div id="sandbox-concept-box" class="text-xs text-slate-600 leading-relaxed space-y-2"></div>
                     </div>
                 </div>
@@ -111,12 +111,12 @@
                     <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm grid grid-cols-1">
                         <div class="p-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
                             <div>
-                                <span id="sandbox-current-title" class="font-bold text-slate-900 text-sm block">Output Streams Workbench</span>
-                                <span id="sandbox-current-desc" class="text-[11px] text-slate-500 block">Test out print execution matrices.</span>
+                                <span id="sandbox-current-title" class="font-bold text-slate-900 text-sm block">Code Workspace</span>
+                                <span id="sandbox-current-desc" class="text-[11px] text-slate-500 block">Write and test your python code here.</span>
                             </div>
                             <div class="flex gap-2">
                                 <button onclick="verifyChallengeSolution()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
-                                    Verify Answer <i class="fa-solid fa-check text-[9px]"></i>
+                                    Check Answer <i class="fa-solid fa-check text-[9px]"></i>
                                 </button>
                                 <button onclick="runPythonSandboxScript()" id="sandbox-run-btn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
                                     Run Code <i class="fa-solid fa-play text-[9px]"></i>
@@ -127,13 +127,13 @@
                             <textarea id="sandbox-editor" class="w-full h-72 bg-slate-950 text-emerald-400 font-mono p-4 text-xs focus:outline-none resize-y leading-relaxed code-font" spellcheck="false"></textarea>
                         </div>
                         <div class="p-4 bg-slate-50 border-t border-slate-200">
-                            <span class="text-[10px] text-slate-400 font-bold block mb-2 tracking-wider uppercase">Console System Output Window</span>
-                            <pre id="sandbox-output" class="font-mono text-xs text-slate-800 whitespace-pre-wrap bg-white p-4 rounded-xl border border-slate-200 min-h-[100px] code-font shadow-inner">Console environment standby. Click Run Code...</pre>
+                            <span class="text-[10px] text-slate-400 font-bold block mb-2 tracking-wider uppercase">Console Screen Output Window</span>
+                            <pre id="sandbox-output" class="font-mono text-xs text-slate-800 whitespace-pre-wrap bg-white p-4 rounded-xl border border-slate-200 min-h-[100px] code-font shadow-inner">Waiting for you to run code...</pre>
                         </div>
                     </div>
 
                     <div class="bg-amber-50 border border-amber-200 rounded-xl p-5 space-y-2">
-                        <h4 class="text-xs font-black text-amber-800 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-bullseye"></i> Practice Challenge Objective</h4>
+                        <h4 class="text-xs font-black text-amber-800 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-bullseye"></i> Your Task</h4>
                         <p id="sandbox-challenge-text" class="text-xs font-semibold text-slate-700 leading-relaxed"></p>
                     </div>
                 </div>
@@ -141,29 +141,29 @@
 
             <div id="sandbox-parsons-layout" class="hidden bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-6">
                 <div class="space-y-1">
-                    <h3 class="text-base font-black text-slate-900">Parsons Structural Debugging Challenges</h3>
-                    <p class="text-xs text-slate-500">Unscramble the logic sequence blocks below. Select line items in the correct order to construct a functioning algorithm script.</p>
+                    <h3 class="text-base font-black text-slate-900">Parsons Code Puzzles</h3>
+                    <p class="text-xs text-slate-500">Put the scrambled blocks of code into the right order to make a working script.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <button onclick="loadParsonsTask('selection')" class="p-3 border text-left text-xs rounded-xl font-bold hover:bg-slate-50 transition" id="pbtn-selection">Challenge 1: Grade Checker</button>
-                    <button onclick="loadParsonsTask('loop')" class="p-3 border text-left text-xs rounded-xl font-bold hover:bg-slate-50 transition" id="pbtn-loop">Challenge 2: Total Sum Array Iteration</button>
-                    <button onclick="loadParsonsTask('file')" class="p-3 border text-left text-xs rounded-xl font-bold hover:bg-slate-50 transition" id="pbtn-file">Challenge 3: File Log Streaming</button>
+                    <button onclick="loadParsonsTask('selection')" class="p-3 border text-left text-xs rounded-xl font-bold hover:bg-slate-50 transition" id="pbtn-selection">Puzzle 1: Score Check</button>
+                    <button onclick="loadParsonsTask('loop')" class="p-3 border text-left text-xs rounded-xl font-bold hover:bg-slate-50 transition" id="pbtn-loop">Puzzle 2: Loop Sum</button>
+                    <button onclick="loadParsonsTask('file')" class="p-3 border text-left text-xs rounded-xl font-bold hover:bg-slate-50 transition" id="pbtn-file">Puzzle 3: File Writer</button>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
                     <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 space-y-3">
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Available Algorithm Line Blocks (Click to select)</span>
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Blocks of Code (Click one to select it)</span>
                         <div id="parsons-source-pool" class="space-y-2"></div>
                     </div>
                     <div class="border border-blue-200 rounded-xl p-4 bg-blue-50/30 space-y-3 flex flex-col justify-between">
                         <div>
-                            <span class="text-[10px] font-black text-blue-700 uppercase tracking-wider block mb-3">Your Constructed Solution Workspace</span>
+                            <span class="text-[10px] font-black text-blue-700 uppercase tracking-wider block mb-3">Your Answer Space</span>
                             <div id="parsons-target-workspace" class="space-y-2"></div>
                         </div>
                         <div class="pt-4 flex justify-between items-center border-t border-slate-200 mt-4">
-                            <button onclick="clearParsonsWorkspace()" class="text-xs font-bold text-slate-500 hover:text-slate-700">Clear Layout</button>
-                            <button onclick="validateParsonsWorkspace()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-1.5 px-4 rounded-lg transition">Evaluate Sequence</button>
+                            <button onclick="clearParsonsWorkspace()" class="text-xs font-bold text-slate-500 hover:text-slate-700">Clear and Restart</button>
+                            <button onclick="validateParsonsWorkspace()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-1.5 px-4 rounded-lg transition">Check Code Order</button>
                         </div>
                     </div>
                 </div>
@@ -185,33 +185,52 @@
     </div>
 
     <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-400 font-bold tracking-wide">
-        &copy; 2026 OCR J277 MASTER SCHEME INTERACTIVE LEARNING ENVIRONMENT. PRODUCTION READY.
+        &copy; 2026 OCR J277 MASTER SCHEME LEARNING ENVIRONMENT.
     </footer>
 
     <script>
-        // Track indices and parameters globally
         let currentActiveTopic = "";
         let currentActiveQuestionIndex = 0;
         let pyodideInstance = null;
         let currentParsonsProblemKey = "";
         let currentParsonsAnswerStack = [];
 
-        // COMPLETE OCR J277 THEORY SYLLABUS SPECIFICATION DATABASE (ALL 8 UNITS RESTORED)
+        // EXPANDED KNOWLEDGE ORGANISER DATABASE
         const revisionContentDatabase = {
             "1.1": {
                 title: "Unit 1.1: Systems Architecture",
                 desc: "CPU architecture, Von Neumann components, FDE execution cycle, registers, and clock speeds.",
                 ko: `
                     <div class="space-y-4 text-xs">
-                        <h4 class="font-bold text-slate-900 border-b pb-1">1. Fetch-Decode-Execute Cycle</h4>
-                        <p>The core process where instructions are fetched from RAM, translated by the Control Unit, and executed by the ALU.</p>
-                        <h4 class="font-bold text-slate-900 border-b pb-1 pt-2">2. Central Registers</h4>
-                        <ul class="list-disc pl-4 space-y-1">
-                            <li><b>PC (Program Counter):</b> Holds the address of the next instruction to be fetched.</li>
-                            <li><b>MAR (Memory Address Register):</b> Holds the address of the current memory location.</li>
-                            <li><b>MDR (Memory Data Register):</b> Holds the actual data block or instruction copied from RAM.</li>
-                            <li><b>ACC (Accumulator):</b> Holds intermediate logical calculation results.</li>
-                        </ul>
+                        <div class="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                            <h4 class="font-bold text-blue-900 mb-1">1. The CPU Core Purpose</h4>
+                            <p class="text-slate-700">The Central Processing Unit (CPU) is the brain of the computer. It processes data and carries out instructions using the Fetch-Decode-Execute cycle.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">2. Von Neumann Architecture & CPU Registers</h4>
+                            <ul class="list-disc pl-4 space-y-2 text-slate-600">
+                               <li><b>PC (Program Counter):</b> A tiny, ultra-fast memory slot inside the CPU. It holds the RAM address of the very next instruction waiting to be handled. It goes up by 1 each time a new instruction is pulled.</li>
+                               <li><b>MAR (Memory Address Register):</b> Holds the current RAM address location that the CPU is about to read data from or write data to.</li>
+                               <li><b>MDR (Memory Data Register):</b> Holds the actual raw data or instruction that was just pulled out of RAM, or is waiting to be saved back into RAM.</li>
+                               <li><b>ACC (Accumulator):</b> Keeps a temporary hold on math or logic answer results that have just been generated by the internal system.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">3. Primary CPU Components</h4>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-600">
+                                <li><b>ALU (Arithmetic Logic Unit):</b> Carries out math operations (+, -, *, /) and logic comparisons (AND, OR, NOT, or comparing if numbers match).</li>
+                                <li><b>CU (Control Unit):</b> Directs the flow of electrical signals across the system. It handles decoding instructions and controls the timing of other components.</li>
+                                <li><b>Cache:</b> Super-fast memory built right onto the CPU chip. It stores data used over and over again so the CPU doesn't waste time checking slower RAM slots.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">4. CPU Performance Factors</h4>
+                            <p class="text-slate-600">Performance is decided by: <b>Clock Speed</b> (how many cycles are run per second, measured in GHz), <b>Number of Cores</b> (how many separate processing units can do jobs at the same time), and <b>Cache Size</b>.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">5. Embedded Systems</h4>
+                            <p class="text-slate-600">A small, built-in computer designed to do one single specific task inside a larger machine. Examples include microwaves, washing machines, and car dashboards.</p>
+                        </div>
                     </div>
                 `,
                 questions: [
@@ -230,7 +249,32 @@
             "1.2": {
                 title: "Unit 1.2: Memory & Storage",
                 desc: "RAM vs ROM, Virtual Memory, Secondary storage technologies, and data sizing conversion math rules.",
-                ko: `<div class="text-xs space-y-2"><p><b>RAM</b> is volatile primary storage. <b>ROM</b> is non-volatile and holds boot data (BIOS).</p></div>`,
+                ko: `
+                    <div class="space-y-4 text-xs">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-slate-100 p-3 rounded-lg">
+                                <h5 class="font-bold mb-1">RAM (Random Access Memory)</h5>
+                                <p class="text-[11px] text-slate-600">Volatile memory that can be read from and written to. It holds the active Operating System files, open applications, and live data currently in use.</p>
+                            </div>
+                            <div class="bg-slate-100 p-3 rounded-lg">
+                                <h5 class="font-bold mb-1">ROM (Read Only Memory)</h5>
+                                <p class="text-[11px] text-slate-600">Non-volatile memory that cannot be overwritten easily. It contains the boot instructions or BIOS needed to boot up the computer safely.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">Virtual Memory</h4>
+                            <p class="text-slate-600">When RAM gets full up, a section of the secondary storage (like a Hard Drive) is used as temporary RAM. Inactive files are swapped out to make space, which can slow down system responses.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">Secondary Storage Types</h4>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-600">
+                                <li><b>Magnetic:</b> High storage space at low costs (e.g., HDDs). Has moving parts that can break.</li>
+                                <li><b>Optical:</b> Readable via lasers hitting a disc (e.g., DVDs, CDs). Cheap for small files but gets scratched easily.</li>
+                                <li><b>Solid State (Flash):</b> Extremely fast read/write times with no moving parts (e.g., SSDs, USB sticks). Quiet and durable but more expensive per gigabyte.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `,
                 questions: [
                     { q: "Explain the difference between volatile and non-volatile storage frameworks. [2 Marks]", ms: "• Volatile memory loses its data content context when power is switched off. (1 Mark)<br>• Non-volatile storage safely retains saved information without electrical flow. (1 Mark)", keywords: ["power", "volatile", "loses", "retains"] },
                     { q: "Describe how virtual memory works when physical RAM fills up completely. [3 Marks]", ms: "• A section of secondary storage is partitioned to act as temporary RAM extensions. (1 Mark)<br>• Inactive data pages are moved out of active RAM into storage until recalled. (1 Mark)", keywords: ["secondary storage", "ram full", "partition", "swap"] },
@@ -247,7 +291,23 @@
             "1.3": {
                 title: "Unit 1.3: Networks, Connections & Protocols",
                 desc: "LAN vs WAN topologies, routers, switches, network layers, and specific functional protocols.",
-                ko: `<div class="text-xs"><p>Networks use hardware like switches to move packets across localized boundaries (LAN) or global paths (WAN).</p></div>`,
+                ko: `
+                    <div class="space-y-4 text-xs">
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">Network Scopes</h4>
+                            <p class="text-slate-600"><b>LAN (Local Area Network):</b> Covers a small geographical area like a home or school. Uses own cables and hardware.<br><b>WAN (Wide Area Network):</b> Connects LANs over large distances like countries. Relies on rented infrastructure (telecom lines).</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">Core Protocols</h4>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-600">
+                                <li><b>HTTP / HTTPS:</b> Manages web browser communication. HTTPS is fully encrypted.</li>
+                                <li><b>FTP:</b> Used to move files across client-server structures.</li>
+                                <li><b>POP3 / IMAP / SMTP:</b> Email handling. IMAP keeps emails synced on servers, while POP3 downloads them and deletes them from servers.</li>
+                                <li><b>TCP/IP:</b> Splits data into packets, routes them safely, and stitches them back together at the destination.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `,
                 questions: [
                     { q: "Explain the main difference between a LAN and a WAN network framework. [2 Marks]", ms: "• LAN paths operate across limited localized geographic footprints using owned hardware. (1 Mark)<br>• WAN networks cross broad external territories relying on rented telecoms pipelines. (1 Mark)", keywords: ["geographical", "local", "wide area", "leased lines"] },
                     { q: "State the operational purpose of a Switch inside a Local Area Network. [2 Marks]", ms: "• Connects devices together and dynamically routes data packets strictly to the designated MAC address target. (1 Mark)", keywords: ["mac address", "packets", "route locally", "connect devices"] },
@@ -264,7 +324,23 @@
             "1.4": {
                 title: "Unit 1.4: Network Security",
                 desc: "Cyber threats, malware vectors, social engineering, injection exploits, and defensive security frameworks.",
-                ko: `<div class="text-xs"><p>Defense metrics rely on firewalls, anti-malware code, encryption mechanisms, and human training routines.</p></div>`,
+                ko: `
+                    <div class="space-y-4 text-xs">
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">Common Exploits and Threat Vectors</h4>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-600">
+                                <li><b>Phishing:</b> Sending fake emails or links to trick users into handing over passwords or money.</li>
+                                <li><b>SQL Injection:</b> Inserting malicious database code commands into online web forms to steal table files.</li>
+                                <li><b>Brute Force:</b> Automated programs guessing passwords repeatedly until access is cleared.</li>
+                                <li><b>Malware:</b> Harmful programs like viruses, worms, or trojans designed to crash systems or steal info.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">Defensive Security Countermeasures</h4>
+                            <p class="text-slate-600">Systems use <b>Firewalls</b> to block suspicious traffic, <b>Anti-Malware</b> to sweep drives for dangerous files, <b>User Access Levels</b> to limit file permissions, and <b>Penetration Testing</b> to find security flaws before hackers do.</p>
+                        </div>
+                    </div>
+                `,
                 questions: [
                     { q: "Describe how a SQL Injection exploit attack works on an open database form field. [3 Marks]", ms: "• Malicious database query input lines are entered directly into an unsanitized web application textbox. (1 Mark)<br>• The server executes this appended rogue payload, bypassing secure authentication gates to leak tables. (1 Mark)", keywords: ["sql input", "unsanitized", "database query", "bypass"] },
                     { q: "Explain what a Phishing attack loop looks like to an endangered target user. [2 Marks]", ms: "• Deceptive communication templates mimicking established institutions fool users into supplying secure credentials. (1 Mark)", keywords: ["fake email", "spoof link", "credentials", "fool user"] },
@@ -281,7 +357,23 @@
             "1.5": {
                 title: "Unit 1.5: System Software",
                 desc: "Operating system components, memory assignment managers, user interfaces, and file system utilities.",
-                ko: `<div class="text-xs"><p>The OS manages peripheral pipelines, memory spaces, user routing interfaces, and critical multitasking processes.</p></div>`,
+                ko: `
+                    <div class="space-y-4 text-xs">
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">Operating System (OS) Duties</h4>
+                            <p class="text-slate-600">The OS acts as the middleman between software and hardware. Its duties include:</p>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-600">
+                                <li><b>Memory Management:</b> Assigns specific RAM allocations to open apps so tasks can run at the same time without crashing.</li>
+                                <li><b>Peripheral Management:</b> Uses small drivers to let external items like printers communicate with the system.</li>
+                                <li><b>User Interfaces:</b> Provides GUIs (visual icons and windows) or CLIs (text terminals).</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">Utility Software Tools</h4>
+                            <p class="text-slate-600"><b>Defragmentation:</b> Reorganizes scrambled file pieces on HDDs into continuous rows to speed up drive read times. (Do not run on SSDs as they do not have moving parts and it wastes rewrite life cycle limits).</p>
+                        </div>
+                    </div>
+                `,
                 questions: [
                     { q: "Explain how an operating system controls concurrent multitasking loops inside memory. [3 Marks]", ms: "• Dynamically assigns separate memory slots to active software processes, switching CPU execution focus quickly between threads. (1 Mark)", keywords: ["allocate memory", "time slice", "switch processes", "multitasking"] },
                     { q: "State the structural purpose achieved by running a defragmentation software package on an HDD. [3 Marks]", ms: "• Moves separated file blocks into contiguous storage rows. (1 Mark)<br>• Minimizes physical drive head travel distances, speeding up file access times. (1 Mark)", keywords: ["contiguous", "hdd", "drive head", "speed access"] },
@@ -298,7 +390,22 @@
             "1.6": {
                 title: "Unit 1.6: Ethical, Legal, Cultural & Environmental Impacts",
                 desc: "Socio-technological implications, digital divides, electronic waste handling laws, and key British privacy frameworks.",
-                ko: `<div class="text-xs"><p>Engineering demands alignment with the Data Protection Act (2018) and strict recycling pathways for hazardous e-waste materials.</p></div>`,
+                ko: `
+                    <div class="space-y-4 text-xs">
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">Key Acts of Parliament</h4>
+                            <ul class="list-disc pl-4 space-y-2 text-slate-600">
+                                <li><b>Data Protection Act 2018:</b> Demands data handles use personal files fairly, safely, and transparently. Companies must keep customer info accurate and encrypted.</li>
+                                <li><b>Computer Misuse Act 1990:</b> Makes it illegal to gain unauthorized access to networks or plant malware to deliberately break algorithms.</li>
+                                <li><b>Copyright, Designs and Patents Act 1988:</b> Protects creators from intellectual property theft, piracy, and file sharing without purchasing commercial licenses.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">Environmental & Social Trends</h4>
+                            <p class="text-slate-600">E-waste dumps drop heavy metals into soils. Data centers use massive amounts of energy. The digital divide separates groups based on internet access limitations.</p>
+                        </div>
+                    </div>
+                `,
                 questions: [
                     { q: "Explain how open source licensing differs from proprietary software models. [3 Marks]", ms: "• Open source exposes source code strings for modification and distribution. (1 Mark)<br>• Proprietary formats hide source branches, charging license fees and restricting user edits. (1 Mark)", keywords: ["source code open", "compiled hidden", "license fees", "copyright restrictions"] },
                     { q: "State the primary legal protection objective of the Computer Misuse Act (1990). [2 Marks]", ms: "• Criminalizes unauthorized access to computer files, hacking hacking attacks, and spreading malware payload files. (1 Mark)", keywords: ["hacking", "unauthorized access", "malware distribution", "criminal offense"] },
@@ -315,7 +422,22 @@
             "2.1": {
                 title: "Unit 2.1: Algorithms",
                 desc: "Computational thinking concepts, searching routines (linear vs binary), and array sorting algorithms.",
-                ko: `<div class="text-xs"><p>Algorithms demand structural analysis through tracing tables. Binary searches require pre-sorted array structures.</p></div>`,
+                ko: `
+                    <div class="space-y-4 text-xs">
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">Computational Thinking</h4>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-600">
+                                <li><b>Decomposition:</b> Breaking a big problem down into smaller, easier pieces.</li>
+                                <li><b>Abstraction:</b> Hiding the details that do not matter so you can focus on the core rules.</li>
+                                <li><b>Algorithmic Thinking:</b> Creating a step-by-step plan to solve a puzzle.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">Search Logic Patterns</h4>
+                            <p class="text-slate-600"><b>Linear Search:</b> Looks at every single item in order until it finds a match. Works on any list.<br><b>Binary Search:</b> Jumps to the middle item. Splits a sorted list in half each check step. <i>Must be sorted beforehand.</i></p>
+                        </div>
+                    </div>
+                `,
                 questions: [
                     { q: "Explain the main difference between a linear search and a binary search algorithm. [3 Marks]", ms: "• Linear search steps through an array element-by-element sequentially. (1 Mark)<br>• Binary search cuts sorted list spaces in half each check step, requiring pre-sorted lists. (1 Mark)", keywords: ["sequential element", "divide half", "pre sorted list", "midpoint compare"] },
                     { q: "Describe what abstraction provides to software architects. [2 Marks]", ms: "• Filters out unnecessary details to focus exclusively on core problem requirements. (1 Mark)", keywords: ["remove detail", "simplify problem", "core mechanics"] },
@@ -332,7 +454,22 @@
             "2.2": {
                 title: "Unit 2.2: Programming Fundamentals",
                 desc: "Data typing structures, string manipulation commands, file streaming routines, and control flow logic.",
-                ko: `<div class="text-xs"><p>The three basic programming constructs are Sequence, Selection (IF statements), and Iteration (FOR/WHILE loops).</p></div>`,
+                ko: `
+                    <div class="space-y-4 text-xs">
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">Core Code Layouts</h4>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-600">
+                                <li><b>Sequence:</b> Code running line-by-line in order from top to bottom.</li>
+                                <li><b>Selection:</b> Using <code class="bg-slate-100 px-1 py-0.5 rounded">if / else</code> paths to decide which branch of code to follow.</li>
+                                <li><b>Iteration:</b> Loops like <code class="bg-slate-100 px-1 py-0.5 rounded">for</code> and <code class="bg-slate-100 px-1 py-0.5 rounded">while</code> to repeat blocks of instructions.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 border-b pb-1 mb-2">Data Types</h4>
+                            <p class="text-slate-600"><b>Integer:</b> Whole numbers (-5, 12). <b>Real/Float:</b> Decimal numbers (3.14). <b>String:</b> Text lines ("Hello"). <b>Boolean:</b> True or False states.</p>
+                        </div>
+                    </div>
+                `,
                 questions: [
                     { q: "State the operational difference between the quotient integer division operator (//) and the modulus operator (%). [2 Marks]", ms: "• Integer division cuts away fractions to output whole integers. (1 Mark)<br>• Modulus outputs the remainder value left over from that calculation. (1 Mark)", keywords: ["whole number division", "remainder calculation", "mod output", "floor result"] },
                     { q: "Explain what differentiates a global variable tracking scope from a localized variable scope. [3 Marks]", ms: "• Global variables are accessible anywhere inside a file. Local variables only exist inside the subprogram where they were declared. (1 Mark)", keywords: ["anywhere access", "inside function scope", "variable lifetime", "local stack"] },
@@ -348,47 +485,47 @@
             }
         };
 
-        // PRACTICAL PYTHON TRACK SPECIFICATION CURRICULUM POOL
+        // ACCESSIBLE LOW READING AGE PYTHON LESSONS POOL
         const pythonLessonsDatabase = {
             input_output: {
-                title: "1. Console Input & Output",
-                concept: "Programming tracks use <code>print()</code> to push data blocks to terminal windows. The <code>input()</code> function pauses scripts, returning captured user text strictly as a String data type.",
-                challenge: "Modify the script so that it prints exactly <code>Hello User</code> on line 1, then computes and prints the product calculation of <code>12 * 12</code> on line 2.",
-                code: `# Step 1: Output text strings safely\nprint("Hello Word")\n# Step 2: Perform evaluations\nprint(10 * 10)`,
+                title: "1. Printing and Text Input",
+                concept: "Use <code>print()</code> to show words on the screen. Use <code>input()</code> to pause the code and ask the user to type something. What they type is saved as words (a String).",
+                challenge: "Change the code so it does two things: on line 1, print exactly <code>Hello User</code>. On line 2, make it calculate and print <code>12 * 12</code>.",
+                code: `# Step 1: Change what this prints\nprint("Hello Word")\n# Step 2: Print a calculation\nprint(10 * 10)`,
                 verify: (output) => output.includes("Hello User") && output.includes("144")
             },
             variables_casting: {
-                title: "2. Variable Tracking & Casting",
-                concept: "Variables store data values in named memory spaces. Because user <code>input()</code> captures text strings by default, explicit type conversion methods like <code>int()</code> or <code>float()</code> are required to run mathematical functions safely.",
-                challenge: "Create a variable named <code>base_value</code> holding 20. Double its value and print exactly that quantitative summary value out to the console interface.",
+                title: "2. Saving Variables",
+                concept: "Variables act like named boxes that hold info. When you ask a user for a number using <code>input()</code>, Python thinks it is text. You must use <code>int()</code> to turn text into a real whole number so you can do math with it.",
+                challenge: "Make a variable named <code>base_value</code> and set it to 20. Then multiply it by 2 and print the answer. (The screen should just show 40).",
                 code: `base_value = 10\nfinal_result = base_value * 5\nprint(final_result)`,
                 verify: (output) => output.includes("40")
             },
             selection_logic: {
-                title: "3. Selection Constructs (IF/ELSE)",
-                concept: "Selection controls allow algorithms to branch down alternative code paths based on conditional evaluations. Python implements structural branching via <code>if</code>, <code>elif</code>, and <code>else</code> blocks.",
-                challenge: "Set the variable score to 45. Build an if statement printing <code>Fail</code> if the score lands strictly below 50, otherwise output <code>Pass</code>.",
+                title: "3. If Statements",
+                concept: "If statements let your code make choices. You can check if a rule is true or false using <code>if</code>, <code>elif</code>, and <code>else</code>.",
+                challenge: "Set a variable named score to 45. Write an if statement that prints <code>Fail</code> if the score is under 50, and prints <code>Pass</code> if it is 50 or higher.",
                 code: `score = 85\nif score >= 50:\n    print("Pass")\nelse:\n    print("Fail")`,
                 verify: (output) => output.includes("Fail")
             },
             iteration_loops: {
-                title: "4. Iteration Loops (FOR/WHILE)",
-                concept: "Iteration reduces redundant code by looping code structures. Use definite count trackers (<code>for i in range(x)</code>) or condition checks (<code>while state == True</code>).",
-                challenge: "Construct a looping block that outputs the numerical square index values for numbers 1 through 3 sequentially (i.e. console prints 1, then 4, then 9 on separate tracking lines).",
+                title: "4. Loops (Repeating Code)",
+                concept: "Loops let you repeat code lines without writing them again. A <code>for</code> loop counts up to a number. A <code>while</code> loop runs until a rule turns false.",
+                challenge: "Write a loop that prints the squared value for numbers 1, 2, and 3. The screen should print 1, then 4, then 9 on separate lines.",
                 code: `for i in range(1, 4):\n    print(i)`,
                 verify: (output) => output.includes("1") && output.includes("4") && output.includes("9")
             },
             lists_arrays: {
-                title: "5. Python Lists (Arrays)",
-                concept: "Arrays allocate indexed sequential item slots under one tracking variable wrapper pointer name. Index configurations reference target elements starting strictly at sequence coordinate position 0.",
-                challenge: "Update the tracking color array row elements list to extract and print the final item value position entry exactly: <code>Emerald</code>.",
+                title: "5. Lists (Groups of Data)",
+                concept: "A list holds many items in order under one single name. Python starts counting list item positions from 0, not 1. So item 1 is at index 0.",
+                challenge: "Fix the list code below so it prints the word <code>Emerald</code> out to the screen.",
                 code: `color_list = ["Amber", "Sapphire", "Emerald"]\nprint(color_list[0])`,
                 verify: (output) => output.includes("Emerald") && !output.includes("Amber")
             },
             file_handling: {
-                title: "6. Persistent File Stream I/O",
-                concept: "External non-volatile files are edited via file streams. Call <code>open('file.txt', 'w')</code> to build file streams, stream content strings using <code>.write()</code> methods, and close pointers using <code>.close()</code> to finalize write blocks safely.",
-                challenge: "Write code to open a file structure index pointer named <code>logs.txt</code> with write authorization, commit the string line text data content exactly: <code>OCR_SUCCESS</code>, and close the channel.",
+                title: "6. Text Files",
+                concept: "Your code can open, edit, and close saved files. Use <code>open('name.txt', 'w')</code> to write into a file. Remember to call <code>.close()</code> when you are done to save your work safely.",
+                challenge: "Write code to open a file named <code>logs.txt</code> with write rules ('w'). Write the words <code>OCR_SUCCESS</code> into it, and then close it.",
                 code: `file_stream = open("logs.txt", "w")\nfile_stream.write("SAMPLE_CONTENT")\nfile_stream.close()`,
                 verify: (output, editorContent) => editorContent.includes("logs.txt") && editorContent.includes("OCR_SUCCESS") && editorContent.includes("close")
             }
@@ -480,7 +617,7 @@
                             <p class="text-[11px] text-slate-500 leading-relaxed mb-4">${topic.desc}</p>
                         </div>
                         <div class="grid grid-cols-2 gap-2 text-xs font-bold">
-                            <button onclick="triggerModal('ko', '${id}')" class="bg-slate-200/70 hover:bg-slate-200 text-slate-700 py-2 rounded-lg transition text-center text-[11px]">Organiser</button>
+                            <button onclick="triggerModal('ko', '${id}')" class="bg-slate-200/70 hover:bg-slate-200 text-slate-700 py-2 rounded-lg transition text-center text-[11px]">Knowledge Organiser</button>
                             <button onclick="triggerModal('ex', '${id}')" class="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition text-center text-[11px]">Questions (${totalQuestionsCount})</button>
                         </div>
                     </div>
@@ -514,12 +651,12 @@
             const feedbackContainer = document.getElementById('ai-feedback-output');
             
             if(!studentInputText) {
-                alert("Please write an answer before calling the AI evaluation engine.");
+                alert("Please write an answer before processing.");
                 return;
             }
 
             feedbackContainer.classList.remove('hidden');
-            feedbackContainer.innerHTML = `<div class="text-xs text-slate-500 animate-pulse font-bold"><i class="fa-solid fa-gears animate-spin"></i> Processing local linguistic semantic evaluation pass...</div>`;
+            feedbackContainer.innerHTML = `<div class="text-xs text-slate-500 animate-pulse font-bold"><i class="fa-solid fa-gears animate-spin"></i> Checking your answer keywords...</div>`;
 
             setTimeout(() => {
                 let matchedTokens = [];
@@ -543,23 +680,23 @@
                 feedbackContainer.innerHTML = `
                     <div class="space-y-2">
                         <div class="flex justify-between items-center border-b border-slate-200 pb-1">
-                            <span class="text-[11px] font-black uppercase text-blue-800">Local AI Review Results</span>
+                            <span class="text-[11px] font-black uppercase text-blue-800">Review Results</span>
                             <span class="text-xs font-black px-2.5 py-0.5 bg-blue-600 text-white rounded">Score: ${calculatedMarkAllocation} / ${maximumPossibleMark} Marks</span>
                         </div>
                         <p class="text-xs text-slate-700 leading-relaxed">
-                            <b>Evaluation Metrics:</b> Your response matched the following syllabus parameters: <code class="bg-slate-100 px-1 py-0.5 rounded text-rose-600 font-bold">${matchedTokens.join(', ') || 'none detected'}</code>. 
+                            <b>Keywords Matched:</b> <code class="bg-slate-100 px-1 py-0.5 rounded text-rose-600 font-bold">${matchedTokens.join(', ') || 'none'}</code>. 
                         </p>
                         <div class="p-2.5 bg-slate-900 text-slate-300 rounded-lg text-[11px] font-mono leading-relaxed">
-                            <span class="text-blue-400 font-bold block mb-1">&gt; Examiner Recommendation Loop:</span>
-                            To maximize your performance, ensure your answer includes precise technical terms. Compare your wording to the official grading structure below:
+                            <span class="text-blue-400 font-bold block mb-1">&gt; Official Mark Scheme:</span>
+                            Compare your wording to the official grading sheet targets:
                             <div class="mt-2 text-emerald-400 border-t border-slate-800 pt-1.5">${targetQuestion.ms}</div>
                         </div>
                         <div class="pt-2 flex justify-end">
-                            <button onclick="processSrsCalculation(${gradingQualityScore})" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-[11px] py-1.5 px-4 rounded-lg shadow-sm transition">Commit Progress To Database</button>
+                            <button onclick="processSrsCalculation(${gradingQualityScore})" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-[11px] py-1.5 px-4 rounded-lg shadow-sm transition">Commit Progress</button>
                         </div>
                     </div>
                 `;
-            }, 750);
+            }, 500);
         }
 
         function processSrsCalculation(qualityScore) {
@@ -587,7 +724,6 @@
             };
 
             localStorage.setItem(`ocr_srs_${currentActiveTopic}`, JSON.stringify(srsData));
-            
             let activeXp = parseInt(localStorage.getItem('ocr_user_xp')) + 50;
             localStorage.setItem('ocr_user_xp', activeXp.toString());
             
@@ -603,7 +739,7 @@
             if (mode === 'ko') {
                 document.getElementById('modal-main-payload').innerHTML = topic.ko;
                 document.getElementById('modal-footer-controls').innerHTML = `
-                    <span class="text-xs text-slate-400 font-semibold tracking-wide">OCR Reference Sheets</span>
+                    <span class="text-xs text-slate-400 font-semibold tracking-wide">OCR J277 Core Specifications</span>
                     <button onclick="hideModal()" class="bg-slate-900 text-white text-xs font-bold py-2 px-4 rounded-xl transition hover:bg-slate-800">Dismiss</button>
                 `;
             } else {
@@ -622,7 +758,7 @@
                     <div class="text-center py-6 space-y-3">
                         <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-circle-check"></i></div>
                         <h4 class="font-black text-slate-900 text-base">Module Assessment Segment Complete!</h4>
-                        <p class="text-xs text-slate-500 max-w-sm mx-auto">The spaced repetition engine has committed your scores to your browser's memory profile.</p>
+                        <p class="text-xs text-slate-500 max-w-sm mx-auto">Progress has been saved to your dashboard.</p>
                     </div>
                 `;
                 document.getElementById('modal-footer-controls').innerHTML = `<button onclick="hideModal()" class="w-full bg-slate-900 text-white text-xs font-bold py-2 rounded-xl">Return to Dashboard</button>`;
@@ -635,7 +771,7 @@
             document.getElementById('modal-main-payload').innerHTML = `
                 <div class="space-y-4">
                     <div class="flex justify-between items-center bg-blue-50 border border-blue-100 rounded-xl px-4 py-2 text-xs">
-                        <span class="font-black text-blue-700 uppercase tracking-wider"><i class="fa-solid fa-brain"></i> Adaptive Engine Layer</span>
+                        <span class="font-black text-blue-700 uppercase tracking-wider"><i class="fa-solid fa-brain"></i> Active Simulator Module</span>
                         <span class="font-bold text-slate-500">Question ${currentActiveQuestionIndex + 1} of ${total}</span>
                     </div>
 
@@ -645,9 +781,9 @@
 
                     <div class="space-y-2">
                         <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider block">Type Your Examination Answer:</span>
-                        <textarea id="student-ai-answer" class="w-full p-3 border border-slate-200 rounded-xl h-24 focus:ring-2 focus:ring-blue-500 outline-none text-xs" placeholder="Use formal technical terminology to maximize your score..."></textarea>
+                        <textarea id="student-ai-answer" class="w-full p-3 border border-slate-200 rounded-xl h-24 focus:ring-2 focus:ring-blue-500 outline-none text-xs" placeholder="Write your full exam answer here..."></textarea>
                         <button onclick="triggerClientAiGrading()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs py-2.5 rounded-xl transition shadow-md flex items-center justify-center gap-1.5">
-                            Submit to Local AI Examiner <i class="fa-solid fa-robot"></i>
+                            Submit and Check Answer <i class="fa-solid fa-robot"></i>
                         </button>
                     </div>
 
@@ -685,22 +821,22 @@
 
         // WebAssembly Python Compilation Layer
         async function initializePyodideRuntime() {
-            document.getElementById('sandbox-output').innerText = "Loading WebAssembly Python compilation environment layer via CDN dependency modules...";
+            document.getElementById('sandbox-output').innerText = "Loading Python engine. Please wait...";
             try {
                 const script = document.createElement('script');
                 script.src = "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js";
                 script.onload = async () => {
                     pyodideInstance = await loadPyodide();
-                    document.getElementById('sandbox-output').innerText = "Python compilation engine active. Complete workspace operations ready.";
+                    document.getElementById('sandbox-output').innerText = "Python workspace is ready. Type code and click Run Code!";
                 };
                 document.head.appendChild(script);
             } catch (err) {
-                document.getElementById('sandbox-output').innerText = "WASM initialization interrupted.";
+                document.getElementById('sandbox-output').innerText = "Failed to load Python setup.";
             }
         }
 
         function runPythonSandboxScript(callback = null) {
-            if (!pyodideInstance) return alert("WASM components initializing, please wait for setup load buffers...");
+            if (!pyodideInstance) return alert("The setup engine is loading. Please wait a second...");
             const code = document.getElementById('sandbox-editor').value;
             
             try {
@@ -711,10 +847,10 @@
                 `);
                 pyodideInstance.runPython(code);
                 const output = pyodideInstance.runPython("sys.stdout.getvalue()");
-                document.getElementById('sandbox-output').innerText = output || "Process complete. Returned zero standard output streams.";
+                document.getElementById('sandbox-output').innerText = output || "Code ran with no errors, but printed nothing.";
                 if(callback) callback(output, code);
             } catch (err) {
-                document.getElementById('sandbox-output').innerText = `Syntax/Runtime Error:\n${err.message}`;
+                document.getElementById('sandbox-output').innerText = `Error in code:\n${err.message}`;
                 if(callback) callback("", code);
             }
         }
@@ -737,12 +873,12 @@
             runPythonSandboxScript((output, code) => {
                 const isCorrect = lesson.verify(output, code);
                 if (isCorrect) {
-                    alert("Excellent job! Code execution meets the required output parameters. +100 XP.");
+                    alert("Great job! Your code worked perfectly. +100 XP.");
                     let curXp = parseInt(localStorage.getItem('ocr_user_xp')) + 100;
                     localStorage.setItem('ocr_user_xp', curXp.toString());
                     updateMetricsDisplay();
                 } else {
-                    alert("Evaluation parameters incomplete. Review your logical structures or print output requirements.");
+                    alert("Your output does not match the goal yet. Read the task box and try again!");
                 }
             });
         }
@@ -765,7 +901,7 @@
                 `;
             });
             document.getElementById('parsons-source-pool').innerHTML = sourceHtml;
-            document.getElementById('parsons-target-workspace').innerHTML = `<div class='text-xs text-slate-400 italic font-medium p-4 text-center border-2 border-dashed border-slate-200 rounded-xl'>Click code lines from the left pool to arrange them in sequence here...</div>`;
+            document.getElementById('parsons-target-workspace').innerHTML = `<div class='text-xs text-slate-400 italic font-medium p-4 text-center border-2 border-dashed border-slate-200 rounded-xl'>Click code pieces on the left to arrange them here...</div>`;
         }
 
         function addBlockToParsonsWorkspace(id, value) {
@@ -786,7 +922,7 @@
         function renderParsonsWorkspaceTrack() {
             const container = document.getElementById('parsons-target-workspace');
             if(currentParsonsAnswerStack.length === 0) {
-                container.innerHTML = `<div class='text-xs text-slate-400 italic font-medium p-4 text-center border-2 border-dashed border-slate-200 rounded-xl'>Click code lines from the left pool to arrange them in sequence here...</div>`;
+                container.innerHTML = `<div class='text-xs text-slate-400 italic font-medium p-4 text-center border-2 border-dashed border-slate-200 rounded-xl'>Click code pieces on the left to arrange them here...</div>`;
                 return;
             }
 
@@ -809,7 +945,7 @@
         function validateParsonsWorkspace() {
             const targetSolution = parsonsProblemPool[currentParsonsProblemKey].correct;
             if(currentParsonsAnswerStack.length !== targetSolution.length) {
-                alert("Validation error: Place all available line elements into the workspace before verification.");
+                alert("Move all available blocks over into the workspace before verification checks.");
                 return;
             }
 
@@ -822,12 +958,12 @@
             }
 
             if(syntaxPassed) {
-                alert("Correct Structure! Algorithm layout passes verification perfectly. +150 XP!");
+                alert("Correct order! Your code blocks are lined up perfectly. +150 XP!");
                 let curXp = parseInt(localStorage.getItem('ocr_user_xp')) + 150;
                 localStorage.setItem('ocr_user_xp', curXp.toString());
                 updateMetricsDisplay();
             } else {
-                alert("Logic Error: Code sequences do not match the expected structural sequence. Reset layout and retry.");
+                alert("Something is in the wrong order. Clear or remove blocks and try again!");
             }
         }
 
