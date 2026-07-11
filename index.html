@@ -38,6 +38,7 @@
 
     <main class="max-w-7xl mx-auto px-6 py-10 flex-grow w-full">
         
+        <!-- DASHBOARD VIEW (UNITS TERMINAL) -->
         <div id="view-dashboard" class="space-y-10 view-panel">
             <div class="bg-white border border-slate-200 p-6 md:p-8 rounded-2xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden">
                 <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
@@ -65,6 +66,7 @@
             </div>
         </div>
 
+        <!-- PYTHON LAB TRACK VIEW -->
         <div id="view-sandbox" class="space-y-6 view-panel hidden">
             <div class="border-b border-slate-200 pb-4 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4">
                 <div>
@@ -78,6 +80,7 @@
                 </div>
             </div>
 
+            <!-- WORKSPACE EDITOR INTERFACE -->
             <div id="sandbox-ide-layout" class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
                 <div class="lg:col-span-1 space-y-4">
                     <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm space-y-3">
@@ -136,6 +139,7 @@
                 </div>
             </div>
 
+            <!-- PARSONS PUZZLE INTERFACE -->
             <div id="sandbox-parsons-layout" class="hidden bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-6">
                 <div class="space-y-1">
                     <h3 class="text-base font-black text-slate-900"><i class="fa-solid fa-puzzle-piece text-purple-600 mr-2"></i>Code Block Sorting Arena</h3>
@@ -169,6 +173,7 @@
                 </div>
             </div>
 
+            <!-- LONG-FORM EXAM ALGORITHM QUESTIONS INTERFACE -->
             <div id="sandbox-longform-layout" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
                 <div class="lg:col-span-1 bg-white border border-slate-200 p-4 rounded-xl shadow-sm space-y-3">
                     <span class="text-[10px] font-black tracking-wider text-slate-400 uppercase block"><i class="fa-solid fa-folder-open mr-1"></i> Select 6-Mark Exam Question</span>
@@ -217,6 +222,7 @@
 
     </main>
 
+    <!-- CONTENT DIALOG MODAL -->
     <div id="app-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-4xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="bg-slate-50 border-b border-slate-200 px-6 py-4 flex justify-between items-center">
@@ -308,7 +314,15 @@
                 `,
                 quiz: [
                     { q: "What memory space holds the initial machine boot initialization guidelines?", a: "ROM", options: ["RAM", "ROM", "HDD File", "Virtual Memory"] },
-                    { q: "What label describes storage that completely blanks its values when system power cuts?", a: "Volatile", options: ["Volatile", "Non-volatile", "Static", "Secondary"] }
+                    { q: "What label describes storage that completely blanks its values when system power cuts?", a: "Volatile", options: ["Volatile", "Non-volatile", "Static", "Secondary"] },
+                    { q: "Where does the OS swap data blocks when internal primary hardware RAM scales completely full?", a: "Virtual Memory", options: ["Virtual Memory", "Level 1 Cache", "BIOS Node", "Flash Slot"] },
+                    { q: "Why do computers require secondary storage systems?", a: "To store files non-volatiley when off", options: ["To speed up ALU math", "To store files non-volatiley when off", "To intercept virus threats", "To run calculations"] },
+                    { q: "Which secondary medium uses high powered laser beams to read physical pits and lands?", a: "Optical Media", options: ["Magnetic Platter", "Optical Media", "Solid State Drive", "Dynamic RAM"] },
+                    { q: "Which medium has no mechanical moving components and relies on flash electronic switches?", a: "Solid State Media", options: ["Solid State Media", "Magnetic Hard Disk", "Optical Disc", "Tape Track"] },
+                    { q: "What metric tracks how quickly data bits pass from secondary drives over into active RAM?", a: "Transfer Rate Speed", options: ["Transfer Rate Speed", "Storage Capacity", "Physical Weight", "Drive Longevity"] },
+                    { q: "Why is an SSD preferred over a mechanical HDD inside modern smartphones?", map: "Durable with low power drainage", options: ["Durable with low power drainage", "Lower cost per gigabyte", "Larger physically", "Spins faster"] },
+                    { q: "What storage technology uses magnetic tracks on spinning discs?", a: "Magnetic Storage", options: ["Magnetic Storage", "Solid State Technology", "Optical Device", "Cloud Server"] },
+                    { q: "What process shrinks large files into smaller digital byte packages?", a: "Compression", options: ["Compression", "Defragmentation", "Virtualization", "Compilation"] }
                 ],
                 examPrompt: "Contrast RAM and ROM properties. Explain why secondary storage devices are required, and list metrics considered when selecting storage devices."
             },
@@ -317,7 +331,18 @@
                 desc: "LAN vs WAN architectures, network topologies, DNS routing, and TCP/IP data layers.",
                 keywords: ["lan", "wan", "client-server", "peer-to-peer", "star", "mesh", "router", "switch", "dns", "protocol", "tcp", "ip", "layer"],
                 ko: `<div class="text-xs">LAN (Local Area Network) covers localized zones. WAN covers far distances. Protocols govern strict communication.</div>`,
-                quiz: [{ q: "What type of network fits inside a single school building or localized zone?", a: "LAN", options: ["LAN", "WAN"] }],
+                quiz: [
+                    { q: "What type of network fits inside a single school building or localized zone?", a: "LAN", options: ["LAN", "WAN", "Internet", "VPN"] },
+                    { q: "What type of network architecture connects devices across global regions or continents?", a: "WAN", options: ["LAN", "WAN", "PAN", "SAN"] },
+                    { q: "Which architecture relies on a centralized system to handle data and files for client machines?", a: "Client-Server", options: ["Client-Server", "Peer-to-Peer", "Standalone Matrix", "Mesh Network"] },
+                    { q: "In which network setup does every individual computer act equal without a central server?", a: "Peer-to-Peer", options: ["Client-Server", "Peer-to-Peer", "Star Topology", "Mainframe Setup"] },
+                    { q: "Which topology connects every single peripheral node straight back to a central switch unit?", a: "Star Topology", options: ["Mesh Topology", "Star Topology", "Ring Layout", "Bus Channel"] },
+                    { q: "What system converts human web URL strings back into numerical IP addresses?", a: "DNS Server", options: ["DNS Server", "DHCP Router", "FTP Gateway", "MAC Decoder"] },
+                    { q: "What term describes a set of rules that control how devices send and receive data across a network?", a: "Protocol", options: ["Protocol", "Packet", "Layer", "Topology"] },
+                    { q: "Which system protocol guarantees reliable delivery of chopped data packets via connection checks?", a: "TCP", options: ["IP", "TCP", "UDP", "HTTP"] },
+                    { q: "What unique hardware address is burned straight into a network card during manufacturing?", a: "MAC Address", options: ["IP Address", "MAC Address", "Subnet Mask", "Port Token"] },
+                    { q: "Why are network layers used?", a: "To divide operations into manageable sections", options: ["To speed up WiFi signals", "To divide operations into manageable sections", "To encrypt user files", "To erase historical records"] }
+                ],
                 examPrompt: "Explain the structural operational differences between a LAN and a WAN."
             },
             "1.4": {
@@ -325,7 +350,18 @@
                 desc: "Malware types, physical hacking threats, social engineering tricks, and network defenses.",
                 keywords: ["malware", "phishing", "brute-force", "dos", "sql-injection", "firewall", "penetration", "antivirus", "encryption", "sanitisation"],
                 ko: `<div class="text-xs">Malware impacts local logic paths. SQL injection inserts remote backend commands.</div>`,
-                quiz: [{ q: "What attack uses fraudulent emails to steal credentials?", a: "Phishing", options: ["Phishing", "Spyware"] }],
+                quiz: [
+                    { q: "What attack uses fraudulent emails to steal credentials?", a: "Phishing", options: ["Phishing", "Spyware", "Ransomware", "SQL Injection"] },
+                    { q: "What malicious software runs in the background to spy on user keystrokes?", a: "Spyware", options: ["Spyware", "Rootkit", "Worm Module", "Adware Logic"] },
+                    { q: "What attack tries every possible combination of letters and numbers to crack a password?", a: "Brute-Force Attack", options: ["Brute-Force Attack", "Phishing Scheme", "SQL Injection", "Data Sniffing"] },
+                    { q: "What network security barrier screens incoming and outgoing traffic using rules?", a: "Firewall", options: ["Firewall", "Antivirus Suite", "SQL Sanitisation", "Switch Box"] },
+                    { q: "What security check involves testing systems to find open weaknesses before real hackers do?", a: "Penetration Testing", options: ["Penetration Testing", "Code Decompiling", "Defragmenting Scan", "Data Scrubbing"] },
+                    { q: "What hacking technique sends hidden database commands through standard input forms?", a: "SQL Injection", options: ["SQL Injection", "Phishing Email", "Denial of Service", "Brute-Force"] },
+                    { q: "What attack floods a network server with traffic to crash it?", a: "Denial of Service (DoS)", options: ["Denial of Service (DoS)", "Man-in-the-Middle", "Spyware", "Phishing"] },
+                    { q: "What practice involves training humans to spot fake emails and security traps?", a: "User Education", options: ["User Education", "Antivirus Updating", "Firewall Rules", "Network Encryption"] },
+                    { q: "What process scrambles data into a secret code so only authorized keys can unlock it?", a: "Encryption", options: ["Encryption", "Compression", "Defragmentation", "Parsing"] },
+                    { q: "What strategy strips dangerous characters out of text boxes to block database exploits?", a: "Input Sanitisation", options: ["Input Sanitisation", "Data Redundancy", "Password Hashing", "Packet Sniffing"] }
+                ],
                 examPrompt: "Describe how an SQL Injection attack works, and evaluate how firewalls block traffic."
             },
             "1.5": {
@@ -333,7 +369,18 @@
                 desc: "The jobs of the Operating System (OS) and file management helper utilities.",
                 keywords: ["operating system", "multitasking", "driver", "user interface", "peripheral", "utility", "encryption", "defragmentation", "compression"],
                 ko: `<div class="text-xs">OS systems schedule computer processing threads. Defragmentation tracks files.</div>`,
-                quiz: [{ q: "What part of the OS swaps execution threads quickly to let multiple apps run at once?", a: "Multitasking Scheduler", options: ["Multitasking Scheduler", "Driver Tool"] }],
+                quiz: [
+                    { q: "What part of the OS swaps execution threads quickly to let multiple apps run at once?", a: "Multitasking Scheduler", options: ["Multitasking Scheduler", "Driver Tool", "Defragmenter Unit", "File Explorer"] },
+                    { q: "What translator software lets the main OS send commands to external printers or keyboards?", a: "Device Driver", options: ["Device Driver", "Compiler Module", "Linker Extension", "API Router"] },
+                    { q: "Which utility moves scattered file parts into neat order to speed up standard mechanical hard drives?", a: "Defragmentation Utility", options: ["Defragmentation Utility", "Compression Tool", "Backup Engine", "Antivirus Monitor"] },
+                    { q: "What system software component allows users to interact with hardware using icons, menus, and mouse pointers?", a: "Graphical User Interface (GUI)", options: ["Graphical User Interface (GUI)", "Command Line Interface", "Device Driver", "Kernel Subsystem"] },
+                    { q: "What software manages memory allocation for running programs?", a: "Operating System", options: ["Operating System", "BIOS Interface", "Compiling Tool", "Text Editor"] },
+                    { q: "What utility utility makes regular safety copies of system files to preserve records?", a: "Backup Utility", options: ["Backup Utility", "Formatting Tool", "Defragmentation", "Registry Cleaner"] },
+                    { q: "What layer sits directly between human users and the raw hardware components?", a: "Operating System", options: ["Operating System", "Application Layer", "System Bus", "BIOS Mode"] },
+                    { q: "What interface style requires typing explicit text syntax commands?", a: "Command Line Interface", options: ["Command Line Interface", "Graphical Interface", "Menu System", "WIMP Setup"] },
+                    { q: "What system task tracks read and write permissions for user documents?", a: "File Management", options: ["File Management", "Multitasking", "Device Drivers", "Memory Allocation"] },
+                    { q: "Why does defragmentation not help flash SSD drives?", a: "SSDs have no mechanical heads", options: ["SSDs have no mechanical heads", "SSDs automatically compress files", "SSDs have lower capacities", "SSDs erase files instantly"] }
+                ],
                 examPrompt: "Discuss the key tasks of an operating system, focusing on memory management."
             },
             "1.6": {
@@ -341,7 +388,18 @@
                 desc: "Tech laws, privacy issues, open-source rules, and handling e-waste.",
                 keywords: ["ethical", "legal", "cultural", "environmental", "privacy", "data protection act", "computer misuse act", "copyright", "open source", "proprietary"],
                 ko: `<div class="text-xs">Data Protection Act regulates handling client records. Computer Misuse Act bans hacking.</div>`,
-                quiz: [{ q: "Which Act regulates how businesses handle your private contact profiles?", a: "Data Protection Act", options: ["Data Protection Act", "Computer Misuse Act"] }],
+                quiz: [
+                    { q: "Which Act regulates how businesses handle your private contact profiles?", a: "Data Protection Act", options: ["Data Protection Act", "Computer Misuse Act", "Copyright Designs Act", "Freedom of Info Act"] },
+                    { q: "Which piece of legislation makes it illegal to access a computer network without permission?", a: "Computer Misuse Act", options: ["Computer Misuse Act", "Data Protection Act", "Copyright Designs Act", "Health and Safety Law"] },
+                    { q: "What software license lets anyone modify and redistribute the original source code freely?", a: "Open Source License", options: ["Open Source License", "Proprietary License", "Commercial Gateway", "Closed Binary Ticket"] },
+                    { q: "What concern addresses the environmental impact of toxic heavy metals leaking from discarded computers?", a: "E-Waste Pollution", options: ["E-Waste Pollution", "Digital Divide", "Privacy Invasion", "Data Harvesters"] },
+                    { q: "What phrase describes the gap between people with fast internet access and those without?", a: "Digital Divide", options: ["Digital Divide", "Bandwidth Gate", "Culture Shift", "Proxy Wall"] },
+                    { q: "Which law protects music, books, and software from illegal copying?", a: "Copyright, Designs and Patents Act", options: ["Copyright, Designs and Patents Act", "Computer Misuse Act", "Data Protection Act", "Freedom of Information Act"] },
+                    { q: "What model distributes software as pre-compiled binaries with locked source code?", a: "Proprietary Software", options: ["Proprietary Software", "Open Source Software", "Public Domain", "Freeware Framework"] },
+                    { q: "What concern focuses on smart devices constantly tracking locations and recording user voice profiles?", a: "Privacy Concern", options: ["Privacy Concern", "Environmental Concern", "E-Waste Breakdown", "Legal Liability"] },
+                    { q: "What law allows the public to request official datasets held by state schools or government offices?", a: "Freedom of Information Act", options: ["Freedom of Information Act", "Data Protection Act", "Computer Misuse Act", "Copyright Designs Act"] },
+                    { q: "What process protects old computer data from being read before disposal?", a: "Secure Drive Wiping", options: ["Secure Drive Wiping", "File Defragmentation", "High Compression", "OS Multitasking"] }
+                ],
                 examPrompt: "Evaluate the ethical, environmental, and legal impacts of a school moving all data storage to external cloud servers."
             },
             "2.1": {
@@ -349,7 +407,18 @@
                 desc: "Decomposition, abstraction, linear/binary searches, and basic sorting mechanics.",
                 keywords: ["abstraction", "decomposition", "linear", "binary", "bubble", "merge", "insertion"],
                 ko: `<div class="text-xs">Abstraction strips minor components. Decomposition cuts processes down.</div>`,
-                quiz: [{ q: "Which search algorithm checks elements one by one from index zero?", a: "Linear Search", options: ["Linear Search", "Binary Search"] }],
+                quiz: [
+                    { q: "Which search algorithm checks elements one by one from index zero?", a: "Linear Search", options: ["Linear Search", "Binary Search", "Bubble Search", "Matrix Lookup"] },
+                    { q: "What search algorithm requires a completely sorted list to find a target through halving?", a: "Binary Search", options: ["Linear Search", "Binary Search", "Insertion Check", "Merge Router"] },
+                    { q: "What problem solving technique strips away non-essential details to focus on core logic?", a: "Abstraction", options: ["Abstraction", "Decomposition", "Algorithmic Sorting", "Data Validation"] },
+                    { q: "What technique breaks a large, complex problem down into smaller, easier-to-solve tasks?", a: "Decomposition", options: ["Decomposition", "Abstraction", "Iteration Loop", "Array Packing"] },
+                    { q: "Which sorting method steps through a list, swapping adjacent out-of-order items?", a: "Bubble Sort", options: ["Bubble Sort", "Merge Sort", "Insertion Sort", "Linear Sort"] },
+                    { q: "Which sorting algorithm splits lists down into individual items before merging them back in order?", a: "Merge Sort", options: ["Merge Sort", "Bubble Sort", "Insertion Sort", "Linear Split"] },
+                    { q: "Which sort inserts unsorted items into their correct position in a growing sorted section?", a: "Insertion Sort", options: ["Insertion Sort", "Bubble Sort", "Merge Sort", "Binary Split"] },
+                    { q: "What shapes represent decision paths inside standard system flowcharts?", a: "Diamonds", options: ["Rectangles", "Diamonds", "Ovals", "Parallelograms"] },
+                    { q: "What flowchart shape represents input data capture or screen outputs?", a: "Parallelogram", options: ["Parallelogram", "Rectangle", "Diamond", "Circle"] },
+                    { q: "What shape represents a process or standard calculation block?", a: "Rectangle", options: ["Rectangle", "Diamond", "Parallelogram", "Oval"] }
+                ],
                 examPrompt: "Compare a linear search and a binary search."
             },
             "2.3": {
@@ -357,7 +426,18 @@
                 desc: "Defensive designs, validation types, verification check bounds, syntax errors, and test datasets.",
                 keywords: ["validation", "authentication", "maintainability", "comment", "indentation", "testing", "syntax", "logic"],
                 ko: `<div class="text-xs">Validation acts as an automatic safety screen. Authentication confirms IDs.</div>`,
-                quiz: [{ q: "What programming practice checks user entry formats before processing data?", a: "Data Validation", options: ["Data Validation", "Compilation"] }],
+                quiz: [
+                    { q: "What programming practice checks user entry formats before processing data?", a: "Data Validation", options: ["Data Validation", "Compilation", "Defragmentation", "Interpretation"] },
+                    { q: "What security verification step confirms a user's identity before granting access?", a: "Authentication", options: ["Authentication", "Validation Check", "Range Filtering", "Data Sanitisation"] },
+                    { q: "What development practice helps other developers read and maintain your code?", a: "Adding Clear Comments", options: ["Adding Clear Comments", "Using Short Variables", "Removing Indentation", "Compiling Binaries"] },
+                    { q: "What type of error breaks the language rules and stops compilation?", a: "Syntax Error", options: ["Syntax Error", "Logic Error", "Runtime Overflow", "Validation Mishap"] },
+                    { q: "What type of error allows code to run but produces the wrong output?", a: "Logic Error", options: ["Logic Error", "Syntax Error", "Compilation Fault", "Typo Warning"] },
+                    { q: "What test data sits within the normal range of expected entries?", a: "Normal Test Data", options: ["Normal Test Data", "Boundary Test Data", "Erroneous Test Data", "Null Test Data"] },
+                    { q: "What test data sits exactly at the edges of acceptable input ranges?", a: "Boundary Test Data", options: ["Boundary Test Data", "Normal Test Data", "Erroneous Data", "Invalid Token"] },
+                    { q: "What test data checks that your system handles invalid inputs gracefully?", a: "Erroneous Test Data", options: ["Erroneous Test Data", "Normal Test Data", "Boundary Data", "Valid Pass"] },
+                    { q: "What type of check makes sure an entered code contains a set number of characters?", a: "Length Check", options: ["Length Check", "Range Check", "Presence Check", "Type Check"] },
+                    { q: "What validation rule makes sure a mandatory text form is not left blank?", a: "Presence Check", options: ["Presence Check", "Range Check", "Format Check", "Look-up Table"] }
+                ],
                 examPrompt: "Detail validation rules and structural methods used to guarantee robust applications."
             },
             "2.4": {
@@ -365,7 +445,18 @@
                 desc: "Truth tables, circuit layouts, and logic shorthand notation rules for AND, OR, and NOT gates.",
                 keywords: ["boolean", "logic", "gate", "and", "or", "not", "truth table", "circuit"],
                 ko: `<div class="text-xs">AND gate outputs 1 only if all lines are high. NOT gates invert signal bits.</div>`,
-                quiz: [{ q: "Which gate gives out a high state logic 1 output flag only if both entry lanes match state 1?", a: "AND", options: ["AND", "OR"] }],
+                quiz: [
+                    { q: "Which gate gives out a high state logic 1 output flag only if both entry lanes match state 1?", a: "AND", options: ["AND", "OR", "NOT", "XOR"] },
+                    { q: "Which gate outputs a logic 1 state if either input line or both match state 1?", a: "OR", options: ["AND", "OR", "NOT", "NAND"] },
+                    { q: "Which gate inverts the input signal?", a: "NOT", options: ["NOT", "AND", "OR", "Buffer"] },
+                    { q: "How many input rows are needed in a truth table for a circuit with 2 distinct input variables?", a: "4 Rows", options: ["2 Rows", "4 Rows", "8 Rows", "16 Rows"] },
+                    { q: "How many inputs are on a single standard NOT gate component?", a: "1 Input", options: ["1 Input", "2 Inputs", "3 Inputs", "Flexible"] },
+                    { q: "What is the output state of an AND gate if input A is 1 and input B is 0?", a: "0", options: ["0", "1", "Error", "Undefined"] },
+                    { q: "What is the output state of an OR gate if input A is 1 and input B is 0?", a: "1", options: ["0", "1", "Error", "Null"] },
+                    { q: "What notation symbol represents an inline AND function in standard computer science blueprints?", a: "∧", options: ["∧", "∨", "¬", "+"] },
+                    { q: "What notation tracks a NOT operation inside text equations?", a: "¬", options: ["¬", "∧", "∨", "*"] },
+                    { q: "What logic grid maps out every possible system state combination for a circuit?", a: "Truth Table", options: ["Truth Table", "Logic Diagram", "Flow Chart", "FSM Matrix"] }
+                ],
                 examPrompt: "Draft an absolute Truth Table layout mapping composite Boolean expression results."
             },
             "2.5": {
@@ -380,7 +471,15 @@
                 `,
                 quiz: [
                     { q: "Which translator translates your whole program file at once into an executable?", a: "Compiler", options: ["Compiler", "Interpreter", "Linker", "Defragmenter"] },
-                    { q: "What IDE tool highlights code errors or syntax warnings as you write?", a: "Syntax Error Highlighter", options: ["Syntax Error Highlighter", "Runtime Profiler", "Data Sanitiser", "Decompiler Box"] }
+                    { q: "What IDE tool highlights code errors or syntax warnings as you write?", a: "Syntax Error Highlighter", options: ["Syntax Error Highlighter", "Runtime Profiler", "Data Sanitiser", "Decompiler Box"] },
+                    { q: "What low-level code matches hardware commands and runs natively without translation?", a: "Machine Code", options: ["Machine Code", "Python Source", "HTML Markup", "Pseudocode Script"] },
+                    { q: "What code level requires assembly steps to interface directly with registers?", a: "Assembly Language", options: ["Assembly Language", "High-Level Language", "Structured Script", "SQL Matrix"] },
+                    { q: "What tool executes your code statement by statement, making it great for debugging?", a: "Interpreter", options: ["Interpreter", "Compiler", "Assembler", "Linker"] },
+                    { q: "What component of an IDE allows stepping through code lines to track variable changes?", a: "Debugger Tools", options: ["Debugger Tools", "Text Editor", "Auto-Indenter", "Compiler Panel"] },
+                    { q: "What describes software suites like IDLE or VS Code that bundle editors, translators, and debuggers together?", a: "Integrated Development Environment (IDE)", options: ["Integrated Development Environment (IDE)", "Operating System", "Network Protocol", "Database Engine"] },
+                    { q: "Why do humans write code in high-level languages?", a: "Easier to read, write, and debug", options: ["Runs natively on circuits", "Easier to read, write, and debug", "Uses less computer memory", "Requires no translation"] },
+                    { q: "What code format is generated after source code passes through a compiler?", a: "Executable Machine Code", options: ["Executable Machine Code", "High Level Text", "Flowchart Layout", "Pseudocode Guide"] },
+                    { q: "What utility inside code editors automatically indents your loops and blocks?", a: "Auto-Indentation Module", options: ["Auto-Indentation Module", "Error Lookup Tool", "Compiler Extension", "Variable Profiler"] }
                 ],
                 examPrompt: "Compare compilers and interpreters. Detail the compilation steps and describe why an IDE helps coders."
             }
@@ -762,8 +861,9 @@
             box.classList.toggle('hidden');
         }
 
-        // KNOWLEDGE ORGANISER MODEL MODALS SYSTEM
+        // KNOWLEDGE ORGANISER TERMINAL MODALS + RESTORED AI EXAM CHECKER SYSTEM
         window.launchKoModal = function(topicKey) {
+            activeKoTopicKey = topicKey;
             const data = revisionContentDatabase[topicKey];
             document.getElementById('modal-header-text').innerText = `Knowledge Organiser Summary Terminal • ${data.title}`;
             
@@ -779,6 +879,23 @@
                         <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider block"><i class="fa-solid fa-tags"></i> Core System Keyword Triggers</span>
                         <div class="flex flex-wrap gap-1.5">${keywordBadges}</div>
                     </div>
+                    
+                    <!-- RESTORED AI EXAM KEYWORD CHECKER INTERFACE -->
+                    <div class="border-t pt-4 bg-slate-900 text-white rounded-xl p-5 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-xs font-black uppercase tracking-wider text-blue-400 flex items-center gap-1.5"><i class="fa-solid fa-robot"></i> Smart AI Exam Keyword Checker</h4>
+                            <span class="text-[9px] bg-blue-900 border border-blue-700 px-2 py-0.5 rounded font-bold">OCR Grading Engine v2.4</span>
+                        </div>
+                        <p class="text-slate-300 text-xs font-semibold leading-normal bg-slate-850 p-2.5 rounded-lg border border-slate-800">
+                            <b>Practice Task Challenge:</b> ${data.examPrompt}
+                        </p>
+                        <textarea id="ai-checker-student-input" class="w-full bg-slate-950 border border-slate-800 text-slate-100 rounded-lg p-3 text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none min-h-[90px]" placeholder="Type your written practice response here. Mention as many matching key terminology words from above as possible..."></textarea>
+                        <div class="flex justify-between items-center">
+                            <div id="ai-checker-status-badge" class="text-[11px] font-bold text-slate-400">0 of ${data.keywords.length} exam keywords tracked in response text.</div>
+                            <button onclick="processAiExamKeywords()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1.5 px-4 rounded-lg text-xs transition shadow-md">Analyse Answer Structure</button>
+                        </div>
+                        <div id="ai-checker-feedback-box" class="hidden p-3 rounded-lg text-xs leading-relaxed font-medium"></div>
+                    </div>
                 </div>
             `;
             
@@ -786,6 +903,45 @@
                 <button onclick="hideModal()" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 transition ml-auto">Dismiss Terminal View</button>
             `;
             document.getElementById('app-modal').classList.remove('hidden');
+        }
+
+        // KEYWORD CHECKER ENGINE PROCESSING LOGIC
+        window.processAiExamKeywords = function() {
+            const studentText = document.getElementById('ai-checker-student-input').value.toLowerCase();
+            const targetKeywords = revisionContentDatabase[activeKoTopicKey].keywords;
+            let foundWords = [];
+
+            targetKeywords.forEach(word => {
+                if(studentText.includes(word.toLowerCase())) {
+                    foundWords.push(word);
+                }
+            });
+
+            const badge = document.getElementById('ai-checker-status-badge');
+            badge.innerText = `${foundWords.length} of ${targetKeywords.length} exam keywords tracked in response text.`;
+
+            const box = document.getElementById('ai-checker-feedback-box');
+            box.classList.remove('hidden');
+
+            if(foundWords.length >= 4) {
+                box.className = "p-3 rounded-lg text-xs leading-relaxed font-bold bg-emerald-950 text-emerald-300 border border-emerald-800";
+                box.innerHTML = `<i class="fa-solid fa-circle-check mr-1 text-emerald-400"></i> Excellent answer profile. You hit essential keywords: <u>${foundWords.join(', ')}</u>. This covers key marks schemes requirements beautifully. +25 XP added!`;
+                updateSystemProgressMetrics(25);
+            } else {
+                box.className = "p-3 rounded-lg text-xs leading-relaxed font-semibold bg-amber-950 text-amber-300 border border-amber-800";
+                box.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-1 text-amber-400"></i> Code terminology looks thin. You checked ${foundWords.length} terms. Try to explicitly bring up related terms such as: <b>${targetKeywords.slice(0, 4).join(', ')}</b> to unlock marks.`;
+            }
+        }
+
+        function updateSystemProgressMetrics(xpGainValue) {
+            const xpBox = document.getElementById('nav-xp-counter');
+            let currentXp = parseInt(xpBox.innerText) || 0;
+            let newXp = currentXp + xpGainValue;
+            xpBox.innerText = newXp;
+
+            let percentage = Math.min(Math.floor(newXp / 3), 100);
+            document.getElementById('dashboard-progress-bar').style.width = percentage + "%";
+            document.getElementById('dashboard-progress-text').innerText = percentage + "%";
         }
 
         // INTERACTIVE REVISION QUIZZES MODULE
@@ -861,6 +1017,7 @@
             document.getElementById('modal-footer-controls').innerHTML = `
                 <button onclick="hideModal()" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-blue-700 transition mx-auto shadow-sm">Return to Course Overview</button>
             `;
+            updateSystemProgressMetrics(currentQuizCorrectAnswersCount * 10);
         }
 
         window.hideModal = function() {
