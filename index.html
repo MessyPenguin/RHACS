@@ -3,9 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OCR GCSE Computer Science - Revision Hub</title>
+    <title>RHA CS Revision Hub</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: {
+                            50: '#fbeef0',
+                            100: '#f6d8dc',
+                            200: '#eab0b8',
+                            300: '#d97e8b',
+                            400: '#c04f60',
+                            500: '#9c2f40',
+                            600: '#7f1d2e',
+                            700: '#661724',
+                            800: '#4d111b',
+                            900: '#330b12',
+                            950: '#210709'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Inter & Mono Fonts -->
@@ -14,22 +38,28 @@
         body { font-family: 'Inter', sans-serif; }
         .code-font { font-family: 'Fira Code', monospace; }
     </style>
+    <script>
+        // Apply saved theme before the page paints, to avoid a flash of the wrong theme
+        if (localStorage.getItem('ocr_theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
 </head>
-<body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased min-h-screen flex flex-col transition-colors duration-200">
 
     <!-- HEADER NAVBAR -->
     <nav class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-40 shadow-md px-4 sm:px-6 py-3 sm:py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center gap-4">
             <div class="flex items-center space-x-3 cursor-pointer shrink-0" onclick="switchAppView('dashboard')">
-                <div class="bg-blue-600 text-white p-2 rounded-xl shadow-lg">
+                <div class="bg-burgundy-600 text-white p-2 rounded-xl shadow-lg">
                     <i class="fa-solid fa-graduation-cap text-lg"></i>
                 </div>
-                <span class="font-black text-lg sm:text-xl tracking-tight">OCR CS <span class="text-blue-400 font-light">Revision Hub</span></span>
+                <span class="font-black text-lg sm:text-xl tracking-tight">RHA CS <span class="text-burgundy-300 font-light">Revision Hub</span></span>
             </div>
 
             <!-- DESKTOP NAV LINKS -->
             <div class="hidden lg:flex items-center space-x-5 text-xs font-bold uppercase tracking-wider">
-                <button onclick="switchAppView('dashboard')" class="hover:text-blue-400 transition flex items-center gap-1.5"><i class="fa-solid fa-house"></i> Dashboard</button>
+                <button onclick="switchAppView('dashboard')" class="hover:text-burgundy-400 transition flex items-center gap-1.5"><i class="fa-solid fa-house"></i> Dashboard</button>
                 <button onclick="startMockExam()" class="hover:text-rose-400 transition flex items-center gap-1.5"><i class="fa-solid fa-stopwatch"></i> Mock Exam</button>
                 <button onclick="switchAppView('sandbox')" class="hover:text-emerald-400 transition flex items-center gap-1.5"><i class="fa-brands fa-python"></i> Python Practice</button>
                 <button onclick="switchAppView('paper2')" class="hover:text-purple-400 transition flex items-center gap-1.5"><i class="fa-solid fa-file-code"></i> 6-Mark Questions</button>
@@ -37,6 +67,9 @@
             </div>
 
             <div class="flex items-center gap-2 sm:gap-3">
+                <button onclick="toggleDarkMode()" class="bg-slate-800 border border-slate-700 w-9 h-9 rounded-lg flex items-center justify-center shrink-0 hover:bg-slate-700 transition" aria-label="Toggle dark mode" title="Toggle light / dark mode">
+                    <i class="fa-solid fa-moon" id="dark-mode-icon"></i>
+                </button>
                 <!-- MOBILE HAMBURGER TOGGLE -->
                 <button onclick="toggleMobileNav()" class="lg:hidden bg-slate-800 border border-slate-700 w-9 h-9 rounded-lg flex items-center justify-center shrink-0" aria-label="Menu">
                     <i class="fa-solid fa-bars" id="mobile-nav-icon"></i>
@@ -46,7 +79,7 @@
 
         <!-- MOBILE NAV DROPDOWN -->
         <div id="mobile-nav-menu" class="hidden lg:hidden max-w-7xl mx-auto mt-3 pt-3 border-t border-slate-800 flex flex-col gap-1 text-xs font-bold uppercase tracking-wider">
-            <button onclick="switchAppView('dashboard'); toggleMobileNav()" class="text-left px-3 py-2.5 rounded-lg hover:bg-slate-800 transition flex items-center gap-2"><i class="fa-solid fa-house text-blue-400"></i> Dashboard</button>
+            <button onclick="switchAppView('dashboard'); toggleMobileNav()" class="text-left px-3 py-2.5 rounded-lg hover:bg-slate-800 transition flex items-center gap-2"><i class="fa-solid fa-house text-burgundy-400"></i> Dashboard</button>
             <button onclick="startMockExam(); toggleMobileNav()" class="text-left px-3 py-2.5 rounded-lg hover:bg-slate-800 transition flex items-center gap-2"><i class="fa-solid fa-stopwatch text-rose-400"></i> Mock Exam</button>
             <button onclick="switchAppView('sandbox'); toggleMobileNav()" class="text-left px-3 py-2.5 rounded-lg hover:bg-slate-800 transition flex items-center gap-2"><i class="fa-brands fa-python text-emerald-400"></i> Python Practice</button>
             <button onclick="switchAppView('paper2'); toggleMobileNav()" class="text-left px-3 py-2.5 rounded-lg hover:bg-slate-800 transition flex items-center gap-2"><i class="fa-solid fa-file-code text-purple-400"></i> 6-Mark Questions</button>
@@ -60,12 +93,12 @@
         <!-- ================= VIEW 1: DASHBOARD ================= -->
         <div id="view-dashboard" class="space-y-8 sm:space-y-10 view-panel">
             <!-- HEADER CARD -->
-            <div class="bg-white border border-slate-200 p-6 md:p-8 rounded-2xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 md:p-8 rounded-2xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden">
                 <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
                 <div class="space-y-2">
-                    <span class="bg-blue-50 text-blue-700 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md border border-blue-200"><i class="fa-solid fa-chart-line mr-1"></i> Your progress is saved automatically</span>
-                    <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900"><i class="fa-solid fa-folder-open text-blue-600 mr-2"></i>Your Revision Dashboard</h2>
-                    <p class="text-slate-500 text-sm max-w-2xl leading-relaxed">
+                    <span class="bg-burgundy-50 dark:bg-burgundy-950/30 text-burgundy-700 dark:text-burgundy-300 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md border border-burgundy-200 dark:border-burgundy-800"><i class="fa-solid fa-chart-line mr-1"></i> Your progress is saved automatically</span>
+                    <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100"><i class="fa-solid fa-folder-open text-burgundy-600 dark:text-burgundy-400 mr-2"></i>Your Revision Dashboard</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm max-w-2xl leading-relaxed">
                         Every topic in the OCR GCSE Computer Science course is below. Open the study notes to learn a topic, then take the 10-question quiz to test yourself. After each answer, you'll see what a great answer looks like.
                     </p>
                 </div>
@@ -73,16 +106,16 @@
                     <button onclick="startMockExam()" class="bg-rose-600 hover:bg-rose-700 text-white font-black px-5 py-3 rounded-xl text-xs uppercase tracking-wider shadow-md transition flex items-center gap-2">
                         <i class="fa-solid fa-stopwatch"></i> Start a Timed Mock Exam
                     </button>
-                    <button onclick="practiseWeakestTopic()" class="bg-blue-600 hover:bg-blue-700 text-white font-black px-5 py-3 rounded-xl text-xs uppercase tracking-wider shadow-md transition flex items-center gap-2">
+                    <button onclick="practiseWeakestTopic()" class="bg-burgundy-600 hover:bg-burgundy-700 text-white font-black px-5 py-3 rounded-xl text-xs uppercase tracking-wider shadow-md transition flex items-center gap-2">
                         <i class="fa-solid fa-bolt"></i> Practise My Weakest Topic
                     </button>
                     <div class="bg-slate-900 text-white rounded-xl p-4 min-w-[160px] text-center md:text-left space-y-1">
                         <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider"><i class="fa-solid fa-gauge-high mr-1"></i> Topics Learned</span>
                         <div class="flex items-center gap-3">
                             <div class="w-24 bg-slate-700 h-2 rounded-full overflow-hidden">
-                                <div id="dashboard-progress-bar" class="bg-blue-500 h-full transition-all duration-500" style="width: 0%"></div>
+                                <div id="dashboard-progress-bar" class="bg-burgundy-500 h-full transition-all duration-500" style="width: 0%"></div>
                             </div>
-                            <span id="dashboard-progress-text" class="font-black text-xs text-blue-400">0%</span>
+                            <span id="dashboard-progress-text" class="font-black text-xs text-burgundy-400">0%</span>
                         </div>
                     </div>
                 </div>
@@ -91,26 +124,26 @@
             <!-- GRID -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
                 <!-- TOPICS TO PRACTISE -->
-                <div class="lg:col-span-1 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm flex flex-col justify-between">
+                <div class="lg:col-span-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm flex flex-col justify-between">
                     <div class="space-y-4 w-full">
                         <h3 class="text-xs font-black text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
                             <i class="fa-solid fa-triangle-exclamation text-rose-500"></i> Topics To Practise
                         </h3>
-                        <p class="text-xs text-slate-500 leading-relaxed">These are the topics you should spend more time on:</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">These are the topics you should spend more time on:</p>
                         <div id="weakness-heatmap-payload" class="space-y-2 pt-2"></div>
                     </div>
-                    <button onclick="resetAllSrsMetrics()" class="mt-6 w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1">
+                    <button onclick="resetAllSrsMetrics()" class="mt-6 w-full py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-600 dark:text-slate-400 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1">
                         <i class="fa-solid fa-rotate-left"></i> Start My Progress Over
                     </button>
                 </div>
 
                 <!-- MAIN UNIT GRID -->
-                <div class="lg:col-span-2 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4">
+                <div class="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm space-y-4">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <h3 class="text-xs font-black text-slate-400 uppercase tracking-wider"><i class="fa-solid fa-sitemap mr-1"></i> All Topics</h3>
                         <div class="relative w-full sm:w-64">
                             <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-300 text-xs"></i>
-                            <input type="text" id="topic-search-input" oninput="filterDashboardTopics(this.value)" placeholder="Search topics..." class="w-full pl-8 pr-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 outline-none">
+                            <input type="text" id="topic-search-input" oninput="filterDashboardTopics(this.value)" placeholder="Search topics..." class="w-full pl-8 pr-3 py-2 border border-slate-200 dark:border-slate-700 rounded-xl text-xs focus:ring-2 focus:ring-burgundy-500 outline-none bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100">
                         </div>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="syllabus-grid-payload"></div>
@@ -121,28 +154,28 @@
 
         <!-- ================= VIEW 2: PYTHON PRACTICE ================= -->
         <div id="view-sandbox" class="space-y-6 view-panel hidden">
-            <div class="border-b border-slate-200 pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div class="border-b border-slate-200 dark:border-slate-700 pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h2 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight"><i class="fa-brands fa-python text-emerald-600 mr-2"></i>Python Practice</h2>
-                    <p class="text-slate-500 text-xs mt-1">Write real Python code and solve coding puzzles, right in your browser.</p>
+                    <h2 class="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight"><i class="fa-brands fa-python text-emerald-600 dark:text-emerald-400 mr-2"></i>Python Practice</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Write real Python code and solve coding puzzles, right in your browser.</p>
                 </div>
                 <div class="flex gap-2">
-                    <button id="mode-selector-ide" onclick="toggleSandboxMode('ide')" class="px-4 py-1.5 bg-blue-600 text-white rounded-xl text-xs font-bold shadow-sm transition"><i class="fa-solid fa-terminal mr-1"></i> Code Editor</button>
-                    <button id="mode-selector-parsons" onclick="toggleSandboxMode('parsons')" class="px-4 py-1.5 bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition"><i class="fa-solid fa-puzzle-piece mr-1"></i> Code Puzzles</button>
+                    <button id="mode-selector-ide" onclick="toggleSandboxMode('ide')" class="px-4 py-1.5 bg-burgundy-600 text-white rounded-xl text-xs font-bold shadow-sm transition"><i class="fa-solid fa-terminal mr-1"></i> Code Editor</button>
+                    <button id="mode-selector-parsons" onclick="toggleSandboxMode('parsons')" class="px-4 py-1.5 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold transition"><i class="fa-solid fa-puzzle-piece mr-1"></i> Code Puzzles</button>
                 </div>
             </div>
 
             <!-- MODE A: CODE EDITOR -->
             <div id="sandbox-ide-layout" class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
                 <div class="lg:col-span-1 space-y-4">
-                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm space-y-3">
+                    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-4 rounded-xl shadow-sm space-y-3">
                         <span class="text-[10px] font-black tracking-wider text-slate-400 uppercase block"><i class="fa-solid fa-list-ol mr-1"></i> Choose a Lesson</span>
                         <div class="space-y-1.5 max-h-[420px] overflow-y-auto pr-1" id="sandbox-lesson-menu"></div>
                     </div>
 
-                    <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm space-y-3">
-                        <span class="text-xs font-black text-blue-600 uppercase tracking-wider block"><i class="fa-solid fa-graduation-cap"></i> How It Works</span>
-                        <div id="sandbox-concept-box" class="text-xs text-slate-600 leading-relaxed space-y-2"></div>
+                    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-3">
+                        <span class="text-xs font-black text-burgundy-600 dark:text-burgundy-400 uppercase tracking-wider block"><i class="fa-solid fa-graduation-cap"></i> How It Works</span>
+                        <div id="sandbox-concept-box" class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed space-y-2"></div>
                     </div>
 
                     <div class="bg-slate-900 text-white p-5 rounded-xl shadow-sm space-y-3">
@@ -160,14 +193,14 @@
                 </div>
 
                 <div class="lg:col-span-2 space-y-4">
-                    <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm grid grid-cols-1">
-                        <div class="p-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center flex-wrap gap-2">
+                    <div class="border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 shadow-sm grid grid-cols-1">
+                        <div class="p-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 flex justify-between items-center flex-wrap gap-2">
                             <div>
-                                <span id="sandbox-current-title" class="font-bold text-slate-900 text-sm block"><i class="fa-solid fa-code text-slate-700 mr-1"></i> Code Editor</span>
-                                <span id="sandbox-current-desc" class="text-[11px] text-slate-500 block">Write and test your Python code here.</span>
+                                <span id="sandbox-current-title" class="font-bold text-slate-900 dark:text-slate-100 text-sm block"><i class="fa-solid fa-code text-slate-700 dark:text-slate-300 mr-1"></i> Code Editor</span>
+                                <span id="sandbox-current-desc" class="text-[11px] text-slate-500 dark:text-slate-400 block">Write and test your Python code here.</span>
                             </div>
                             <div class="flex gap-2">
-                                <button onclick="verifyChallengeSolution()" id="sandbox-check-btn" disabled class="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-2 px-4 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+                                <button onclick="verifyChallengeSolution()" id="sandbox-check-btn" disabled class="bg-burgundy-600 hover:bg-burgundy-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-2 px-4 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
                                     Check My Answer <i class="fa-solid fa-check text-[9px]"></i>
                                 </button>
                                 <button onclick="runPythonSandboxScript()" id="sandbox-run-btn" disabled class="bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-2 px-4 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
@@ -178,41 +211,41 @@
                         <div class="p-4 bg-slate-950">
                             <textarea id="sandbox-editor" class="w-full h-72 bg-slate-950 text-emerald-400 font-mono p-4 text-xs focus:outline-none resize-y leading-relaxed code-font" spellcheck="false"></textarea>
                         </div>
-                        <div class="p-4 bg-slate-50 border-t border-slate-200">
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700">
                             <span class="text-[10px] text-slate-400 font-bold block mb-2 tracking-wider uppercase"><i class="fa-solid fa-desktop mr-1"></i> Output</span>
-                            <pre id="sandbox-output" class="font-mono text-xs text-slate-800 whitespace-pre-wrap bg-white p-4 rounded-xl border border-slate-200 min-h-[100px] code-font shadow-inner">Loading the Python engine...</pre>
+                            <pre id="sandbox-output" class="font-mono text-xs text-slate-800 dark:text-slate-200 whitespace-pre-wrap bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 min-h-[100px] code-font shadow-inner">Loading the Python engine...</pre>
                         </div>
                     </div>
 
-                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-5 space-y-2">
-                        <h4 class="text-xs font-black text-amber-800 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-bullseye"></i> Your Task</h4>
-                        <p id="sandbox-challenge-text" class="text-xs font-semibold text-slate-700 leading-relaxed"></p>
+                    <div class="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl p-5 space-y-2">
+                        <h4 class="text-xs font-black text-amber-800 dark:text-amber-300 uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-bullseye"></i> Your Task</h4>
+                        <p id="sandbox-challenge-text" class="text-xs font-semibold text-slate-700 dark:text-slate-300 leading-relaxed"></p>
                     </div>
                 </div>
             </div>
 
             <!-- MODE B: CODE PUZZLES -->
-            <div id="sandbox-parsons-layout" class="hidden bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-6">
+            <div id="sandbox-parsons-layout" class="hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm space-y-6">
                 <div class="space-y-1">
-                    <h3 class="text-base font-black text-slate-900"><i class="fa-solid fa-puzzle-piece text-purple-600 mr-2"></i>Code Puzzles</h3>
-                    <p class="text-xs text-slate-500">Put the mixed-up lines of code back into the right order.</p>
+                    <h3 class="text-base font-black text-slate-900 dark:text-slate-100"><i class="fa-solid fa-puzzle-piece text-purple-600 dark:text-purple-400 mr-2"></i>Code Puzzles</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Put the mixed-up lines of code back into the right order.</p>
                 </div>
 
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="parsons-selector-grid"></div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 space-y-3">
+                    <div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4 bg-slate-50 dark:bg-slate-800 space-y-3">
                         <span class="text-[10px] font-black text-slate-400 uppercase tracking-wider block"><i class="fa-solid fa-right-left mr-1"></i> Click a line to add it</span>
                         <div id="parsons-source-pool" class="space-y-2"></div>
                     </div>
-                    <div class="border border-blue-200 rounded-xl p-4 bg-blue-50/30 space-y-3 flex flex-col justify-between">
+                    <div class="border border-burgundy-200 dark:border-burgundy-800 rounded-xl p-4 bg-burgundy-50 dark:bg-burgundy-950/30/30 space-y-3 flex flex-col justify-between">
                         <div>
-                            <span class="text-[10px] font-black text-blue-700 uppercase tracking-wider block mb-3"><i class="fa-solid fa-arrow-down-short-wide mr-1"></i> Your Answer</span>
+                            <span class="text-[10px] font-black text-burgundy-700 dark:text-burgundy-300 uppercase tracking-wider block mb-3"><i class="fa-solid fa-arrow-down-short-wide mr-1"></i> Your Answer</span>
                             <div id="parsons-target-workspace" class="space-y-2"></div>
                         </div>
-                        <div class="pt-4 flex justify-between items-center border-t border-slate-200 mt-4">
-                            <button onclick="clearParsonsWorkspace()" class="text-xs font-bold text-slate-500 hover:text-slate-700"><i class="fa-solid fa-trash-can mr-1"></i> Start Again</button>
-                            <button onclick="validateParsonsWorkspace()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-1.5 px-4 rounded-lg transition"><i class="fa-solid fa-circle-check mr-1"></i> Check My Answer</button>
+                        <div class="pt-4 flex justify-between items-center border-t border-slate-200 dark:border-slate-700 mt-4">
+                            <button onclick="clearParsonsWorkspace()" class="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-700"><i class="fa-solid fa-trash-can mr-1"></i> Start Again</button>
+                            <button onclick="validateParsonsWorkspace()" class="bg-burgundy-600 hover:bg-burgundy-700 text-white text-xs font-bold py-1.5 px-4 rounded-lg transition"><i class="fa-solid fa-circle-check mr-1"></i> Check My Answer</button>
                         </div>
                     </div>
                 </div>
@@ -221,9 +254,9 @@
 
         <!-- ================= VIEW 3: PAPER 2 (6-MARK QUESTIONS) ================= -->
         <div id="view-paper2" class="space-y-6 view-panel hidden">
-            <div class="border-b border-slate-200 pb-4">
-                <h2 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight"><i class="fa-solid fa-file-invoice text-purple-600 mr-2"></i>6-Mark Written Questions</h2>
-                <p class="text-slate-500 text-xs mt-1">Practise writing full algorithms, just like you'll need to in the real exam.</p>
+            <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
+                <h2 class="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight"><i class="fa-solid fa-file-invoice text-purple-600 dark:text-purple-400 mr-2"></i>6-Mark Written Questions</h2>
+                <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Practise writing full algorithms, just like you'll need to in the real exam.</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -232,28 +265,28 @@
                     <div id="paper2-menu" class="space-y-2"></div>
                 </div>
 
-                <div class="lg:col-span-2 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-4">
-                    <div class="bg-purple-50 border border-purple-100 p-4 rounded-xl">
-                        <span id="paper2-active-tag" class="text-[10px] font-black text-purple-700 uppercase block mb-1"></span>
-                        <h3 id="paper2-active-title" class="text-sm font-black text-slate-900 mb-2"></h3>
-                        <p id="paper2-active-question" class="text-xs text-slate-600 leading-relaxed whitespace-pre-wrap font-medium"></p>
+                <div class="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm space-y-4">
+                    <div class="bg-purple-50 dark:bg-purple-950/30 border border-purple-100 dark:border-purple-800 p-4 rounded-xl">
+                        <span id="paper2-active-tag" class="text-[10px] font-black text-purple-700 dark:text-purple-300 uppercase block mb-1"></span>
+                        <h3 id="paper2-active-title" class="text-sm font-black text-slate-900 dark:text-slate-100 mb-2"></h3>
+                        <p id="paper2-active-question" class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed whitespace-pre-wrap font-medium"></p>
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider block"><i class="fa-solid fa-pen-clip mr-1"></i> Write your answer here:</label>
-                        <textarea id="paper2-student-input" class="w-full p-4 border border-slate-200 rounded-xl h-48 font-mono text-xs focus:ring-2 focus:ring-purple-500 outline-none leading-relaxed" placeholder="Write your pseudocode or algorithm here..."></textarea>
+                        <textarea id="paper2-student-input" class="w-full p-4 border border-slate-200 dark:border-slate-700 rounded-xl h-48 font-mono text-xs focus:ring-2 focus:ring-purple-500 outline-none leading-relaxed bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100" placeholder="Write your pseudocode or algorithm here..."></textarea>
                     </div>
 
                     <div class="flex justify-between items-center flex-wrap gap-2">
                         <button onclick="clearPaper2Workspace()" class="text-xs font-bold text-slate-400 hover:text-slate-600">Clear My Answer</button>
                         <div class="flex gap-2">
-                            <button onclick="togglePaper2Sample()" class="bg-white border border-purple-300 text-purple-700 hover:bg-purple-50 text-xs font-bold py-2 px-4 rounded-xl transition"><i class="fa-solid fa-lightbulb mr-1"></i> Show Model Answer</button>
+                            <button onclick="togglePaper2Sample()" class="bg-white dark:bg-slate-900 border border-purple-300 text-purple-700 dark:text-purple-300 hover:bg-purple-50 text-xs font-bold py-2 px-4 rounded-xl transition"><i class="fa-solid fa-lightbulb mr-1"></i> Show Model Answer</button>
                             <button onclick="evaluatePaper2Response()" class="bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold py-2 px-6 rounded-xl transition shadow-md"><i class="fa-solid fa-check-double mr-1"></i> Check My Answer</button>
                         </div>
                     </div>
 
-                    <div id="paper2-sample-box" class="hidden p-4 border border-purple-200 bg-purple-50/60 rounded-xl space-y-2"></div>
-                    <div id="paper2-feedback-box" class="hidden p-5 border border-purple-100 bg-purple-50/40 rounded-xl space-y-3"></div>
+                    <div id="paper2-sample-box" class="hidden p-4 border border-purple-200 dark:border-purple-800 bg-purple-50 dark:bg-purple-950/30/60 rounded-xl space-y-2"></div>
+                    <div id="paper2-feedback-box" class="hidden p-5 border border-purple-100 dark:border-purple-800 bg-purple-50 dark:bg-purple-950/30/40 rounded-xl space-y-3"></div>
                 </div>
             </div>
         </div>
@@ -262,17 +295,17 @@
 
     <!-- MODAL -->
     <div id="app-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-200">
-            <div class="bg-slate-50 border-b border-slate-200 px-6 py-4 flex justify-between items-center">
-                <h4 id="modal-header-text" class="text-base font-black text-slate-900">Revision Notes</h4>
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 w-full max-w-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div class="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-6 py-4 flex justify-between items-center">
+                <h4 id="modal-header-text" class="text-base font-black text-slate-900 dark:text-slate-100">Revision Notes</h4>
                 <button onclick="hideModal()" class="text-slate-400 hover:text-slate-600 text-lg transition"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div id="modal-main-payload" class="p-6 text-sm text-slate-600 leading-relaxed max-h-[65vh] overflow-y-auto space-y-4"></div>
-            <div class="bg-slate-50 border-t border-slate-200 px-6 py-4 flex justify-between items-center" id="modal-footer-controls"></div>
+            <div id="modal-main-payload" class="p-6 text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-h-[65vh] overflow-y-auto space-y-4"></div>
+            <div class="bg-slate-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 px-6 py-4 flex justify-between items-center" id="modal-footer-controls"></div>
         </div>
     </div>
 
-    <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-400 font-bold tracking-wide mt-auto">
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 py-8 text-center text-xs text-slate-400 font-bold tracking-wide mt-auto">
         &copy; 2026 OCR GCSE Computer Science Revision Hub. Made to help you revise for Paper 1 and Paper 2.
     </footer>
 
@@ -314,12 +347,12 @@
         ];
 
         function showCommandWordsGuide() {
-            let html = `<p class="text-xs text-slate-500 mb-2">These are the key words examiners use in questions. Knowing what each one wants you to do can pick up easy marks.</p>`;
+            let html = `<p class="text-xs text-slate-500 dark:text-slate-400 mb-2">These are the key words examiners use in questions. Knowing what each one wants you to do can pick up easy marks.</p>`;
             commandWordsGuide.forEach(item => {
                 html += `
-                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                        <span class="font-bold text-slate-900 text-sm block mb-1"><i class="fa-solid fa-key text-amber-500 mr-1"></i> ${item.word}</span>
-                        <p class="text-xs text-slate-600 leading-relaxed">${item.tip}</p>
+                    <div class="p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                        <span class="font-bold text-slate-900 dark:text-slate-100 text-sm block mb-1"><i class="fa-solid fa-key text-amber-500 mr-1"></i> ${item.word}</span>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">${item.tip}</p>
                     </div>
                 `;
             });
@@ -382,25 +415,25 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
-                        <div class="bg-blue-50 p-3.5 rounded-xl border border-blue-100">
-                            <h4 class="font-bold text-blue-900 mb-1"><i class="fa-solid fa-microchip mr-1"></i> What does the CPU do?</h4>
-                            <p class="text-slate-700 leading-relaxed">
+                        <div class="bg-burgundy-50 dark:bg-burgundy-950/30 p-3.5 rounded-xl border border-burgundy-100 dark:border-burgundy-800">
+                            <h4 class="font-bold text-burgundy-900 dark:text-burgundy-200 mb-1"><i class="fa-solid fa-microchip mr-1"></i> What does the CPU do?</h4>
+                            <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
                                 The CPU (Central Processing Unit) is the "brain" of the computer. It fetches an instruction, decodes what it means, then executes (carries out) it. This is the <b>Fetch-Decode-Execute cycle</b>. Data and instructions are usually stored together in RAM, so the CPU sometimes has to wait for memory. This slowdown is called the <b>Von Neumann bottleneck</b>.
                             </p>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                                <span class="font-bold text-slate-900 block mb-1">Key Registers</span>
-                                <ul class="list-disc pl-4 space-y-1 text-slate-600">
+                            <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Key Registers</span>
+                                <ul class="list-disc pl-4 space-y-1 text-slate-600 dark:text-slate-400">
                                     <li><b>Program Counter (PC):</b> Holds the address of the next instruction.</li>
                                     <li><b>Memory Address Register (MAR):</b> Holds the address currently being used.</li>
                                     <li><b>Memory Data Register (MDR):</b> Holds the data or instruction just fetched.</li>
                                     <li><b>Accumulator (ACC):</b> Holds the results of calculations.</li>
                                 </ul>
                             </div>
-                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                                <span class="font-bold text-slate-900 block mb-1">What Makes a CPU Faster?</span>
-                                <ul class="list-disc pl-4 space-y-1 text-slate-600">
+                            <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">What Makes a CPU Faster?</span>
+                                <ul class="list-disc pl-4 space-y-1 text-slate-600 dark:text-slate-400">
                                     <li><b>Clock speed:</b> How many instructions it can do each second. Higher is faster.</li>
                                     <li><b>Cache:</b> Small, super-fast memory inside the CPU for data it might need again soon.</li>
                                     <li><b>Cores:</b> Each core can work on its own task, so more cores can mean more gets done at once.</li>
@@ -432,18 +465,18 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
-                        <div class="bg-blue-50 p-3.5 rounded-xl border border-blue-100">
-                            <h4 class="font-bold text-blue-900 mb-1"><i class="fa-solid fa-memory mr-1"></i> RAM vs ROM</h4>
-                            <p class="text-slate-700 leading-relaxed">
+                        <div class="bg-burgundy-50 dark:bg-burgundy-950/30 p-3.5 rounded-xl border border-burgundy-100 dark:border-burgundy-800">
+                            <h4 class="font-bold text-burgundy-900 dark:text-burgundy-200 mb-1"><i class="fa-solid fa-memory mr-1"></i> RAM vs ROM</h4>
+                            <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
                                 <b>RAM</b> (Random Access Memory) is volatile — it loses everything when the power is off. It holds the programs and data currently in use. <b>ROM</b> (Read Only Memory) is non-volatile and holds the startup instructions the computer needs every time it turns on.
                             </p>
                         </div>
-                        <div class="bg-amber-50 border border-amber-200 p-3 rounded-lg text-slate-700">
+                        <div class="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-3 rounded-lg text-slate-700 dark:text-slate-300">
                             <b>Virtual memory:</b> When RAM is full, the computer uses space on the hard drive to act like extra RAM. This is slower than real RAM, so relying on it too much slows the whole computer down.
                         </div>
-                        <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                            <span class="font-bold text-slate-900 block mb-1">Types of Secondary Storage</span>
-                            <p class="text-slate-600 leading-relaxed">
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Types of Secondary Storage</span>
+                            <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
                                 <b>Magnetic (HDD):</b> Cheap, large capacity, but slower because it has moving parts.<br>
                                 <b>Solid state (SSD):</b> Fast and durable because it has no moving parts, but costs more.<br>
                                 <b>Optical (DVD):</b> Cheap and easy to carry around, but slower and holds less data.
@@ -475,24 +508,24 @@
                 ko: `
                     <div class="space-y-4 text-xs">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                                <span class="font-bold text-slate-900 block mb-1">LAN vs WAN</span>
-                                <p class="text-slate-600 leading-relaxed">
+                            <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">LAN vs WAN</span>
+                                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
                                     <b>LAN:</b> Covers a small area, like one building. Owned by one organisation.<br>
                                     <b>WAN:</b> Covers a large area, like a country. Made up of connected LANs, often using lines rented from another company.
                                 </p>
                             </div>
-                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                                <span class="font-bold text-slate-900 block mb-1">Topologies</span>
-                                <p class="text-slate-600 leading-relaxed">
+                            <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Topologies</span>
+                                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
                                     <b>Star:</b> Every device connects to a central switch. If one cable breaks, only that device is affected — but if the switch fails, the whole network goes down.<br>
                                     <b>Mesh:</b> Every device connects to every other device. Very reliable, but expensive to set up.
                                 </p>
                             </div>
                         </div>
-                        <div class="bg-blue-50 p-3 rounded-xl border border-blue-100">
-                            <span class="font-bold text-blue-900 block mb-1">Key Hardware & Terms</span>
-                            <p class="text-slate-700 leading-relaxed">
+                        <div class="bg-burgundy-50 dark:bg-burgundy-950/30 p-3 rounded-xl border border-burgundy-100 dark:border-burgundy-800">
+                            <span class="font-bold text-burgundy-900 dark:text-burgundy-200 block mb-1">Key Hardware & Terms</span>
+                            <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
                                 A <b>router</b> connects a network to the internet and directs data to the right place. A <b>switch</b> connects devices on the same network. A <b>protocol</b> is an agreed set of rules for how devices communicate, like HTTP for web pages.
                             </p>
                         </div>
@@ -521,7 +554,7 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
-                        <div class="bg-rose-50 border border-rose-200 p-3.5 rounded-xl text-rose-950">
+                        <div class="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 p-3.5 rounded-xl text-rose-950">
                             <h4 class="font-bold mb-1"><i class="fa-solid fa-shield-halved"></i> Common Threats</h4>
                             <ul class="list-disc pl-4 space-y-1">
                                 <li><b>Phishing:</b> Fake emails that trick people into giving away personal information.</li>
@@ -531,9 +564,9 @@
                                 <li><b>Social engineering:</b> Tricking people (rather than computers) into giving away information or access.</li>
                             </ul>
                         </div>
-                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                            <span class="font-bold text-slate-900 block mb-1">How We Stay Protected</span>
-                            <p class="text-slate-600 leading-relaxed">
+                        <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">How We Stay Protected</span>
+                            <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
                                 <b>Firewalls</b> check the data moving in and out of a network and block anything that breaks the rules. <b>Encryption</b> scrambles data so it can't be read if it's stolen. <b>Penetration testing</b> is when a company pays someone to try to hack their own system, so they can fix any weaknesses before a real attacker finds them.
                             </p>
                         </div>
@@ -562,20 +595,20 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
-                        <div class="bg-blue-50 p-3 rounded-xl border border-blue-100">
-                            <h4 class="font-bold text-blue-900 mb-1">What Does an Operating System Do?</h4>
-                            <p class="text-slate-700 leading-relaxed">
+                        <div class="bg-burgundy-50 dark:bg-burgundy-950/30 p-3 rounded-xl border border-burgundy-100 dark:border-burgundy-800">
+                            <h4 class="font-bold text-burgundy-900 dark:text-burgundy-200 mb-1">What Does an Operating System Do?</h4>
+                            <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
                                 The operating system manages the computer's hardware and lets you run programs. It manages memory (keeping programs separate so they don't interfere with each other), manages files, manages user accounts, and provides the interface you interact with (windows, icons, menus).
                             </p>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                                <span class="font-bold text-slate-900 block mb-1">Utility Software</span>
-                                <p class="text-slate-600 leading-relaxed">Programs that help keep a computer running smoothly, such as anti-virus, backup, and compression software.</p>
+                            <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Utility Software</span>
+                                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">Programs that help keep a computer running smoothly, such as anti-virus, backup, and compression software.</p>
                             </div>
-                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                                <span class="font-bold text-slate-900 block mb-1">Defragmentation</span>
-                                <p class="text-slate-600 leading-relaxed">Reorganises scattered files on a hard disk so they're stored together. This isn't needed on an SSD, which has no moving parts.</p>
+                            <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Defragmentation</span>
+                                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">Reorganises scattered files on a hard disk so they're stored together. This isn't needed on an SSD, which has no moving parts.</p>
                             </div>
                         </div>
                     </div>
@@ -603,25 +636,25 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
-                        <div class="bg-blue-50 p-3.5 rounded-xl border border-blue-100">
-                            <h4 class="font-bold text-blue-900 mb-1"><i class="fa-solid fa-scale-balanced mr-1"></i> Key UK Laws</h4>
-                            <ul class="list-disc pl-4 space-y-1 text-slate-700 leading-relaxed">
+                        <div class="bg-burgundy-50 dark:bg-burgundy-950/30 p-3.5 rounded-xl border border-burgundy-100 dark:border-burgundy-800">
+                            <h4 class="font-bold text-burgundy-900 dark:text-burgundy-200 mb-1"><i class="fa-solid fa-scale-balanced mr-1"></i> Key UK Laws</h4>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-700 dark:text-slate-300 leading-relaxed">
                                 <li><b>Data Protection Act:</b> Controls how organisations collect, store and use personal data.</li>
                                 <li><b>Computer Misuse Act:</b> Makes it illegal to access a computer system without permission.</li>
                                 <li><b>Copyright, Designs and Patents Act:</b> Protects original work like music, software and images from being copied without permission.</li>
                             </ul>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                                <span class="font-bold text-slate-900 block mb-1">Open Source vs Proprietary</span>
-                                <p class="text-slate-600 leading-relaxed">Open source code can be viewed and changed by anyone for free. Proprietary software is closed and controlled by the company that made it.</p>
+                            <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Open Source vs Proprietary</span>
+                                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">Open source code can be viewed and changed by anyone for free. Proprietary software is closed and controlled by the company that made it.</p>
                             </div>
-                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                                <span class="font-bold text-slate-900 block mb-1">Environmental Impact</span>
-                                <p class="text-slate-600 leading-relaxed">Old devices create hazardous e-waste. Data centres use huge amounts of electricity and need constant cooling.</p>
+                            <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Environmental Impact</span>
+                                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">Old devices create hazardous e-waste. Data centres use huge amounts of electricity and need constant cooling.</p>
                             </div>
                         </div>
-                        <div class="bg-amber-50 border border-amber-200 p-3 rounded-lg text-slate-700">
+                        <div class="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-3 rounded-lg text-slate-700 dark:text-slate-300">
                             <b>Cultural impact:</b> The digital divide means some people don't have easy access to technology. Automation can also replace jobs that used to be done by people.
                         </div>
                     </div>
@@ -650,22 +683,22 @@
                 ko: `
                     <div class="space-y-4 text-xs">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                                <span class="font-bold text-slate-900 block mb-1">Searching</span>
-                                <p class="text-slate-600 leading-relaxed">
+                            <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Searching</span>
+                                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
                                     <b>Linear search:</b> Checks every item one at a time from the start. Works on any list.<br>
                                     <b>Binary search:</b> Repeatedly splits a sorted list in half. Much faster, but the list must already be sorted.
                                 </p>
                             </div>
-                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                                <span class="font-bold text-slate-900 block mb-1">Sorting</span>
-                                <p class="text-slate-600 leading-relaxed">
+                            <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Sorting</span>
+                                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
                                     <b>Bubble sort:</b> Compares neighbouring pairs and swaps them if needed. Simple, but slow on big lists.<br>
                                     <b>Merge sort:</b> Splits the list down into single items, then merges them back in order. Much faster on big lists.
                                 </p>
                             </div>
                         </div>
-                        <div class="bg-amber-50 border border-amber-200 p-3 rounded-lg text-slate-700">
+                        <div class="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-3 rounded-lg text-slate-700 dark:text-slate-300">
                             <b>Computational thinking:</b> <b>Decomposition</b> means breaking a big problem into smaller, easier parts. <b>Abstraction</b> means removing unnecessary detail so you can focus on what matters.
                         </div>
                     </div>
@@ -693,17 +726,17 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
-                        <div class="bg-blue-50 p-3.5 rounded-xl border border-blue-100">
-                            <h4 class="font-bold text-blue-900 mb-1">The Three Building Blocks</h4>
-                            <p class="text-slate-700 leading-relaxed">
+                        <div class="bg-burgundy-50 dark:bg-burgundy-950/30 p-3.5 rounded-xl border border-burgundy-100 dark:border-burgundy-800">
+                            <h4 class="font-bold text-burgundy-900 dark:text-burgundy-200 mb-1">The Three Building Blocks</h4>
+                            <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
                                 1. <b>Sequence:</b> Instructions run one after another, in the order they're written.<br>
                                 2. <b>Selection:</b> The code makes a decision using IF, ELIF, ELSE.<br>
                                 3. <b>Iteration:</b> A block of code repeats, using a WHILE loop (condition-controlled) or a FOR loop (count-controlled).
                             </p>
                         </div>
-                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 font-medium">
-                            <span class="font-bold text-slate-900 block mb-1">Casting</span>
-                            <p class="text-slate-600 leading-relaxed">
+                        <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700 font-medium">
+                            <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Casting</span>
+                            <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
                                 Casting changes a value from one data type to another, for example turning the text <code>"24"</code> into the number <code>24</code> using <code>int("24")</code>.
                             </p>
                         </div>
@@ -732,16 +765,16 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
-                        <div class="bg-rose-50 border border-rose-200 p-3.5 rounded-xl text-rose-950">
+                        <div class="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 p-3.5 rounded-xl text-rose-950">
                             <h4 class="font-bold mb-1"><i class="fa-solid fa-bug"></i> Types of Error</h4>
                             <p class="leading-relaxed">
                                 <b>Syntax error:</b> Breaks the rules of the language, so the code won't run at all.<br>
                                 <b>Logic error:</b> The program runs fine but gives the wrong result, because of a mistake in how it was designed.
                             </p>
                         </div>
-                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                            <span class="font-bold text-slate-900 block mb-1">Testing With Different Data</span>
-                            <ul class="list-disc pl-4 space-y-1 text-slate-600">
+                        <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Testing With Different Data</span>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-600 dark:text-slate-400">
                                 <li><b>Normal data:</b> A sensible value the program should accept.</li>
                                 <li><b>Boundary data:</b> A value right at the very edge of what's accepted.</li>
                                 <li><b>Invalid data:</b> The right data type, but outside the accepted range.</li>
@@ -773,16 +806,16 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
-                        <div class="bg-blue-50 p-3.5 rounded-xl border border-blue-100">
-                            <h4 class="font-bold text-blue-900 mb-1">The Three Basic Logic Gates</h4>
-                            <p class="text-slate-700 leading-relaxed">
+                        <div class="bg-burgundy-50 dark:bg-burgundy-950/30 p-3.5 rounded-xl border border-burgundy-100 dark:border-burgundy-800">
+                            <h4 class="font-bold text-burgundy-900 dark:text-burgundy-200 mb-1">The Three Basic Logic Gates</h4>
+                            <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
                                 <b>AND:</b> Output is true only if both inputs are true.<br>
                                 <b>OR:</b> Output is true if at least one input is true.<br>
                                 <b>NOT:</b> Flips the input — true becomes false, and false becomes true.
                             </p>
                         </div>
-                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                            <span class="font-bold text-slate-900 block mb-1">Truth Table (2 Inputs)</span>
+                        <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Truth Table (2 Inputs)</span>
                             <pre class="font-mono text-[10px] bg-slate-900 text-emerald-400 p-2.5 rounded-md mt-1 code-font">
 A  B  |  AND  OR  NOT(A)
 ------------------------
@@ -817,16 +850,16 @@ A  B  |  AND  OR  NOT(A)
                 ko: `
                     <div class="space-y-4 text-xs">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                                <span class="font-bold text-slate-900 block mb-1">Compilers vs Interpreters</span>
-                                <p class="text-slate-600 leading-relaxed">
+                            <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Compilers vs Interpreters</span>
+                                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
                                     <b>Compiler:</b> Translates the whole program into machine code at once, before it runs.<br>
                                     <b>Interpreter:</b> Translates and runs the code one line at a time, stopping as soon as it finds an error.
                                 </p>
                             </div>
-                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                                <span class="font-bold text-slate-900 block mb-1">IDE Features</span>
-                                <p class="text-slate-600 leading-relaxed">
+                            <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">IDE Features</span>
+                                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
                                     An IDE (Integrated Development Environment) gives you an editor with colour-coded syntax, auto-complete, error checking, and a debugger with breakpoints so you can pause your code and check what's happening.
                                 </p>
                             </div>
@@ -1030,17 +1063,29 @@ A  B  |  AND  OR  NOT(A)
             icon.classList.toggle('fa-xmark');
         }
 
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('ocr_theme', isDark ? 'dark' : 'light');
+            updateDarkModeIcon();
+        }
+
+        function updateDarkModeIcon() {
+            const icon = document.getElementById('dark-mode-icon');
+            const isDark = document.documentElement.classList.contains('dark');
+            icon.className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
+        }
+
         function toggleSandboxMode(mode) {
             if(mode === 'ide') {
                 document.getElementById('sandbox-ide-layout').classList.remove('hidden');
                 document.getElementById('sandbox-parsons-layout').classList.add('hidden');
-                document.getElementById('mode-selector-ide').className = "px-4 py-1.5 bg-blue-600 text-white rounded-xl text-xs font-bold shadow-sm transition";
-                document.getElementById('mode-selector-parsons').className = "px-4 py-1.5 bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition";
+                document.getElementById('mode-selector-ide').className = "px-4 py-1.5 bg-burgundy-600 text-white rounded-xl text-xs font-bold shadow-sm transition";
+                document.getElementById('mode-selector-parsons').className = "px-4 py-1.5 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold transition";
             } else {
                 document.getElementById('sandbox-ide-layout').classList.add('hidden');
                 document.getElementById('sandbox-parsons-layout').classList.remove('hidden');
-                document.getElementById('mode-selector-parsons').className = "px-4 py-1.5 bg-blue-600 text-white rounded-xl text-xs font-bold shadow-sm transition";
-                document.getElementById('mode-selector-ide').className = "px-4 py-1.5 bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition";
+                document.getElementById('mode-selector-parsons').className = "px-4 py-1.5 bg-burgundy-600 text-white rounded-xl text-xs font-bold shadow-sm transition";
+                document.getElementById('mode-selector-ide').className = "px-4 py-1.5 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold transition";
                 loadParsonsTask(currentParsonsProblemKey);
             }
         }
@@ -1056,29 +1101,29 @@ A  B  |  AND  OR  NOT(A)
                 const score = parseInt(localStorage.getItem(`ocr_metric_score_${id}`) || '0');
                 totalPointsMet += score;
 
-                let badgeColor = "bg-rose-100 text-rose-700 border-rose-200";
+                let badgeColor = "bg-rose-100 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800";
                 let fillBarColor = "bg-rose-500";
-                if(score >= 2) { badgeColor = "bg-amber-100 text-amber-700 border-amber-200"; fillBarColor = "bg-amber-500"; }
-                if(score >= 3) { badgeColor = "bg-emerald-100 text-emerald-700 border-emerald-200"; fillBarColor = "bg-emerald-500"; }
+                if(score >= 2) { badgeColor = "bg-amber-100 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800"; fillBarColor = "bg-amber-500"; }
+                if(score >= 3) { badgeColor = "bg-emerald-100 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800"; fillBarColor = "bg-emerald-500"; }
 
                 gridHtml += `
-                    <div id="unit-card-${id}" data-search="${(topic.title + ' ' + topic.desc + ' unit ' + id).toLowerCase()}" class="bg-slate-50 border border-slate-200 p-5 rounded-xl flex flex-col justify-between group hover:border-blue-500 transition shadow-sm">
+                    <div id="unit-card-${id}" data-search="${(topic.title + ' ' + topic.desc + ' unit ' + id).toLowerCase()}" class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-xl flex flex-col justify-between group hover:border-burgundy-500 transition shadow-sm">
                         <div>
                             <div class="flex justify-between items-center mb-1">
-                                <span class="text-[10px] font-black text-blue-600 uppercase tracking-wide"><i class="fa-solid fa-bookmark mr-1"></i> Unit ${id}</span>
+                                <span class="text-[10px] font-black text-burgundy-600 dark:text-burgundy-400 uppercase tracking-wide"><i class="fa-solid fa-bookmark mr-1"></i> Unit ${id}</span>
                                 <span class="text-[10px] font-black px-2 py-0.5 rounded border ${badgeColor}">${score}/3</span>
                             </div>
-                            <h4 class="font-bold text-slate-900 text-sm mb-1 group-hover:text-blue-600 transition">${topic.title}</h4>
-                            <p class="text-[11px] text-slate-500 leading-relaxed mb-4">${topic.desc}</p>
+                            <h4 class="font-bold text-slate-900 dark:text-slate-100 text-sm mb-1 group-hover:text-burgundy-600 transition">${topic.title}</h4>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed mb-4">${topic.desc}</p>
                         </div>
                         <div class="space-y-3">
-                            <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
                                 <div class="${fillBarColor} h-full" style="width: ${(score/3)*100}%"></div>
                             </div>
                             <div class="grid grid-cols-3 gap-1.5">
-                                <button onclick="triggerKnowledgeOrganiser('${id}')" class="w-full bg-white border border-slate-300 text-slate-700 font-bold py-2 rounded-lg transition text-center text-[10px] flex flex-col items-center justify-center gap-0.5 hover:bg-slate-100"><i class="fa-solid fa-book-open text-[11px]"></i> Notes</button>
-                                <button onclick="triggerFlashcards('${id}')" class="w-full bg-white border border-slate-300 text-slate-700 font-bold py-2 rounded-lg transition text-center text-[10px] flex flex-col items-center justify-center gap-0.5 hover:bg-slate-100"><i class="fa-solid fa-layer-group text-[11px]"></i> Cards</button>
-                                <button onclick="triggerUnitQuiz('${id}')" class="w-full bg-slate-900 text-white font-bold py-2 rounded-lg transition text-center text-[10px] flex flex-col items-center justify-center gap-0.5 hover:bg-blue-600"><i class="fa-solid fa-pen text-[11px]"></i> Quiz</button>
+                                <button onclick="triggerKnowledgeOrganiser('${id}')" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg transition text-center text-[10px] flex flex-col items-center justify-center gap-0.5 hover:bg-slate-100"><i class="fa-solid fa-book-open text-[11px]"></i> Notes</button>
+                                <button onclick="triggerFlashcards('${id}')" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg transition text-center text-[10px] flex flex-col items-center justify-center gap-0.5 hover:bg-slate-100"><i class="fa-solid fa-layer-group text-[11px]"></i> Cards</button>
+                                <button onclick="triggerUnitQuiz('${id}')" class="w-full bg-slate-900 text-white font-bold py-2 rounded-lg transition text-center text-[10px] flex flex-col items-center justify-center gap-0.5 hover:bg-burgundy-600"><i class="fa-solid fa-pen text-[11px]"></i> Quiz</button>
                             </div>
                         </div>
                     </div>
@@ -1086,18 +1131,18 @@ A  B  |  AND  OR  NOT(A)
 
                 if(score < 3) {
                     let levelLabel = score === 0 ? "Needs practice" : "Almost there";
-                    let rowColor = score === 0 ? "text-rose-600 font-bold bg-rose-50 border-rose-100" : "text-amber-600 font-bold bg-amber-50 border-amber-100";
+                    let rowColor = score === 0 ? "text-rose-600 dark:text-rose-400 font-bold bg-rose-50 dark:bg-rose-950/30 border-rose-100 dark:border-rose-800" : "text-amber-600 dark:text-amber-400 font-bold bg-amber-50 dark:bg-amber-950/30 border-amber-100 dark:border-amber-800";
                     weakHtml += `
                         <div class="p-2.5 rounded-xl border text-xs flex justify-between items-center ${rowColor} cursor-pointer" onclick="triggerUnitQuiz('${id}')">
                             <span><i class="fa-solid fa-circle-nodes mr-1"></i> Unit ${id}</span>
-                            <span class="text-[10px] uppercase tracking-wider font-black px-2 py-0.5 bg-white rounded shadow-sm">${levelLabel}</span>
+                            <span class="text-[10px] uppercase tracking-wider font-black px-2 py-0.5 bg-white dark:bg-slate-900 rounded shadow-sm">${levelLabel}</span>
                         </div>
                     `;
                 }
             });
 
             document.getElementById('syllabus-grid-payload').innerHTML = gridHtml;
-            document.getElementById('weakness-heatmap-payload').innerHTML = weakHtml || `<p class='text-xs font-semibold text-emerald-600'><i class='fa-solid fa-circle-check mr-1'></i> Great work! You've done well on every topic.</p>`;
+            document.getElementById('weakness-heatmap-payload').innerHTML = weakHtml || `<p class='text-xs font-semibold text-emerald-600 dark:text-emerald-400'><i class='fa-solid fa-circle-check mr-1'></i> Great work! You've done well on every topic.</p>`;
 
             let maxTotalScorePossible = totalTopicsCount * 3;
             let completionPercentage = Math.round((totalPointsMet / maxTotalScorePossible) * 100);
@@ -1126,21 +1171,21 @@ A  B  |  AND  OR  NOT(A)
             let mistakesHtml = "";
             if (topic.mistakes && topic.mistakes.length) {
                 mistakesHtml = `
-                    <div class="bg-rose-50 border border-rose-200 p-4 rounded-xl">
-                        <h4 class="font-bold text-rose-800 text-xs uppercase tracking-wider mb-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Watch Out For These Mistakes</h4>
-                        <ul class="list-disc pl-4 space-y-1.5 text-xs text-slate-700 leading-relaxed">
+                    <div class="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 p-4 rounded-xl">
+                        <h4 class="font-bold text-rose-800 dark:text-rose-300 text-xs uppercase tracking-wider mb-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Watch Out For These Mistakes</h4>
+                        <ul class="list-disc pl-4 space-y-1.5 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                             ${topic.mistakes.map(m => `<li>${m}</li>`).join('')}
                         </ul>
                     </div>
                 `;
             }
-            document.getElementById('modal-header-text').innerHTML = `<i class="fa-solid fa-book text-blue-600 mr-2"></i> Study Notes — Unit ${topicKey}`;
+            document.getElementById('modal-header-text').innerHTML = `<i class="fa-solid fa-book text-burgundy-600 dark:text-burgundy-400 mr-2"></i> Study Notes — Unit ${topicKey}`;
             document.getElementById('modal-main-payload').innerHTML = topic.ko + mistakesHtml;
             document.getElementById('modal-footer-controls').innerHTML = `
-                <button onclick="printKnowledgeOrganiser('${topicKey}')" class="text-xs font-bold text-slate-500 hover:text-slate-700"><i class="fa-solid fa-print mr-1"></i> Print Notes</button>
+                <button onclick="printKnowledgeOrganiser('${topicKey}')" class="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-700"><i class="fa-solid fa-print mr-1"></i> Print Notes</button>
                 <div class="flex gap-2">
-                    <button onclick="hideModal(); triggerFlashcards('${topicKey}')" class="text-xs font-bold text-blue-600 hover:text-blue-800 px-2"><i class="fa-solid fa-layer-group mr-1"></i> Flashcards</button>
-                    <button onclick="hideModal(); triggerUnitQuiz('${topicKey}')" class="bg-slate-900 text-white text-xs font-bold py-2 px-4 rounded-xl transition hover:bg-blue-600">Take the Quiz</button>
+                    <button onclick="hideModal(); triggerFlashcards('${topicKey}')" class="text-xs font-bold text-burgundy-600 dark:text-burgundy-400 hover:text-burgundy-800 px-2"><i class="fa-solid fa-layer-group mr-1"></i> Flashcards</button>
+                    <button onclick="hideModal(); triggerUnitQuiz('${topicKey}')" class="bg-slate-900 text-white text-xs font-bold py-2 px-4 rounded-xl transition hover:bg-burgundy-600">Take the Quiz</button>
                 </div>
             `;
             document.getElementById('app-modal').classList.remove('hidden');
@@ -1197,7 +1242,7 @@ A  B  |  AND  OR  NOT(A)
             currentQuizUnitKey = topicKey;
             currentQuizIndex = 0;
             currentQuizScoreLog = [];
-            document.getElementById('modal-header-text').innerHTML = `<i class="fa-solid fa-pen text-blue-600 mr-2"></i> Unit ${topicKey} Quiz — Question 1 of 10`;
+            document.getElementById('modal-header-text').innerHTML = `<i class="fa-solid fa-pen text-burgundy-600 dark:text-burgundy-400 mr-2"></i> Unit ${topicKey} Quiz — Question 1 of 10`;
             renderUnitQuizStep();
             document.getElementById('app-modal').classList.remove('hidden');
             document.body.classList.add('overflow-hidden');
@@ -1207,16 +1252,16 @@ A  B  |  AND  OR  NOT(A)
             const topic = revisionContentDatabase[currentQuizUnitKey];
             const question = topic.quiz[currentQuizIndex];
 
-            document.getElementById('modal-header-text').innerHTML = `<i class="fa-solid fa-pen text-blue-600 mr-2"></i> Unit ${currentQuizUnitKey} Quiz — Question ${currentQuizIndex + 1} of 10`;
+            document.getElementById('modal-header-text').innerHTML = `<i class="fa-solid fa-pen text-burgundy-600 dark:text-burgundy-400 mr-2"></i> Unit ${currentQuizUnitKey} Quiz — Question ${currentQuizIndex + 1} of 10`;
 
             document.getElementById('modal-main-payload').innerHTML = `
                 <div class="space-y-4">
-                    <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm">
-                        <p class="text-sm font-semibold text-slate-800 leading-relaxed"><i class="fa-solid fa-circle-question text-blue-500 mr-1"></i> ${question.q}</p>
+                    <div class="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+                        <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 leading-relaxed"><i class="fa-solid fa-circle-question text-burgundy-500 mr-1"></i> ${question.q}</p>
                     </div>
                     <div class="space-y-2">
                         <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider block">Type your answer:</label>
-                        <textarea id="unit-quiz-input" class="w-full p-3 border border-slate-200 rounded-xl h-20 text-xs focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Write a short answer..."></textarea>
+                        <textarea id="unit-quiz-input" class="w-full p-3 border border-slate-200 dark:border-slate-700 rounded-xl h-20 text-xs focus:ring-2 focus:ring-burgundy-500 outline-none bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100" placeholder="Write a short answer..."></textarea>
                     </div>
                     <div id="unit-quiz-feedback"></div>
                 </div>
@@ -1224,7 +1269,7 @@ A  B  |  AND  OR  NOT(A)
 
             document.getElementById('modal-footer-controls').innerHTML = `
                 <button onclick="hideModal()" class="text-xs font-bold text-slate-400 hover:text-slate-600">Quit Quiz</button>
-                <button onclick="submitUnitQuizAnswer()" id="unit-quiz-submit-btn" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-5 rounded-xl shadow-sm transition">Check My Answer <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                <button onclick="submitUnitQuizAnswer()" id="unit-quiz-submit-btn" class="bg-burgundy-600 hover:bg-burgundy-700 text-white text-xs font-bold py-2 px-5 rounded-xl shadow-sm transition">Check My Answer <i class="fa-solid fa-arrow-right ml-1"></i></button>
             `;
         }
 
@@ -1236,7 +1281,7 @@ A  B  |  AND  OR  NOT(A)
             const result = estimateSimpleRecallScore(rawText, question.keywords);
             currentQuizScoreLog.push(result.correct ? 1 : 0);
 
-            const feedbackColor = result.correct ? "bg-emerald-50 border-emerald-200 text-emerald-800" : "bg-amber-50 border-amber-200 text-amber-800";
+            const feedbackColor = result.correct ? "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300" : "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300";
             const feedbackIcon = result.correct ? "fa-circle-check text-emerald-500" : "fa-circle-info text-amber-500";
             const feedbackLine = result.correct ? "Nice! Your answer covers the key idea." : "Not quite — have a look at the example answer below.";
 
@@ -1244,16 +1289,16 @@ A  B  |  AND  OR  NOT(A)
                 <div class="p-3 border rounded-lg ${feedbackColor} space-y-2">
                     <p class="text-xs font-bold"><i class="fa-solid ${feedbackIcon} mr-1"></i> ${feedbackLine}</p>
                 </div>
-                <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg mt-2">
-                    <span class="text-[10px] font-black uppercase text-blue-700 tracking-wider block mb-1"><i class="fa-solid fa-lightbulb mr-1"></i> Example Answer</span>
-                    <p class="text-xs text-slate-700 leading-relaxed">${question.model}</p>
+                <div class="p-3 bg-burgundy-50 dark:bg-burgundy-950/30 border border-burgundy-200 dark:border-burgundy-800 rounded-lg mt-2">
+                    <span class="text-[10px] font-black uppercase text-burgundy-700 dark:text-burgundy-300 tracking-wider block mb-1"><i class="fa-solid fa-lightbulb mr-1"></i> Example Answer</span>
+                    <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">${question.model}</p>
                 </div>
             `;
 
             const isLastQuestion = currentQuizIndex >= topic.quiz.length - 1;
             document.getElementById('modal-footer-controls').innerHTML = `
                 <button onclick="hideModal()" class="text-xs font-bold text-slate-400 hover:text-slate-600">Quit Quiz</button>
-                <button onclick="proceedToNextUnitQuizQuestion()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-5 rounded-xl shadow-sm transition">${isLastQuestion ? "See My Results" : "Next Question"} <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                <button onclick="proceedToNextUnitQuizQuestion()" class="bg-burgundy-600 hover:bg-burgundy-700 text-white text-xs font-bold py-2 px-5 rounded-xl shadow-sm transition">${isLastQuestion ? "See My Results" : "Next Question"} <i class="fa-solid fa-arrow-right ml-1"></i></button>
             `;
         }
 
@@ -1272,7 +1317,7 @@ A  B  |  AND  OR  NOT(A)
             const correctCount = currentQuizScoreLog.reduce((a, b) => a + b, 0);
             const totalQuestions = topic.quiz.length;
 
-            document.getElementById('modal-header-text').innerHTML = `<i class="fa-solid fa-clipboard-list text-blue-600 mr-2"></i> Unit ${currentQuizUnitKey} Quiz Complete`;
+            document.getElementById('modal-header-text').innerHTML = `<i class="fa-solid fa-clipboard-list text-burgundy-600 dark:text-burgundy-400 mr-2"></i> Unit ${currentQuizUnitKey} Quiz Complete`;
 
             let resultMessage = "Keep practising — you'll get there!";
             if (correctCount >= totalQuestions * 0.8) resultMessage = "Excellent work! You really know this topic.";
@@ -1291,8 +1336,8 @@ A  B  |  AND  OR  NOT(A)
             localStorage.setItem(`ocr_metric_score_${currentQuizUnitKey}`, scaledScore.toString());
 
             document.getElementById('modal-footer-controls').innerHTML = `
-                <button onclick="hideModal(); triggerKnowledgeOrganiser('${currentQuizUnitKey}')" class="text-xs font-bold text-slate-500 hover:text-slate-700"><i class="fa-solid fa-book-open mr-1"></i> Review Notes</button>
-                <button onclick="hideModal(); updateMetricsDisplay();" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-5 rounded-xl transition shadow-md text-xs">Back to Dashboard</button>
+                <button onclick="hideModal(); triggerKnowledgeOrganiser('${currentQuizUnitKey}')" class="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-700"><i class="fa-solid fa-book-open mr-1"></i> Review Notes</button>
+                <button onclick="hideModal(); updateMetricsDisplay();" class="bg-burgundy-600 hover:bg-burgundy-700 text-white font-bold py-2.5 px-5 rounded-xl transition shadow-md text-xs">Back to Dashboard</button>
             `;
         }
 
@@ -1320,19 +1365,19 @@ A  B  |  AND  OR  NOT(A)
             const card = topic.quiz[currentFlashcardIndex];
             currentFlashcardFlipped = false;
 
-            document.getElementById('modal-header-text').innerHTML = `<i class="fa-solid fa-layer-group text-blue-600 mr-2"></i> Unit ${currentFlashcardUnitKey} Flashcards — ${currentFlashcardIndex + 1} of ${topic.quiz.length}`;
+            document.getElementById('modal-header-text').innerHTML = `<i class="fa-solid fa-layer-group text-burgundy-600 dark:text-burgundy-400 mr-2"></i> Unit ${currentFlashcardUnitKey} Flashcards — ${currentFlashcardIndex + 1} of ${topic.quiz.length}`;
 
             document.getElementById('modal-main-payload').innerHTML = `
                 <p class="text-xs text-slate-400 text-center">Click the card to flip it over</p>
-                <div id="flashcard-face" onclick="flipCurrentFlashcard()" class="min-h-[220px] bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-2xl shadow-lg flex items-center justify-center p-8 text-center cursor-pointer select-none">
+                <div id="flashcard-face" onclick="flipCurrentFlashcard()" class="min-h-[220px] bg-gradient-to-br from-burgundy-600 to-burgundy-800 text-white rounded-2xl shadow-lg flex items-center justify-center p-8 text-center cursor-pointer select-none">
                     <p class="text-base font-bold leading-relaxed">${card.q}</p>
                 </div>
             `;
 
             document.getElementById('modal-footer-controls').innerHTML = `
-                <button onclick="navigateFlashcard(-1)" ${currentFlashcardIndex === 0 ? 'disabled' : ''} class="text-xs font-bold text-slate-500 hover:text-slate-700 disabled:opacity-30 disabled:cursor-not-allowed"><i class="fa-solid fa-arrow-left mr-1"></i> Back</button>
+                <button onclick="navigateFlashcard(-1)" ${currentFlashcardIndex === 0 ? 'disabled' : ''} class="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-700 disabled:opacity-30 disabled:cursor-not-allowed"><i class="fa-solid fa-arrow-left mr-1"></i> Back</button>
                 <button onclick="hideModal()" class="text-xs font-bold text-slate-400 hover:text-slate-600">Close</button>
-                <button onclick="navigateFlashcard(1)" ${currentFlashcardIndex === topic.quiz.length - 1 ? 'disabled' : ''} class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-5 rounded-xl shadow-sm transition disabled:opacity-30 disabled:cursor-not-allowed">Next <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                <button onclick="navigateFlashcard(1)" ${currentFlashcardIndex === topic.quiz.length - 1 ? 'disabled' : ''} class="bg-burgundy-600 hover:bg-burgundy-700 text-white text-xs font-bold py-2 px-5 rounded-xl shadow-sm transition disabled:opacity-30 disabled:cursor-not-allowed">Next <i class="fa-solid fa-arrow-right ml-1"></i></button>
             `;
         }
 
@@ -1345,7 +1390,7 @@ A  B  |  AND  OR  NOT(A)
                 face.className = "min-h-[220px] bg-gradient-to-br from-emerald-600 to-emerald-800 text-white rounded-2xl shadow-lg flex items-center justify-center p-8 text-center cursor-pointer select-none";
                 face.innerHTML = `<p class="text-sm font-semibold leading-relaxed">${card.model}</p>`;
             } else {
-                face.className = "min-h-[220px] bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-2xl shadow-lg flex items-center justify-center p-8 text-center cursor-pointer select-none";
+                face.className = "min-h-[220px] bg-gradient-to-br from-burgundy-600 to-burgundy-800 text-white rounded-2xl shadow-lg flex items-center justify-center p-8 text-center cursor-pointer select-none";
                 face.innerHTML = `<p class="text-base font-bold leading-relaxed">${card.q}</p>`;
             }
         }
@@ -1411,14 +1456,14 @@ A  B  |  AND  OR  NOT(A)
             document.getElementById('modal-main-payload').innerHTML = `
                 <div class="flex justify-between items-center">
                     <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Unit ${question.unitKey}</span>
-                    <span id="mock-exam-timer" class="text-sm font-black text-rose-600 bg-rose-50 px-3 py-1 rounded-lg border border-rose-200"><i class="fa-solid fa-clock mr-1"></i>${formatMockExamTime(mockExamSecondsLeft)}</span>
+                    <span id="mock-exam-timer" class="text-sm font-black text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/30 px-3 py-1 rounded-lg border border-rose-200 dark:border-rose-800"><i class="fa-solid fa-clock mr-1"></i>${formatMockExamTime(mockExamSecondsLeft)}</span>
                 </div>
-                <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm">
-                    <p class="text-sm font-semibold text-slate-800 leading-relaxed"><i class="fa-solid fa-circle-question text-rose-500 mr-1"></i> ${question.q}</p>
+                <div class="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+                    <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 leading-relaxed"><i class="fa-solid fa-circle-question text-rose-500 mr-1"></i> ${question.q}</p>
                 </div>
                 <div class="space-y-2">
                     <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider block">Type your answer:</label>
-                    <textarea id="mock-exam-input" class="w-full p-3 border border-slate-200 rounded-xl h-20 text-xs focus:ring-2 focus:ring-rose-500 outline-none" placeholder="Write a short answer...">${mockExamAnswers[mockExamIndex] || ''}</textarea>
+                    <textarea id="mock-exam-input" class="w-full p-3 border border-slate-200 dark:border-slate-700 rounded-xl h-20 text-xs focus:ring-2 focus:ring-rose-500 outline-none bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100" placeholder="Write a short answer...">${mockExamAnswers[mockExamIndex] || ''}</textarea>
                 </div>
                 <p class="text-[10px] text-slate-400"><i class="fa-solid fa-circle-info mr-1"></i> You won't see the answer until the end, just like in a real exam.</p>
             `;
@@ -1426,7 +1471,7 @@ A  B  |  AND  OR  NOT(A)
             document.getElementById('modal-footer-controls').innerHTML = `
                 <button onclick="quitMockExam()" class="text-xs font-bold text-slate-400 hover:text-slate-600">Quit Exam</button>
                 <div class="flex gap-2">
-                    ${mockExamIndex > 0 ? `<button onclick="navigateMockExam(-1)" class="text-xs font-bold text-slate-500 hover:text-slate-700 px-2"><i class="fa-solid fa-arrow-left mr-1"></i> Back</button>` : ''}
+                    ${mockExamIndex > 0 ? `<button onclick="navigateMockExam(-1)" class="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-700 px-2"><i class="fa-solid fa-arrow-left mr-1"></i> Back</button>` : ''}
                     <button onclick="navigateMockExam(1)" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold py-2 px-5 rounded-xl shadow-sm transition">${isLast ? "Finish Exam" : "Next Question"} <i class="fa-solid fa-arrow-right ml-1"></i></button>
                 </div>
             `;
@@ -1461,14 +1506,14 @@ A  B  |  AND  OR  NOT(A)
                 const result = estimateSimpleRecallScore(studentAnswer, question.keywords);
                 if (result.correct) correctCount++;
 
-                const statusColor = result.correct ? "border-emerald-200 bg-emerald-50" : "border-amber-200 bg-amber-50";
+                const statusColor = result.correct ? "border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/30" : "border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/30";
                 const statusIcon = result.correct ? "fa-circle-check text-emerald-500" : "fa-circle-xmark text-amber-500";
 
                 reviewHtml += `
                     <div class="p-3 border rounded-lg ${statusColor} space-y-1.5">
-                        <p class="text-xs font-bold text-slate-800"><i class="fa-solid ${statusIcon} mr-1"></i> Unit ${question.unitKey}: ${question.q}</p>
-                        <p class="text-[11px] text-slate-500">Your answer: ${studentAnswer.trim() ? studentAnswer : '(left blank)'}</p>
-                        <p class="text-[11px] text-blue-700 font-semibold">Example answer: ${question.model}</p>
+                        <p class="text-xs font-bold text-slate-800 dark:text-slate-200"><i class="fa-solid ${statusIcon} mr-1"></i> Unit ${question.unitKey}: ${question.q}</p>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400">Your answer: ${studentAnswer.trim() ? studentAnswer : '(left blank)'}</p>
+                        <p class="text-[11px] text-burgundy-700 dark:text-burgundy-300 font-semibold">Example answer: ${question.model}</p>
                     </div>
                 `;
             });
@@ -1483,7 +1528,7 @@ A  B  |  AND  OR  NOT(A)
                 <div class="space-y-2 max-h-[320px] overflow-y-auto pr-1">${reviewHtml}</div>
             `;
             document.getElementById('modal-footer-controls').innerHTML = `
-                <button onclick="startMockExam()" class="text-xs font-bold text-slate-500 hover:text-slate-700"><i class="fa-solid fa-rotate mr-1"></i> Try Another Mock Exam</button>
+                <button onclick="startMockExam()" class="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-700"><i class="fa-solid fa-rotate mr-1"></i> Try Another Mock Exam</button>
                 <button onclick="hideModal()" class="bg-slate-900 text-white text-xs font-bold py-2 px-5 rounded-xl transition hover:bg-slate-800">Close</button>
             `;
         }
@@ -1542,7 +1587,7 @@ A  B  |  AND  OR  NOT(A)
             const item = pythonLessonsDatabase[key];
             document.getElementById('sandbox-current-title').innerText = item.title;
             document.getElementById('sandbox-concept-box').innerHTML = item.concept;
-            document.getElementById('sandbox-challenge-text').innerText = item.challenge;
+            document.getElementById('sandbox-challenge-text').innerHTML = item.challenge;
             document.getElementById('sandbox-editor').value = item.code;
         }
 
@@ -1574,18 +1619,18 @@ A  B  |  AND  OR  NOT(A)
             const problem = parsonsProblemPool[key];
 
             document.querySelectorAll('[id^="pbtn-"]').forEach(b => b.className = "p-2 border text-center text-xs rounded-xl font-bold hover:bg-slate-50 transition");
-            document.getElementById(`pbtn-${key}`).className = "p-2 border-blue-600 bg-blue-50 text-blue-700 text-center text-xs rounded-xl font-bold shadow-sm transition";
+            document.getElementById(`pbtn-${key}`).className = "p-2 border-burgundy-600 bg-burgundy-50 dark:bg-burgundy-950/30 text-burgundy-700 dark:text-burgundy-300 text-center text-xs rounded-xl font-bold shadow-sm transition";
 
             let sourceHtml = "";
             problem.scrambled.forEach((line, index) => {
                 sourceHtml += `
-                    <div id="parsons-source-${index}" onclick="addBlockToParsonsWorkspace('${index}', \`${line.replace(/'/g, "&apos;")}\`)" class="p-2 bg-white border border-slate-200 rounded-lg font-mono text-xs cursor-pointer hover:border-blue-500 transition select-none code-font flex items-center justify-between">
+                    <div id="parsons-source-${index}" onclick="addBlockToParsonsWorkspace('${index}', \`${line.replace(/'/g, "&apos;")}\`)" class="p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg font-mono text-xs cursor-pointer hover:border-burgundy-500 transition select-none code-font flex items-center justify-between">
                         <span>${line}</span> <i class="fa-solid fa-circle-plus text-slate-300"></i>
                     </div>
                 `;
             });
             document.getElementById('parsons-source-pool').innerHTML = sourceHtml;
-            document.getElementById('parsons-target-workspace').innerHTML = `<div class='text-xs text-slate-400 italic p-4 text-center border-2 border-dashed border-slate-200 rounded-xl'>Click lines on the left to build your answer here...</div>`;
+            document.getElementById('parsons-target-workspace').innerHTML = `<div class='text-xs text-slate-400 italic p-4 text-center border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl'>Click lines on the left to build your answer here...</div>`;
         }
 
         function addBlockToParsonsWorkspace(id, value) {
@@ -1599,13 +1644,13 @@ A  B  |  AND  OR  NOT(A)
         function renderParsonsWorkspaceTrack() {
             const container = document.getElementById('parsons-target-workspace');
             if(currentParsonsAnswerStack.length === 0) {
-                container.innerHTML = `<div class='text-xs text-slate-400 italic p-4 text-center border-2 border-dashed border-slate-200 rounded-xl'>Click lines on the left to build your answer here...</div>`;
+                container.innerHTML = `<div class='text-xs text-slate-400 italic p-4 text-center border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl'>Click lines on the left to build your answer here...</div>`;
                 return;
             }
             let html = "";
             currentParsonsAnswerStack.forEach((block, index) => {
                 html += `
-                    <div onclick="removeBlockFromParsonsWorkspace(${index}, '${block.id}')" class="p-2 bg-white border border-blue-200 shadow-sm rounded-lg font-mono text-xs cursor-pointer hover:border-rose-500 transition flex justify-between items-center code-font">
+                    <div onclick="removeBlockFromParsonsWorkspace(${index}, '${block.id}')" class="p-2 bg-white dark:bg-slate-900 border border-burgundy-200 dark:border-burgundy-800 shadow-sm rounded-lg font-mono text-xs cursor-pointer hover:border-rose-500 transition flex justify-between items-center code-font">
                         <span>${block.value}</span> <i class="fa-solid fa-circle-minus text-rose-400"></i>
                     </div>
                 `;
@@ -1643,7 +1688,7 @@ A  B  |  AND  OR  NOT(A)
             let menuHtml = "";
             Object.keys(paper2Database).forEach(key => {
                 menuHtml += `
-                    <button id="p2btn-${key}" onclick="selectPaper2Challenge('${key}')" class="w-full text-left p-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold hover:bg-slate-50 transition flex items-center gap-2">
+                    <button id="p2btn-${key}" onclick="selectPaper2Challenge('${key}')" class="w-full text-left p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-semibold hover:bg-slate-50 transition flex items-center gap-2">
                         <i class="fa-solid fa-file-signature text-purple-500"></i> ${paper2Database[key].title}
                     </button>
                 `;
@@ -1656,8 +1701,8 @@ A  B  |  AND  OR  NOT(A)
             currentPaper2Key = key;
             const task = paper2Database[key];
 
-            document.querySelectorAll('[id^="p2btn-"]').forEach(b => b.className = "w-full text-left p-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold hover:bg-slate-50 transition flex items-center gap-2");
-            document.getElementById(`p2btn-${key}`).className = "w-full text-left p-3 rounded-xl border-purple-600 bg-purple-50 text-purple-900 text-xs font-bold shadow-sm flex items-center gap-2";
+            document.querySelectorAll('[id^="p2btn-"]').forEach(b => b.className = "w-full text-left p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-semibold hover:bg-slate-50 transition flex items-center gap-2");
+            document.getElementById(`p2btn-${key}`).className = "w-full text-left p-3 rounded-xl border-purple-600 bg-purple-50 dark:bg-purple-950/30 text-purple-900 dark:text-purple-200 text-xs font-bold shadow-sm flex items-center gap-2";
 
             document.getElementById('paper2-active-tag').innerHTML = `<i class="fa-solid fa-certificate mr-1"></i> ${task.tag}`;
             document.getElementById('paper2-active-title').innerText = task.title;
@@ -1676,9 +1721,9 @@ A  B  |  AND  OR  NOT(A)
             const task = paper2Database[currentPaper2Key];
             if (box.classList.contains('hidden')) {
                 box.innerHTML = `
-                    <span class="text-[10px] font-black uppercase text-purple-700 tracking-wider block mb-1"><i class="fa-solid fa-lightbulb mr-1"></i> Example Model Answer</span>
+                    <span class="text-[10px] font-black uppercase text-purple-700 dark:text-purple-300 tracking-wider block mb-1"><i class="fa-solid fa-lightbulb mr-1"></i> Example Model Answer</span>
                     <pre class="font-mono text-xs bg-slate-950 text-emerald-400 p-3 rounded-lg overflow-x-auto code-font">${task.sample}</pre>
-                    <p class="text-[10px] text-slate-500">This is one way to answer it well — there are often other correct ways too.</p>
+                    <p class="text-[10px] text-slate-500 dark:text-slate-400">This is one way to answer it well — there are often other correct ways too.</p>
                 `;
                 box.classList.remove('hidden');
             } else {
@@ -1694,7 +1739,7 @@ A  B  |  AND  OR  NOT(A)
             if(!rawText.trim()) return alert("Please write an answer before checking it.");
 
             feedbackBox.classList.remove('hidden');
-            feedbackBox.innerHTML = `<div class="text-xs text-purple-600 font-bold animate-pulse"><i class="fa-solid fa-arrows-spin animate-spin mr-1"></i> Checking your answer...</div>`;
+            feedbackBox.innerHTML = `<div class="text-xs text-purple-600 dark:text-purple-400 font-bold animate-pulse"><i class="fa-solid fa-arrows-spin animate-spin mr-1"></i> Checking your answer...</div>`;
 
             setTimeout(() => {
                 const result = estimateKeywordScore(rawText, task.keywords, 6);
@@ -1706,13 +1751,13 @@ A  B  |  AND  OR  NOT(A)
                             <span class="font-bold"><i class="fa-solid fa-square-poll-vertical mr-1"></i> Your Result</span>
                             <span class="font-black text-amber-300">${marksAllocated} / 6 Marks</span>
                         </div>
-                        ${result.flagged ? `<div class="bg-amber-50 border border-amber-200 text-amber-700 p-2 rounded-lg font-semibold"><i class="fa-solid fa-flag mr-1"></i> Your answer looked more like a list of keywords than a full explanation, so credit has been capped. Try writing in full sentences instead.</div>` : ``}
-                        <p class="text-slate-600 leading-relaxed">
-                            <b>Key ideas found in your answer:</b> ${result.matched.length ? result.matched.map(m => `<code class="bg-purple-100 text-purple-700 font-bold px-1 py-0.5 rounded">${m}</code>`).join(' ') : 'None yet'}
+                        ${result.flagged ? `<div class="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 p-2 rounded-lg font-semibold"><i class="fa-solid fa-flag mr-1"></i> Your answer looked more like a list of keywords than a full explanation, so credit has been capped. Try writing in full sentences instead.</div>` : ``}
+                        <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                            <b>Key ideas found in your answer:</b> ${result.matched.length ? result.matched.map(m => `<code class="bg-purple-100 text-purple-700 dark:text-purple-300 font-bold px-1 py-0.5 rounded">${m}</code>`).join(' ') : 'None yet'}
                         </p>
-                        <div class="p-3 bg-white border border-purple-200 rounded-lg">
-                            <span class="font-bold block text-purple-900 mb-1"><i class="fa-solid fa-list-check mr-1"></i> Mark Scheme:</span>
-                            <div class="text-slate-700 leading-relaxed space-y-1 font-medium">${task.ms}</div>
+                        <div class="p-3 bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-800 rounded-lg">
+                            <span class="font-bold block text-purple-900 dark:text-purple-200 mb-1"><i class="fa-solid fa-list-check mr-1"></i> Mark Scheme:</span>
+                            <div class="text-slate-700 dark:text-slate-300 leading-relaxed space-y-1 font-medium">${task.ms}</div>
                         </div>
                         <p class="text-[10px] text-slate-400 leading-relaxed"><i class="fa-solid fa-circle-info mr-1"></i> This is automated marking, not a real examiner — use the mark scheme and model answer above to check your own work too.</p>
                     </div>
@@ -1722,6 +1767,7 @@ A  B  |  AND  OR  NOT(A)
         }
 
         window.onload = function() {
+            updateDarkModeIcon();
             initLocalStorageProfile();
             initializePyodideRuntime();
             buildParsonsSelectors();
@@ -1729,7 +1775,7 @@ A  B  |  AND  OR  NOT(A)
 
             let sidebarHtml = "";
             Object.keys(pythonLessonsDatabase).forEach(key => {
-                sidebarHtml += `<button id="lbtn-${key}" onclick="selectSandboxLesson('${key}')" class="lesson-btn w-full text-left p-2.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold hover:bg-slate-50 transition flex items-center gap-2"><i class="fa-brands fa-python text-emerald-600"></i> ${pythonLessonsDatabase[key].title}</button>`;
+                sidebarHtml += `<button id="lbtn-${key}" onclick="selectSandboxLesson('${key}')" class="lesson-btn w-full text-left p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-semibold hover:bg-slate-50 transition flex items-center gap-2"><i class="fa-brands fa-python text-emerald-600 dark:text-emerald-400"></i> ${pythonLessonsDatabase[key].title}</button>`;
             });
             document.getElementById('sandbox-lesson-menu').innerHTML = sidebarHtml;
             selectSandboxLesson('input_output');
