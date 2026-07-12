@@ -334,6 +334,11 @@
         let mockExamSecondsLeft = 0;
         let mockExamTimerHandle = null;
 
+        // MCQ quiz state
+        let currentMCQUnitKey = "";
+        let currentMCQIndex = 0;
+        let currentMCQScoreLog = [];
+
         // ============== COMMAND WORDS (exam technique help) ==============
         const commandWordsGuide = [
             { word: "State / Identify / Name", tip: "Just give a short, simple fact. No explaining needed. Usually worth 1 mark." },
@@ -415,6 +420,30 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2"><i class="fa-solid fa-diagram-project mr-1"></i> Diagram: The Fetch-Decode-Execute Cycle</span>
+                            <svg viewBox="0 0 400 220" class="w-full h-auto">
+                                <circle cx="200" cy="110" r="78" fill="none" class="stroke-slate-300 dark:stroke-slate-600" stroke-width="2" stroke-dasharray="4 4"/>
+                                <circle cx="200" cy="34" r="34" class="fill-burgundy-600 dark:fill-burgundy-500"/>
+                                <text x="200" y="30" text-anchor="middle" class="fill-white text-[11px] font-bold">FETCH</text>
+                                <text x="200" y="43" text-anchor="middle" class="fill-white text-[8px]">get instruction</text>
+                                <circle cx="270" cy="160" r="34" class="fill-burgundy-600 dark:fill-burgundy-500"/>
+                                <text x="270" y="156" text-anchor="middle" class="fill-white text-[11px] font-bold">DECODE</text>
+                                <text x="270" y="169" text-anchor="middle" class="fill-white text-[8px]">work out meaning</text>
+                                <circle cx="130" cy="160" r="34" class="fill-burgundy-600 dark:fill-burgundy-500"/>
+                                <text x="130" y="156" text-anchor="middle" class="fill-white text-[11px] font-bold">EXECUTE</text>
+                                <text x="130" y="169" text-anchor="middle" class="fill-white text-[8px]">carry it out</text>
+                                <path d="M 228 55 A 78 78 0 0 1 250 132" fill="none" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="2" marker-end="url(#arrow1)"/>
+                                <path d="M 240 185 A 78 78 0 0 1 160 185" fill="none" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="2" marker-end="url(#arrow1)"/>
+                                <path d="M 150 132 A 78 78 0 0 1 172 55" fill="none" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="2" marker-end="url(#arrow1)"/>
+                                <defs>
+                                    <marker id="arrow1" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                                        <path d="M0,0 L8,4 L0,8 z" class="fill-slate-400 dark:fill-slate-500"/>
+                                    </marker>
+                                </defs>
+                            </svg>
+                            <p class="text-[10px] text-slate-400 text-center mt-1">The CPU repeats this cycle millions of times per second.</p>
+                        </div>
                         <div class="bg-burgundy-50 dark:bg-burgundy-950/30 p-3.5 rounded-xl border border-burgundy-100 dark:border-burgundy-800">
                             <h4 class="font-bold text-burgundy-900 dark:text-burgundy-200 mb-1"><i class="fa-solid fa-microchip mr-1"></i> What does the CPU do?</h4>
                             <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
@@ -465,6 +494,28 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2"><i class="fa-solid fa-diagram-project mr-1"></i> Diagram: The Memory Hierarchy</span>
+                            <svg viewBox="0 0 400 190" class="w-full h-auto">
+                                <polygon points="170,10 230,10 260,45 140,45" class="fill-burgundy-700 dark:fill-burgundy-600"/>
+                                <text x="200" y="32" text-anchor="middle" class="fill-white text-[10px] font-bold">Registers</text>
+                                <polygon points="140,50 260,50 285,85 115,85" class="fill-burgundy-600 dark:fill-burgundy-500"/>
+                                <text x="200" y="72" text-anchor="middle" class="fill-white text-[10px] font-bold">Cache</text>
+                                <polygon points="115,90 285,90 310,125 90,125" class="fill-burgundy-500 dark:fill-burgundy-400"/>
+                                <text x="200" y="112" text-anchor="middle" class="fill-white text-[10px] font-bold">RAM</text>
+                                <polygon points="90,130 310,130 335,165 65,165" class="fill-burgundy-300 dark:fill-burgundy-300"/>
+                                <text x="200" y="152" text-anchor="middle" class="fill-slate-900 text-[10px] font-bold">Secondary Storage (SSD/HDD)</text>
+                                <text x="335" y="30" class="fill-slate-400 text-[9px]">Faster</text>
+                                <text x="345" y="160" class="fill-slate-400 text-[9px]">More Storage</text>
+                                <line x1="330" y1="15" x2="330" y2="160" class="stroke-slate-300 dark:stroke-slate-600" stroke-width="1.5" marker-end="url(#arrow2)"/>
+                                <defs>
+                                    <marker id="arrow2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                                        <path d="M0,0 L8,4 L0,8 z" class="fill-slate-300 dark:fill-slate-600"/>
+                                    </marker>
+                                </defs>
+                            </svg>
+                            <p class="text-[10px] text-slate-400 text-center mt-1">The closer to the top, the faster but smaller and more expensive the memory is.</p>
+                        </div>
                         <div class="bg-burgundy-50 dark:bg-burgundy-950/30 p-3.5 rounded-xl border border-burgundy-100 dark:border-burgundy-800">
                             <h4 class="font-bold text-burgundy-900 dark:text-burgundy-200 mb-1"><i class="fa-solid fa-memory mr-1"></i> RAM vs ROM</h4>
                             <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
@@ -507,6 +558,27 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2"><i class="fa-solid fa-diagram-project mr-1"></i> Diagram: Star Topology</span>
+                            <svg viewBox="0 0 360 200" class="w-full h-auto">
+                                <line x1="180" y1="100" x2="60" y2="40" class="stroke-slate-300 dark:stroke-slate-600" stroke-width="2"/>
+                                <line x1="180" y1="100" x2="300" y2="40" class="stroke-slate-300 dark:stroke-slate-600" stroke-width="2"/>
+                                <line x1="180" y1="100" x2="60" y2="160" class="stroke-slate-300 dark:stroke-slate-600" stroke-width="2"/>
+                                <line x1="180" y1="100" x2="300" y2="160" class="stroke-slate-300 dark:stroke-slate-600" stroke-width="2"/>
+                                <rect x="145" y="75" width="70" height="50" rx="8" class="fill-burgundy-600 dark:fill-burgundy-500"/>
+                                <text x="180" y="97" text-anchor="middle" class="fill-white text-[9px] font-bold">CENTRAL</text>
+                                <text x="180" y="109" text-anchor="middle" class="fill-white text-[9px] font-bold">SWITCH</text>
+                                <circle cx="60" cy="40" r="26" class="fill-slate-200 dark:fill-slate-700"/>
+                                <text x="60" y="44" text-anchor="middle" class="fill-slate-700 dark:fill-slate-200 text-[9px] font-bold">PC 1</text>
+                                <circle cx="300" cy="40" r="26" class="fill-slate-200 dark:fill-slate-700"/>
+                                <text x="300" y="44" text-anchor="middle" class="fill-slate-700 dark:fill-slate-200 text-[9px] font-bold">PC 2</text>
+                                <circle cx="60" cy="160" r="26" class="fill-slate-200 dark:fill-slate-700"/>
+                                <text x="60" y="164" text-anchor="middle" class="fill-slate-700 dark:fill-slate-200 text-[9px] font-bold">PC 3</text>
+                                <circle cx="300" cy="160" r="26" class="fill-slate-200 dark:fill-slate-700"/>
+                                <text x="300" y="164" text-anchor="middle" class="fill-slate-700 dark:fill-slate-200 text-[9px] font-bold">PC 4</text>
+                            </svg>
+                            <p class="text-[10px] text-slate-400 text-center mt-1">Every device connects directly to the central switch.</p>
+                        </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
                                 <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">LAN vs WAN</span>
@@ -554,7 +626,30 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
-                        <div class="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 p-3.5 rounded-xl text-rose-950">
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2"><i class="fa-solid fa-diagram-project mr-1"></i> Diagram: How a Firewall Works</span>
+                            <svg viewBox="0 0 380 140" class="w-full h-auto">
+                                <text x="45" y="25" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300 text-[10px] font-bold">Internet</text>
+                                <circle cx="45" cy="70" r="24" class="fill-slate-300 dark:fill-slate-600"/>
+                                <rect x="150" y="40" width="80" height="60" rx="8" class="fill-burgundy-600 dark:fill-burgundy-500"/>
+                                <text x="190" y="66" text-anchor="middle" class="fill-white text-[10px] font-bold">FIREWALL</text>
+                                <text x="190" y="80" text-anchor="middle" class="fill-white text-[8px]">checks traffic</text>
+                                <circle cx="335" cy="70" r="24" class="fill-slate-300 dark:fill-slate-600"/>
+                                <text x="335" y="25" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300 text-[10px] font-bold">Network</text>
+                                <line x1="70" y1="60" x2="148" y2="60" class="stroke-emerald-500" stroke-width="2" marker-end="url(#arrow3)"/>
+                                <text x="105" y="52" text-anchor="middle" class="fill-emerald-600 text-[8px] font-bold">safe</text>
+                                <line x1="70" y1="85" x2="148" y2="85" class="stroke-rose-500" stroke-width="2" stroke-dasharray="3 3"/>
+                                <text x="105" y="98" text-anchor="middle" class="fill-rose-500 text-[8px] font-bold">blocked ✕</text>
+                                <line x1="232" y1="65" x2="309" y2="65" class="stroke-emerald-500" stroke-width="2" marker-end="url(#arrow3)"/>
+                                <defs>
+                                    <marker id="arrow3" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                                        <path d="M0,0 L8,4 L0,8 z" class="fill-emerald-500"/>
+                                    </marker>
+                                </defs>
+                            </svg>
+                            <p class="text-[10px] text-slate-400 text-center mt-1">A firewall lets safe traffic through and blocks traffic that breaks its rules.</p>
+                        </div>
+                        <div class="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 p-3.5 rounded-xl text-rose-950 dark:text-rose-200">
                             <h4 class="font-bold mb-1"><i class="fa-solid fa-shield-halved"></i> Common Threats</h4>
                             <ul class="list-disc pl-4 space-y-1">
                                 <li><b>Phishing:</b> Fake emails that trick people into giving away personal information.</li>
@@ -595,6 +690,20 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2"><i class="fa-solid fa-diagram-project mr-1"></i> Diagram: Where the OS Sits</span>
+                            <svg viewBox="0 0 360 170" class="w-full h-auto">
+                                <rect x="30" y="130" width="300" height="30" rx="6" class="fill-slate-300 dark:fill-slate-600"/>
+                                <text x="180" y="150" text-anchor="middle" class="fill-slate-800 dark:fill-slate-100 text-[10px] font-bold">HARDWARE</text>
+                                <rect x="30" y="90" width="300" height="30" rx="6" class="fill-burgundy-600 dark:fill-burgundy-500"/>
+                                <text x="180" y="110" text-anchor="middle" class="fill-white text-[10px] font-bold">OPERATING SYSTEM</text>
+                                <rect x="30" y="50" width="300" height="30" rx="6" class="fill-slate-400 dark:fill-slate-500"/>
+                                <text x="180" y="70" text-anchor="middle" class="fill-white text-[10px] font-bold">APPLICATIONS (Word, games, browser...)</text>
+                                <rect x="30" y="10" width="300" height="30" rx="6" class="fill-slate-200 dark:fill-slate-700"/>
+                                <text x="180" y="30" text-anchor="middle" class="fill-slate-800 dark:fill-slate-100 text-[10px] font-bold">USER</text>
+                            </svg>
+                            <p class="text-[10px] text-slate-400 text-center mt-1">The OS sits between the hardware and the applications you use.</p>
+                        </div>
                         <div class="bg-burgundy-50 dark:bg-burgundy-950/30 p-3 rounded-xl border border-burgundy-100 dark:border-burgundy-800">
                             <h4 class="font-bold text-burgundy-900 dark:text-burgundy-200 mb-1">What Does an Operating System Do?</h4>
                             <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
@@ -636,6 +745,23 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2"><i class="fa-solid fa-diagram-project mr-1"></i> Diagram: Four Types of Impact</span>
+                            <svg viewBox="0 0 340 200" class="w-full h-auto">
+                                <rect x="10" y="10" width="150" height="85" rx="8" class="fill-burgundy-600 dark:fill-burgundy-500"/>
+                                <text x="85" y="45" text-anchor="middle" class="fill-white text-[11px] font-bold">ETHICAL</text>
+                                <text x="85" y="62" text-anchor="middle" class="fill-white text-[8px]">Is it right or wrong?</text>
+                                <rect x="180" y="10" width="150" height="85" rx="8" class="fill-slate-500 dark:fill-slate-500"/>
+                                <text x="255" y="45" text-anchor="middle" class="fill-white text-[11px] font-bold">LEGAL</text>
+                                <text x="255" y="62" text-anchor="middle" class="fill-white text-[8px]">Is there a law about it?</text>
+                                <rect x="10" y="105" width="150" height="85" rx="8" class="fill-slate-400 dark:fill-slate-600"/>
+                                <text x="85" y="140" text-anchor="middle" class="fill-white text-[11px] font-bold">CULTURAL</text>
+                                <text x="85" y="157" text-anchor="middle" class="fill-white text-[8px]">How does it affect society?</text>
+                                <rect x="180" y="105" width="150" height="85" rx="8" class="fill-burgundy-400 dark:fill-burgundy-400"/>
+                                <text x="255" y="140" text-anchor="middle" class="fill-white text-[11px] font-bold">ENVIRONMENTAL</text>
+                                <text x="255" y="157" text-anchor="middle" class="fill-white text-[8px]">What's the impact on the planet?</text>
+                            </svg>
+                        </div>
                         <div class="bg-burgundy-50 dark:bg-burgundy-950/30 p-3.5 rounded-xl border border-burgundy-100 dark:border-burgundy-800">
                             <h4 class="font-bold text-burgundy-900 dark:text-burgundy-200 mb-1"><i class="fa-solid fa-scale-balanced mr-1"></i> Key UK Laws</h4>
                             <ul class="list-disc pl-4 space-y-1 text-slate-700 dark:text-slate-300 leading-relaxed">
@@ -682,6 +808,38 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2"><i class="fa-solid fa-diagram-project mr-1"></i> Diagram: Binary Search In Action</span>
+                            <svg viewBox="0 0 380 150" class="w-full h-auto">
+                                <text x="10" y="20" class="fill-slate-500 dark:fill-slate-400 text-[9px] font-bold">Sorted list: looking for 23</text>
+                                <g>
+                                    <rect x="10" y="30" width="45" height="28" class="fill-slate-100 dark:fill-slate-800 stroke-slate-300 dark:stroke-slate-600"/>
+                                    <text x="32" y="48" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300 text-[9px]">4</text>
+                                    <rect x="55" y="30" width="45" height="28" class="fill-slate-100 dark:fill-slate-800 stroke-slate-300 dark:stroke-slate-600"/>
+                                    <text x="77" y="48" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300 text-[9px]">9</text>
+                                    <rect x="100" y="30" width="45" height="28" class="fill-slate-100 dark:fill-slate-800 stroke-slate-300 dark:stroke-slate-600"/>
+                                    <text x="122" y="48" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300 text-[9px]">15</text>
+                                    <rect x="145" y="30" width="45" height="28" class="fill-burgundy-600 dark:fill-burgundy-500"/>
+                                    <text x="167" y="48" text-anchor="middle" class="fill-white text-[9px] font-bold">18</text>
+                                    <rect x="190" y="30" width="45" height="28" class="fill-slate-100 dark:fill-slate-800 stroke-slate-300 dark:stroke-slate-600"/>
+                                    <text x="212" y="48" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300 text-[9px]">23</text>
+                                    <rect x="235" y="30" width="45" height="28" class="fill-slate-100 dark:fill-slate-800 stroke-slate-300 dark:stroke-slate-600"/>
+                                    <text x="257" y="48" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300 text-[9px]">31</text>
+                                    <rect x="280" y="30" width="45" height="28" class="fill-slate-100 dark:fill-slate-800 stroke-slate-300 dark:stroke-slate-600"/>
+                                    <text x="302" y="48" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300 text-[9px]">40</text>
+                                    <text x="167" y="20" text-anchor="middle" class="fill-slate-400 text-[8px]">1. Check middle (18) — 23 is bigger, so look right</text>
+                                </g>
+                                <g>
+                                    <rect x="190" y="80" width="45" height="28" class="fill-emerald-500"/>
+                                    <text x="212" y="98" text-anchor="middle" class="fill-white text-[9px] font-bold">23</text>
+                                    <rect x="235" y="80" width="45" height="28" class="fill-slate-100 dark:fill-slate-800 stroke-slate-300 dark:stroke-slate-600"/>
+                                    <text x="257" y="98" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300 text-[9px]">31</text>
+                                    <rect x="280" y="80" width="45" height="28" class="fill-slate-100 dark:fill-slate-800 stroke-slate-300 dark:stroke-slate-600"/>
+                                    <text x="302" y="98" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300 text-[9px]">40</text>
+                                    <text x="257" y="128" text-anchor="middle" class="fill-emerald-600 text-[8px] font-bold">2. Check middle of remaining half — found it!</text>
+                                </g>
+                            </svg>
+                        </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
                                 <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Searching</span>
@@ -726,6 +884,35 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2"><i class="fa-solid fa-diagram-project mr-1"></i> Diagram: Sequence, Selection & Iteration</span>
+                            <svg viewBox="0 0 380 130" class="w-full h-auto">
+                                <rect x="10" y="10" width="100" height="24" rx="4" class="fill-slate-200 dark:fill-slate-700"/>
+                                <text x="60" y="26" text-anchor="middle" class="fill-slate-800 dark:fill-slate-100 text-[8px] font-bold">Step 1</text>
+                                <rect x="10" y="44" width="100" height="24" rx="4" class="fill-slate-200 dark:fill-slate-700"/>
+                                <text x="60" y="60" text-anchor="middle" class="fill-slate-800 dark:fill-slate-100 text-[8px] font-bold">Step 2</text>
+                                <rect x="10" y="78" width="100" height="24" rx="4" class="fill-slate-200 dark:fill-slate-700"/>
+                                <text x="60" y="94" text-anchor="middle" class="fill-slate-800 dark:fill-slate-100 text-[8px] font-bold">Step 3</text>
+                                <text x="60" y="118" text-anchor="middle" class="fill-burgundy-600 dark:fill-burgundy-400 text-[9px] font-bold">SEQUENCE</text>
+                                <polygon points="185,10 225,35 185,60 145,35" class="fill-burgundy-600 dark:fill-burgundy-500"/>
+                                <text x="185" y="38" text-anchor="middle" class="fill-white text-[8px] font-bold">IF?</text>
+                                <rect x="150" y="70" width="35" height="20" rx="4" class="fill-slate-200 dark:fill-slate-700"/>
+                                <text x="167" y="84" text-anchor="middle" class="fill-slate-800 dark:fill-slate-100 text-[7px]">Yes</text>
+                                <rect x="195" y="70" width="35" height="20" rx="4" class="fill-slate-200 dark:fill-slate-700"/>
+                                <text x="212" y="84" text-anchor="middle" class="fill-slate-800 dark:fill-slate-100 text-[7px]">No</text>
+                                <text x="185" y="118" text-anchor="middle" class="fill-burgundy-600 dark:fill-burgundy-400 text-[9px] font-bold">SELECTION</text>
+                                <rect x="270" y="20" width="90" height="24" rx="4" class="fill-slate-200 dark:fill-slate-700"/>
+                                <text x="315" y="36" text-anchor="middle" class="fill-slate-800 dark:fill-slate-100 text-[8px] font-bold">Repeat block</text>
+                                <path d="M 360 44 Q 380 55 360 66 L 270 66 Q 260 55 270 44 Z" fill="none" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="1.5"/>
+                                <path d="M 300 66 L 300 78 L 330 78 L 330 44" fill="none" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="1.5" marker-end="url(#arrow4)"/>
+                                <defs>
+                                    <marker id="arrow4" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                                        <path d="M0,0 L8,4 L0,8 z" class="fill-slate-400 dark:fill-slate-500"/>
+                                    </marker>
+                                </defs>
+                                <text x="315" y="118" text-anchor="middle" class="fill-burgundy-600 dark:fill-burgundy-400 text-[9px] font-bold">ITERATION</text>
+                            </svg>
+                        </div>
                         <div class="bg-burgundy-50 dark:bg-burgundy-950/30 p-3.5 rounded-xl border border-burgundy-100 dark:border-burgundy-800">
                             <h4 class="font-bold text-burgundy-900 dark:text-burgundy-200 mb-1">The Three Building Blocks</h4>
                             <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
@@ -765,7 +952,28 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
-                        <div class="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 p-3.5 rounded-xl text-rose-950">
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2"><i class="fa-solid fa-diagram-project mr-1"></i> Diagram: Test Data For "Accept 1-10"</span>
+                            <svg viewBox="0 0 380 90" class="w-full h-auto">
+                                <line x1="20" y1="50" x2="360" y2="50" class="stroke-slate-300 dark:stroke-slate-600" stroke-width="2"/>
+                                <circle cx="40" cy="50" r="5" class="fill-rose-500"/>
+                                <text x="40" y="30" text-anchor="middle" class="fill-rose-500 text-[8px] font-bold">0</text>
+                                <text x="40" y="70" text-anchor="middle" class="fill-rose-500 text-[7px]">erroneous</text>
+                                <circle cx="90" cy="50" r="5" class="fill-amber-500"/>
+                                <text x="90" y="30" text-anchor="middle" class="fill-amber-500 text-[8px] font-bold">1</text>
+                                <text x="90" y="70" text-anchor="middle" class="fill-amber-500 text-[7px]">boundary</text>
+                                <circle cx="200" cy="50" r="5" class="fill-emerald-500"/>
+                                <text x="200" y="30" text-anchor="middle" class="fill-emerald-500 text-[8px] font-bold">5</text>
+                                <text x="200" y="70" text-anchor="middle" class="fill-emerald-500 text-[7px]">normal</text>
+                                <circle cx="310" cy="50" r="5" class="fill-amber-500"/>
+                                <text x="310" y="30" text-anchor="middle" class="fill-amber-500 text-[8px] font-bold">10</text>
+                                <text x="310" y="70" text-anchor="middle" class="fill-amber-500 text-[7px]">boundary</text>
+                                <circle cx="345" cy="50" r="5" class="fill-rose-500"/>
+                                <text x="345" y="30" text-anchor="middle" class="fill-rose-500 text-[8px] font-bold">15</text>
+                                <text x="345" y="70" text-anchor="middle" class="fill-rose-500 text-[7px]">invalid</text>
+                            </svg>
+                        </div>
+                        <div class="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 p-3.5 rounded-xl text-rose-950 dark:text-rose-200">
                             <h4 class="font-bold mb-1"><i class="fa-solid fa-bug"></i> Types of Error</h4>
                             <p class="leading-relaxed">
                                 <b>Syntax error:</b> Breaks the rules of the language, so the code won't run at all.<br>
@@ -806,6 +1014,28 @@
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2"><i class="fa-solid fa-diagram-project mr-1"></i> Diagram: Logic Gate Symbols</span>
+                            <svg viewBox="0 0 380 100" class="w-full h-auto">
+                                <path d="M 20 20 L 20 60 L 45 60 A 20 20 0 0 0 45 20 Z" class="fill-slate-100 dark:fill-slate-800 stroke-burgundy-600 dark:stroke-burgundy-400" stroke-width="2"/>
+                                <text x="45" y="90" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300 text-[9px] font-bold">AND</text>
+                                <line x1="5" y1="27" x2="20" y2="27" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="2"/>
+                                <line x1="5" y1="53" x2="20" y2="53" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="2"/>
+                                <line x1="65" y1="40" x2="80" y2="40" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="2"/>
+
+                                <path d="M 130 20 Q 150 40 130 60 Q 155 60 170 40 Q 155 20 130 20 Z" class="fill-slate-100 dark:fill-slate-800 stroke-burgundy-600 dark:stroke-burgundy-400" stroke-width="2"/>
+                                <text x="150" y="90" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300 text-[9px] font-bold">OR</text>
+                                <line x1="118" y1="27" x2="133" y2="27" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="2"/>
+                                <line x1="118" y1="53" x2="133" y2="53" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="2"/>
+                                <line x1="170" y1="40" x2="185" y2="40" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="2"/>
+
+                                <path d="M 250 25 L 250 55 L 285 40 Z" class="fill-slate-100 dark:fill-slate-800 stroke-burgundy-600 dark:stroke-burgundy-400" stroke-width="2"/>
+                                <circle cx="290" cy="40" r="5" class="fill-slate-100 dark:fill-slate-800 stroke-burgundy-600 dark:stroke-burgundy-400" stroke-width="2"/>
+                                <text x="270" y="90" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300 text-[9px] font-bold">NOT</text>
+                                <line x1="235" y1="40" x2="250" y2="40" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="2"/>
+                                <line x1="295" y1="40" x2="310" y2="40" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="2"/>
+                            </svg>
+                        </div>
                         <div class="bg-burgundy-50 dark:bg-burgundy-950/30 p-3.5 rounded-xl border border-burgundy-100 dark:border-burgundy-800">
                             <h4 class="font-bold text-burgundy-900 dark:text-burgundy-200 mb-1">The Three Basic Logic Gates</h4>
                             <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
@@ -849,6 +1079,35 @@ A  B  |  AND  OR  NOT(A)
                 ],
                 ko: `
                     <div class="space-y-4 text-xs">
+                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2"><i class="fa-solid fa-diagram-project mr-1"></i> Diagram: Compiler vs Interpreter</span>
+                            <svg viewBox="0 0 380 130" class="w-full h-auto">
+                                <text x="10" y="20" class="fill-slate-500 dark:fill-slate-400 text-[9px] font-bold">Compiler</text>
+                                <rect x="10" y="28" width="70" height="26" rx="4" class="fill-slate-200 dark:fill-slate-700"/>
+                                <text x="45" y="45" text-anchor="middle" class="fill-slate-800 dark:fill-slate-100 text-[8px] font-bold">Whole code</text>
+                                <line x1="80" y1="41" x2="105" y2="41" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="2" marker-end="url(#arrow5)"/>
+                                <rect x="105" y="28" width="80" height="26" rx="4" class="fill-burgundy-600 dark:fill-burgundy-500"/>
+                                <text x="145" y="45" text-anchor="middle" class="fill-white text-[8px] font-bold">Compiler</text>
+                                <line x1="185" y1="41" x2="210" y2="41" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="2" marker-end="url(#arrow5)"/>
+                                <rect x="210" y="28" width="90" height="26" rx="4" class="fill-emerald-500"/>
+                                <text x="255" y="45" text-anchor="middle" class="fill-white text-[8px] font-bold">Runs fast, all at once</text>
+
+                                <text x="10" y="80" class="fill-slate-500 dark:fill-slate-400 text-[9px] font-bold">Interpreter</text>
+                                <rect x="10" y="88" width="70" height="26" rx="4" class="fill-slate-200 dark:fill-slate-700"/>
+                                <text x="45" y="105" text-anchor="middle" class="fill-slate-800 dark:fill-slate-100 text-[8px] font-bold">Line 1, 2, 3...</text>
+                                <line x1="80" y1="101" x2="105" y2="101" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="2" marker-end="url(#arrow5)"/>
+                                <rect x="105" y="88" width="90" height="26" rx="4" class="fill-burgundy-600 dark:fill-burgundy-500"/>
+                                <text x="150" y="105" text-anchor="middle" class="fill-white text-[8px] font-bold">Interpreter</text>
+                                <line x1="195" y1="101" x2="220" y2="101" class="stroke-slate-400 dark:stroke-slate-500" stroke-width="2" marker-end="url(#arrow5)"/>
+                                <rect x="220" y="88" width="110" height="26" rx="4" class="fill-amber-500"/>
+                                <text x="275" y="105" text-anchor="middle" class="fill-white text-[8px] font-bold">Runs + stops on error</text>
+                                <defs>
+                                    <marker id="arrow5" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                                        <path d="M0,0 L8,4 L0,8 z" class="fill-slate-400 dark:fill-slate-500"/>
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
                                 <span class="font-bold text-slate-900 dark:text-slate-100 block mb-1">Compilers vs Interpreters</span>
@@ -1034,6 +1293,142 @@ A  B  |  AND  OR  NOT(A)
             }
         };
 
+        // ============== MULTIPLE CHOICE QUESTIONS (10 per unit) ==============
+        const mcqDatabase = {
+            "1.1": [
+                { q: "What does CPU stand for?", options: ["Central Processing Unit", "Central Programming Unit", "Computer Processing Unit", "Central Peripheral Unit"], correct: 0 },
+                { q: "Which part of the CPU carries out calculations?", options: ["Control Unit", "ALU", "Cache", "Program Counter"], correct: 1 },
+                { q: "What is the correct order of the Fetch-Decode-Execute cycle?", options: ["Decode, Fetch, Execute", "Fetch, Execute, Decode", "Fetch, Decode, Execute", "Execute, Decode, Fetch"], correct: 2 },
+                { q: "What does the Program Counter (PC) store?", options: ["The result of the last calculation", "The address of the next instruction", "The current clock speed", "The data being processed"], correct: 1 },
+                { q: "What happens when clock speed increases?", options: ["The CPU processes fewer instructions per second", "The CPU can process more instructions per second", "The CPU uses less cache", "The CPU stops using RAM"], correct: 1 },
+                { q: "What is cache memory used for?", options: ["Long-term storage of files", "Storing frequently used data close to the CPU for faster access", "Connecting to the internet", "Displaying graphics"], correct: 1 },
+                { q: "What is a core?", options: ["A type of storage device", "A separate processing unit inside the CPU", "A type of software", "A network cable"], correct: 1 },
+                { q: "What is the Von Neumann bottleneck?", options: ["A type of virus", "The CPU running out of storage", "The CPU processing data faster than it can be fetched from memory", "A network security flaw"], correct: 2 },
+                { q: "Which of these would generally make a CPU perform better?", options: ["Lower clock speed", "Less cache", "More cores that the software can use", "Removing the control unit"], correct: 2 },
+                { q: "What does the Control Unit (CU) do?", options: ["Stores results of calculations", "Manages the flow of data and controls the fetch-decode-execute cycle", "Connects to Wi-Fi", "Stores the operating system"], correct: 1 }
+            ],
+            "1.2": [
+                { q: "Which type of memory is volatile?", options: ["ROM", "RAM", "Hard disk", "DVD"], correct: 1 },
+                { q: "What is stored in ROM?", options: ["User's photos", "The startup instructions the computer needs to boot", "Temporary calculations", "Downloaded programs"], correct: 1 },
+                { q: "What is virtual memory?", options: ["A type of ROM", "Space on the hard drive used as extra RAM", "A cloud storage service", "A type of cache"], correct: 1 },
+                { q: "Which storage type has no moving parts?", options: ["HDD", "DVD", "SSD", "Floppy disk"], correct: 2 },
+                { q: "Which is an advantage of optical storage like a DVD?", options: ["Extremely fast", "Cheap and portable", "Huge storage capacity", "Never gets damaged"], correct: 1 },
+                { q: "What does storage 'capacity' mean?", options: ["How fast data transfers", "How much data a device can hold", "How reliable a device is", "How much a device costs"], correct: 1 },
+                { q: "Why might relying too much on virtual memory slow a computer down?", options: ["It uses the GPU", "It's slower than real RAM", "It deletes files", "It disables the CPU"], correct: 1 },
+                { q: "Which of these is non-volatile?", options: ["RAM", "Cache", "ROM", "CPU registers"], correct: 2 },
+                { q: "What's a key advantage of an SSD over an HDD?", options: ["Cheaper per gigabyte", "Faster because it has no moving parts", "Uses a laser to read data", "Only used for backups"], correct: 1 },
+                { q: "Why do computers need secondary storage as well as RAM?", options: ["RAM is too fast", "RAM loses data when powered off", "Secondary storage is faster than RAM", "Secondary storage runs programs directly"], correct: 1 }
+            ],
+            "1.3": [
+                { q: "What does LAN stand for?", options: ["Long Area Network", "Local Area Network", "Linked Access Network", "Local Access Node"], correct: 1 },
+                { q: "What does WAN stand for?", options: ["Wide Area Network", "Wireless Access Network", "Wide Access Node", "World Area Network"], correct: 0 },
+                { q: "What does a router do?", options: ["Stores files", "Connects a network to the internet and directs data", "Blocks all viruses", "Prints documents"], correct: 1 },
+                { q: "In a star topology, what happens if one cable fails?", options: ["The whole network stops working", "Only that one device loses connection", "Nothing happens ever", "All data is lost permanently"], correct: 1 },
+                { q: "In a star topology, what happens if the central switch fails?", options: ["Nothing, it's not important", "Only one device is affected", "The whole network goes down", "The network gets faster"], correct: 2 },
+                { q: "What does a switch do on a network?", options: ["Connects devices together and sends data to the correct device", "Connects the network to the internet", "Encrypts all data", "Provides electricity to devices"], correct: 0 },
+                { q: "What is a protocol?", options: ["A type of cable", "An agreed set of rules for how devices communicate", "A type of malware", "A physical network layout"], correct: 1 },
+                { q: "What is HTTP used for?", options: ["Sending emails", "Sending web pages between a server and a browser", "Encrypting passwords", "Connecting printers"], correct: 1 },
+                { q: "What does bandwidth measure?", options: ["How secure a network is", "The amount of data that can be transferred in a set time", "The number of devices on a network", "The distance data can travel"], correct: 1 },
+                { q: "Which best describes the difference between a LAN and WAN?", options: ["A LAN is wireless, a WAN is wired", "A LAN covers a small area, a WAN covers a large area", "A LAN is only for phones", "There is no difference"], correct: 1 }
+            ],
+            "1.4": [
+                { q: "What is phishing?", options: ["A type of firewall", "Fake emails that trick people into giving away information", "A programming language", "A type of encryption"], correct: 1 },
+                { q: "What is malware?", options: ["Software designed to damage or gain unauthorised access to a computer", "A hardware component", "A type of network cable", "An encryption method"], correct: 0 },
+                { q: "What does a firewall do?", options: ["Speeds up the internet", "Checks data and blocks anything that breaks the rules", "Stores passwords", "Deletes viruses automatically"], correct: 1 },
+                { q: "What is encryption used for?", options: ["Making files smaller", "Scrambling data so it can't be understood if stolen", "Speeding up a network", "Removing viruses"], correct: 1 },
+                { q: "What is a brute-force attack?", options: ["Physically breaking a computer", "Trying every possible password combination", "Sending fake emails", "Flooding a server with traffic"], correct: 1 },
+                { q: "What is a Denial of Service (DoS) attack designed to do?", options: ["Steal passwords", "Flood a server with traffic so real users can't access it", "Encrypt files for ransom", "Install anti-virus software"], correct: 1 },
+                { q: "What is social engineering?", options: ["Building computer hardware", "Tricking people into breaking security procedures", "A type of firewall", "A programming technique"], correct: 1 },
+                { q: "What is penetration testing?", options: ["Testing internet speed", "Authorised people trying to hack their own system to find weaknesses", "Testing new hardware", "Testing software for bugs"], correct: 1 },
+                { q: "Which of these is a virus?", options: ["Software that floods a server with traffic", "Malware that attaches to files and spreads by copying itself", "A type of firewall", "A network protocol"], correct: 1 },
+                { q: "Which is the best way to keep a password secure?", options: ["Share it with friends", "Use the same password everywhere", "Use a strong, unique password", "Write it on a sticky note on the monitor"], correct: 2 }
+            ],
+            "1.5": [
+                { q: "What does an operating system do?", options: ["Only plays music", "Manages hardware and lets you run programs", "Only connects to Wi-Fi", "Only stores files"], correct: 1 },
+                { q: "Which of these is utility software?", options: ["A word processor", "Anti-virus software", "A web browser", "A spreadsheet"], correct: 1 },
+                { q: "What does defragmentation do?", options: ["Deletes old files", "Reorganises scattered file pieces so they're stored together", "Speeds up the internet", "Removes viruses"], correct: 1 },
+                { q: "Why isn't defragmentation useful on an SSD?", options: ["SSDs can't store files", "SSDs have no moving parts, so it doesn't improve speed", "SSDs are too small", "SSDs delete data during defragmentation"], correct: 1 },
+                { q: "What does anti-virus software do?", options: ["Speeds up the CPU", "Scans for and removes known malware", "Increases storage space", "Connects to networks"], correct: 1 },
+                { q: "What is disk compression used for?", options: ["Making files bigger", "Reducing file size so more data fits in storage", "Deleting old files", "Speeding up the CPU"], correct: 1 },
+                { q: "Which of these manages memory allocation for running programs?", options: ["The operating system", "Anti-virus software", "A web browser", "A word processor"], correct: 0 },
+                { q: "What is the user interface?", options: ["The part of the OS you interact with, like windows and icons", "A type of malware", "A network cable", "A storage device"], correct: 0 },
+                { q: "Which is an example of utility software?", options: ["Anti-virus", "A game", "A spreadsheet program", "A web browser"], correct: 0 },
+                { q: "What is the main job of the operating system?", options: ["To play videos only", "To manage hardware and let the user run programs", "To design websites", "To send emails"], correct: 1 }
+            ],
+            "1.6": [
+                { q: "What does the Data Protection Act control?", options: ["How organisations collect and use personal data", "How software is copied", "How networks are built", "How websites are designed"], correct: 0 },
+                { q: "What does the Computer Misuse Act make illegal?", options: ["Using open source software", "Accessing a computer system without permission", "Recycling old computers", "Buying software"], correct: 1 },
+                { q: "What does the Copyright, Designs and Patents Act protect?", options: ["Personal data", "Original creative work like music and software", "Computer hardware", "Internet connections"], correct: 1 },
+                { q: "What is a key difference between open source and proprietary software?", options: ["Open source code can be viewed and changed by anyone", "Proprietary software is always free", "Open source is always slower", "There is no difference"], correct: 0 },
+                { q: "Which of these is an environmental impact of computers?", options: ["E-waste from old devices", "Faster internet speeds", "Better graphics", "Cheaper software"], correct: 0 },
+                { q: "What is the 'digital divide'?", options: ["A type of network cable", "The gap between people who have access to technology and those who don't", "A type of malware", "A programming error"], correct: 1 },
+                { q: "What is a responsible way to dispose of an old computer?", options: ["Throw it in general waste", "Recycle it or donate it", "Leave it outside", "Burn it"], correct: 1 },
+                { q: "How can automation affect jobs?", options: ["It always creates more jobs than it removes", "It can replace jobs that used to be done by humans", "It has no effect on jobs", "It only affects office jobs"], correct: 1 },
+                { q: "Why must personal data be kept secure?", options: ["It's not important", "So it isn't stolen or misused, and because it's the law", "Only for websites", "It doesn't need to be secure"], correct: 1 },
+                { q: "What's a legal issue when disposing of old office computers?", options: ["They might still hold personal data that needs wiping", "They are always too heavy", "They need new software installed", "They must be given to competitors"], correct: 0 }
+            ],
+            "2.1": [
+                { q: "What is an algorithm?", options: ["A type of computer", "A set of step-by-step instructions to solve a problem", "A programming language", "A type of hardware"], correct: 1 },
+                { q: "What is decomposition?", options: ["Breaking a big problem into smaller parts", "Removing detail", "Writing code", "Testing a program"], correct: 0 },
+                { q: "What is abstraction?", options: ["Breaking a problem into parts", "Removing unnecessary detail to focus on what matters", "Running a program", "Fixing a bug"], correct: 1 },
+                { q: "How does a linear search work?", options: ["Splits the list in half repeatedly", "Checks every item one at a time from the start", "Sorts the list first", "Only works on numbers"], correct: 1 },
+                { q: "What must be true before you can use a binary search?", options: ["The list must be sorted", "The list must be short", "The list must contain only text", "The list must be empty"], correct: 0 },
+                { q: "How does bubble sort work?", options: ["Splits the list into halves", "Compares neighbouring pairs and swaps them if needed", "Removes duplicate values", "Searches for a target value"], correct: 1 },
+                { q: "What is a flowchart used for?", options: ["Writing real code", "Showing the steps of an algorithm visually", "Storing data", "Connecting to a network"], correct: 1 },
+                { q: "What is pseudocode?", options: ["A real programming language", "A simple, English-like way of writing an algorithm", "A type of hardware", "A network protocol"], correct: 1 },
+                { q: "Why can merge sort be faster than bubble sort on large lists?", options: ["It uses less memory", "It splits the list into smaller parts first, needing fewer comparisons", "It doesn't need to compare anything", "It only works on sorted lists"], correct: 1 },
+                { q: "Which searching algorithm checks every item one at a time?", options: ["Binary search", "Linear search", "Merge search", "Quick search"], correct: 1 }
+            ],
+            "2.2": [
+                { q: "What is sequence in programming?", options: ["Code that repeats", "Instructions that run one after another in order", "A decision using IF", "A type of variable"], correct: 1 },
+                { q: "What is selection in programming?", options: ["Code that makes a decision using IF", "Code that repeats", "A type of loop", "A type of data"], correct: 0 },
+                { q: "What is iteration in programming?", options: ["Running instructions once", "Repeating instructions using a loop", "Making a decision", "Storing data"], correct: 1 },
+                { q: "Which loop repeats a fixed number of times?", options: ["WHILE loop", "FOR loop", "IF statement", "Function"], correct: 1 },
+                { q: "Which loop repeats until a condition becomes false?", options: ["FOR loop", "WHILE loop", "IF statement", "Print statement"], correct: 1 },
+                { q: "What is a variable?", options: ["A value that never changes", "A named piece of memory that stores a value which can change", "A type of loop", "A type of error"], correct: 1 },
+                { q: "What is a constant?", options: ["A value that can change", "A named value that does not change while the program runs", "A type of loop", "A syntax error"], correct: 1 },
+                { q: "What does casting mean in programming?", options: ["Deleting a variable", "Changing a value from one data type to another", "Running a loop", "Writing a function"], correct: 1 },
+                { q: "Which data type would you use to store true or false?", options: ["Integer", "String", "Boolean", "Float"], correct: 2 },
+                { q: "What is string concatenation?", options: ["Deleting part of a string", "Joining two or more pieces of text together", "Converting text to a number", "Measuring the length of a string"], correct: 1 }
+            ],
+            "2.3": [
+                { q: "What is a syntax error?", options: ["The program runs but gives the wrong result", "Breaks the rules of the language so the code won't run", "A hardware fault", "A type of virus"], correct: 1 },
+                { q: "What is a logic error?", options: ["Code that won't run at all", "The program runs but gives the wrong result due to a design mistake", "A missing semicolon", "A network fault"], correct: 1 },
+                { q: "What is input validation?", options: ["Checking that data meets certain rules before it's accepted", "Deleting invalid data automatically", "Encrypting user input", "Running a program faster"], correct: 0 },
+                { q: "What is a range check?", options: ["Checks a value isn't blank", "Checks a number falls between a minimum and maximum", "Checks spelling", "Checks file size"], correct: 1 },
+                { q: "What is a presence check?", options: ["Checks a value has actually been entered and isn't blank", "Checks a number is even", "Checks internet connection", "Checks file type"], correct: 0 },
+                { q: "What is boundary test data?", options: ["A completely wrong data type", "Data right at the very edge of what's accepted", "Random data", "Data that's always rejected"], correct: 1 },
+                { q: "What is erroneous test data?", options: ["A sensible expected value", "The wrong data type entirely, which should be rejected", "Data at the edge of what's accepted", "Data that is always correct"], correct: 1 },
+                { q: "What is input sanitisation?", options: ["Deleting all user input", "Removing or changing unwanted characters to make input safe", "Encrypting a file", "Running a test"], correct: 1 },
+                { q: "Why do programmers test code with different types of data?", options: ["To make the code run slower", "To check the program works correctly and find errors before use", "To make the code longer", "It isn't necessary"], correct: 1 },
+                { q: "Which of these best describes normal test data?", options: ["Data at the very edge of what's accepted", "A sensible, expected value the program should accept", "The wrong data type entirely", "Data designed to crash the program"], correct: 1 }
+            ],
+            "2.4": [
+                { q: "What does an AND gate output if both inputs are 1?", options: ["0", "1", "Both 0 and 1", "Neither"], correct: 1 },
+                { q: "What does an OR gate output if at least one input is 1?", options: ["0", "1", "Undefined", "Both"], correct: 1 },
+                { q: "What does a NOT gate do?", options: ["Combines two inputs", "Reverses the input", "Doubles the input", "Deletes the input"], correct: 1 },
+                { q: "How many rows does a truth table need for 2 inputs?", options: ["2", "3", "4", "8"], correct: 2 },
+                { q: "What does an AND gate output if one input is 0?", options: ["1", "0", "Both", "Neither"], correct: 1 },
+                { q: "In an IF statement using AND, when is the whole condition true?", options: ["When at least one part is true", "Only when both parts are true", "Always", "Never"], correct: 1 },
+                { q: "In an IF statement using OR, when is the whole condition true?", options: ["Only when both parts are true", "When at least one part is true", "Never", "Always"], correct: 1 },
+                { q: "How many inputs does a NOT gate take?", options: ["1", "2", "3", "As many as needed"], correct: 0 },
+                { q: "What symbol is often used to represent NOT in code?", options: ["&", "!", "%", "#"], correct: 1 },
+                { q: "Why are logic gates important in computers?", options: ["They store files", "They are the building blocks used to make decisions in circuits", "They connect to the internet", "They display graphics"], correct: 1 }
+            ],
+            "2.5": [
+                { q: "What is a high-level language?", options: ["Closer to machine code", "Closer to human language and easier to read", "Only used for hardware", "A type of hardware"], correct: 1 },
+                { q: "What is a low-level language?", options: ["Closer to human language", "Closer to the computer's own instructions, like machine code", "Only used for websites", "A type of database"], correct: 1 },
+                { q: "What does a compiler do?", options: ["Translates and runs code one line at a time", "Translates the whole program into machine code before it runs", "Deletes bugs automatically", "Connects to the internet"], correct: 1 },
+                { q: "What does an interpreter do?", options: ["Translates the whole program before running it", "Translates and runs the code one line at a time", "Only checks syntax", "Stores the code permanently"], correct: 1 },
+                { q: "What is an advantage of using a compiler?", options: ["Easier to find errors", "The compiled program runs faster and source code stays hidden", "It runs code one line at a time", "It requires no translation"], correct: 1 },
+                { q: "What is an advantage of using an interpreter?", options: ["Runs faster than compiled code", "Easier to find errors because it stops at the first mistake", "Hides the source code", "Needs no testing"], correct: 1 },
+                { q: "What does syntax highlighting do?", options: ["Finds logic errors automatically", "Colours different parts of code to make it easier to read", "Compiles the code", "Deletes unused code"], correct: 1 },
+                { q: "What is a breakpoint used for?", options: ["Ending a program permanently", "Pausing a program at a chosen line to check what's happening", "Deleting a variable", "Speeding up code"], correct: 1 },
+                { q: "What does auto-completion do in an IDE?", options: ["Deletes incomplete code", "Suggests code as you type", "Runs the program automatically", "Fixes all errors"], correct: 1 },
+                { q: "What is an IDE?", options: ["A programming language", "A program that gives developers tools like an editor and debugger", "A type of hardware", "A network protocol"], correct: 1 }
+            ]
+        };
+
         // ============== CORE INFRASTRUCTURE ==============
         function initLocalStorageProfile() {
             Object.keys(revisionContentDatabase).forEach(id => {
@@ -1120,10 +1515,11 @@ A  B  |  AND  OR  NOT(A)
                             <div class="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
                                 <div class="${fillBarColor} h-full" style="width: ${(score/3)*100}%"></div>
                             </div>
-                            <div class="grid grid-cols-3 gap-1.5">
-                                <button onclick="triggerKnowledgeOrganiser('${id}')" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg transition text-center text-[10px] flex flex-col items-center justify-center gap-0.5 hover:bg-slate-100"><i class="fa-solid fa-book-open text-[11px]"></i> Notes</button>
-                                <button onclick="triggerFlashcards('${id}')" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg transition text-center text-[10px] flex flex-col items-center justify-center gap-0.5 hover:bg-slate-100"><i class="fa-solid fa-layer-group text-[11px]"></i> Cards</button>
-                                <button onclick="triggerUnitQuiz('${id}')" class="w-full bg-slate-900 text-white font-bold py-2 rounded-lg transition text-center text-[10px] flex flex-col items-center justify-center gap-0.5 hover:bg-burgundy-600"><i class="fa-solid fa-pen text-[11px]"></i> Quiz</button>
+                            <div class="grid grid-cols-2 gap-1.5">
+                                <button onclick="triggerKnowledgeOrganiser('${id}')" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg transition text-center text-[10px] flex items-center justify-center gap-1 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-book-open text-[11px]"></i> Notes</button>
+                                <button onclick="triggerFlashcards('${id}')" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg transition text-center text-[10px] flex items-center justify-center gap-1 hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-layer-group text-[11px]"></i> Cards</button>
+                                <button onclick="triggerUnitQuiz('${id}')" class="w-full bg-slate-900 dark:bg-slate-700 text-white font-bold py-2 rounded-lg transition text-center text-[10px] flex items-center justify-center gap-1 hover:bg-burgundy-600"><i class="fa-solid fa-pen text-[11px]"></i> Quiz</button>
+                                <button onclick="triggerMCQQuiz('${id}')" class="w-full bg-slate-900 dark:bg-slate-700 text-white font-bold py-2 rounded-lg transition text-center text-[10px] flex items-center justify-center gap-1 hover:bg-burgundy-600"><i class="fa-solid fa-list-check text-[11px]"></i> MCQ</button>
                             </div>
                         </div>
                     </div>
@@ -1338,6 +1734,113 @@ A  B  |  AND  OR  NOT(A)
             document.getElementById('modal-footer-controls').innerHTML = `
                 <button onclick="hideModal(); triggerKnowledgeOrganiser('${currentQuizUnitKey}')" class="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-700"><i class="fa-solid fa-book-open mr-1"></i> Review Notes</button>
                 <button onclick="hideModal(); updateMetricsDisplay();" class="bg-burgundy-600 hover:bg-burgundy-700 text-white font-bold py-2.5 px-5 rounded-xl transition shadow-md text-xs">Back to Dashboard</button>
+            `;
+        }
+
+        // ============== MULTIPLE CHOICE QUIZ (10 per unit) ==============
+        function triggerMCQQuiz(topicKey) {
+            currentMCQUnitKey = topicKey;
+            currentMCQIndex = 0;
+            currentMCQScoreLog = [];
+            renderMCQStep();
+            document.getElementById('app-modal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function renderMCQStep() {
+            const questions = mcqDatabase[currentMCQUnitKey];
+            const question = questions[currentMCQIndex];
+
+            document.getElementById('modal-header-text').innerHTML = `<i class="fa-solid fa-list-check text-burgundy-600 dark:text-burgundy-400 mr-2"></i> Unit ${currentMCQUnitKey} Multiple Choice — Question ${currentMCQIndex + 1} of ${questions.length}`;
+
+            let optionsHtml = "";
+            question.options.forEach((opt, idx) => {
+                optionsHtml += `
+                    <button id="mcq-option-${idx}" onclick="selectMCQOption(${idx})" class="w-full text-left p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2">
+                        <span class="w-5 h-5 rounded-full border border-slate-300 dark:border-slate-600 flex items-center justify-center text-[10px] font-black shrink-0">${String.fromCharCode(65 + idx)}</span> ${opt}
+                    </button>
+                `;
+            });
+
+            document.getElementById('modal-main-payload').innerHTML = `
+                <div class="space-y-4">
+                    <div class="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+                        <p class="text-sm font-semibold text-slate-800 dark:text-slate-100 leading-relaxed"><i class="fa-solid fa-circle-question text-burgundy-500 mr-1"></i> ${question.q}</p>
+                    </div>
+                    <div class="space-y-2" id="mcq-options-container">${optionsHtml}</div>
+                    <div id="mcq-feedback"></div>
+                </div>
+            `;
+
+            document.getElementById('modal-footer-controls').innerHTML = `
+                <button onclick="hideModal()" class="text-xs font-bold text-slate-400 hover:text-slate-600">Quit Quiz</button>
+                <span class="text-[10px] text-slate-400">Choose an answer to continue</span>
+            `;
+        }
+
+        function selectMCQOption(selectedIdx) {
+            const questions = mcqDatabase[currentMCQUnitKey];
+            const question = questions[currentMCQIndex];
+            const isCorrect = selectedIdx === question.correct;
+            currentMCQScoreLog.push(isCorrect ? 1 : 0);
+
+            // Disable all options and colour them
+            question.options.forEach((opt, idx) => {
+                const btn = document.getElementById(`mcq-option-${idx}`);
+                btn.onclick = null;
+                btn.classList.add('cursor-default');
+                if (idx === question.correct) {
+                    btn.classList.add('border-emerald-400', 'bg-emerald-50', 'dark:bg-emerald-950/30', 'dark:border-emerald-700');
+                } else if (idx === selectedIdx) {
+                    btn.classList.add('border-rose-400', 'bg-rose-50', 'dark:bg-rose-950/30', 'dark:border-rose-700');
+                } else {
+                    btn.classList.add('opacity-50');
+                }
+            });
+
+            document.getElementById('mcq-feedback').innerHTML = `
+                <div class="p-3 border rounded-lg ${isCorrect ? 'bg-emerald-50 border-emerald-200 text-emerald-800 dark:bg-emerald-950/30 dark:border-emerald-700 dark:text-emerald-300' : 'bg-amber-50 border-amber-200 text-amber-800 dark:bg-amber-950/30 dark:border-amber-700 dark:text-amber-300'}">
+                    <p class="text-xs font-bold"><i class="fa-solid ${isCorrect ? 'fa-circle-check' : 'fa-circle-info'} mr-1"></i> ${isCorrect ? "Correct!" : "Not quite — the correct answer is highlighted in green."}</p>
+                </div>
+            `;
+
+            const isLastQuestion = currentMCQIndex >= mcqDatabase[currentMCQUnitKey].length - 1;
+            document.getElementById('modal-footer-controls').innerHTML = `
+                <button onclick="hideModal()" class="text-xs font-bold text-slate-400 hover:text-slate-600">Quit Quiz</button>
+                <button onclick="proceedToNextMCQQuestion()" class="bg-burgundy-600 hover:bg-burgundy-700 text-white text-xs font-bold py-2 px-5 rounded-xl shadow-sm transition">${isLastQuestion ? "See My Results" : "Next Question"} <i class="fa-solid fa-arrow-right ml-1"></i></button>
+            `;
+        }
+
+        function proceedToNextMCQQuestion() {
+            currentMCQIndex++;
+            if (currentMCQIndex >= mcqDatabase[currentMCQUnitKey].length) {
+                renderMCQFinalSummary();
+            } else {
+                renderMCQStep();
+            }
+        }
+
+        function renderMCQFinalSummary() {
+            const correctCount = currentMCQScoreLog.reduce((a, b) => a + b, 0);
+            const totalQuestions = mcqDatabase[currentMCQUnitKey].length;
+
+            document.getElementById('modal-header-text').innerHTML = `<i class="fa-solid fa-clipboard-list text-burgundy-600 dark:text-burgundy-400 mr-2"></i> Unit ${currentMCQUnitKey} Multiple Choice Complete`;
+
+            let resultMessage = "Keep practising — you'll get there!";
+            if (correctCount >= totalQuestions * 0.8) resultMessage = "Excellent work! You really know this topic.";
+            else if (correctCount >= totalQuestions * 0.5) resultMessage = "Good effort! A bit more revision and you'll have this nailed.";
+
+            document.getElementById('modal-main-payload').innerHTML = `
+                <div class="text-center py-6 bg-slate-900 text-white rounded-xl shadow-md">
+                    <i class="fa-solid fa-square-poll-vertical text-3xl text-emerald-400 block mb-2"></i>
+                    <h4 class="font-black text-lg">${correctCount} / ${totalQuestions} Correct</h4>
+                    <p class="text-xs text-slate-300 mt-1">${resultMessage}</p>
+                </div>
+            `;
+
+            document.getElementById('modal-footer-controls').innerHTML = `
+                <button onclick="hideModal(); triggerKnowledgeOrganiser('${currentMCQUnitKey}')" class="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-700"><i class="fa-solid fa-book-open mr-1"></i> Review Notes</button>
+                <button onclick="hideModal(); triggerMCQQuiz('${currentMCQUnitKey}')" class="bg-burgundy-600 hover:bg-burgundy-700 text-white font-bold py-2.5 px-5 rounded-xl transition shadow-md text-xs">Try Again</button>
             `;
         }
 
